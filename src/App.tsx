@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import UserProfile from './pages/UserProfile'
+import UserCustom from './pages/UserCustom'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Join from './pages/Join'
+import Write from './pages/Write'
+import Detail from './pages/Detail'
+import Root from './pages/Root'
+import NotFound from './pages/NotFound'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    errorElement: <NotFound />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: '/profile', element: <UserProfile /> },
+      { path: '/custom', element: <UserCustom /> },
+      { path: '/write', element: <Write /> },
+      { path: '/edit', element: <Write /> },
+      { path: '/detail', element: <Detail /> },
+    ],
+  },
+  { path: '/login', element: <Login /> },
+  { path: '/join', element: <Join /> },
+])
+
+const App = () => {
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App
