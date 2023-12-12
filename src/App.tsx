@@ -10,6 +10,9 @@ import Write from './pages/Write'
 import Detail from './pages/Detail'
 import Root from './pages/Root'
 import NotFound from './pages/NotFound'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { queryClient } from './api/react-query'
 
 const router = createBrowserRouter([
   {
@@ -30,7 +33,11 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-  return <RouterProvider router={router} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  )
 }
-
 export default App
