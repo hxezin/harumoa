@@ -1,7 +1,9 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Books, MonthDetail } from '../types'
+import { getBooks } from '../api/firebase'
+import { MonthDetail } from '../types'
 import {
   getDateArray,
   getMonthDetails,
@@ -49,59 +51,24 @@ const DateGrid = styled.div<{ $weeksInMonth: number }>`
   border-left: 0.1px solid #ccc;
 `
 
-const books: Books = {
-  '03': {
-    account_book: {
-      1: {
-        category: '쇼핑',
-        comment: '빵',
-        is_income: false,
-        price: 2000,
-      },
-      2: {
-        category: '쇼핑',
-        comment: '옷',
-        is_income: false,
-        price: 8000,
-      },
-      3: {
-        category: '용돈',
-        comment: '용돈',
-        is_income: true,
-        price: 12000,
-      },
-    },
-    diary: {
-      content: '일기 내용',
-      emotion: '🥲',
-      title: '일기 제목',
-    },
-  },
-  '07': {
-    account_book: {
-      1: {
-        category: '식비',
-        comment: '중식',
-        is_income: false,
-        price: 15000,
-      },
-    },
-    diary: {
-      content: '밥 맛있었음',
-      emotion: '😄',
-      title: '맛집 갔음',
-    },
-  },
-  total: {
-    expense_price: 10000,
-    income_price: 12000,
-  },
-}
-
 const Calendar = () => {
   const currentMonthYear = getMonthYearDetails(dayjs())
   const [monthYear, setMonthYear] = useState(currentMonthYear)
   const prevMonth = getMonthDetails(monthYear.startDate.subtract(1, 'month'))
+
+  const queryClient = useQueryClient()
+  const query = useQuery({
+    queryKey: ['books', monthYear.year, monthYear.month],
+    queryFn: () => getBooks(monthYear.year, monthYear.month),
+  })
+
+  useEffect(() => {
+    const nextMonthYear = getNewMonthYear(monthYear, 1)
+    queryClient.prefetchQuery({
+      queryKey: ['books', nextMonthYear.year, nextMonthYear.month],
+      queryFn: () => getBooks(nextMonthYear.year, nextMonthYear.month),
+    })
+  }, [queryClient, monthYear])
 
   function updateMonthYear(monthIncrement: number): void {
     setMonthYear((prevData) => getNewMonthYear(prevData, monthIncrement))
@@ -138,7 +105,7 @@ const Calendar = () => {
 
           {/* 당월 날짜 렌더링 */}
           {getDateArray(1, monthYear.lastDate)?.map((date, i) => {
-            const detail = books[
+            const detail = query.data?.[
               date.toString().padStart(2, '0')
             ] as MonthDetail | null
 

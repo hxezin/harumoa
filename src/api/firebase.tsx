@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getDatabase } from 'firebase/database'
+import { child, get, getDatabase, ref } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,3 +15,20 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
+
+export async function getBooks(year: string, month: string) {
+  const uid = 349392019
+
+  try {
+    const snapshot = await get(child(ref(db), `books/${uid}/${year}/${month}`))
+
+    if (snapshot.exists()) {
+      return snapshot.val()
+    } else {
+      return {}
+    }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
