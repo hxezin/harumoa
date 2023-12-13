@@ -63,10 +63,10 @@ const Calendar = () => {
   })
 
   useEffect(() => {
-    const nextMonthYear = getNewMonthYear(monthYear, 1)
+    const prevMonthYear = getNewMonthYear(monthYear, -1)
     queryClient.prefetchQuery({
-      queryKey: ['books', nextMonthYear.year, nextMonthYear.month],
-      queryFn: () => getBooks(nextMonthYear.year, nextMonthYear.month),
+      queryKey: ['books', prevMonthYear.year, prevMonthYear.month],
+      queryFn: () => getBooks(prevMonthYear.year, prevMonthYear.month),
     })
   }, [queryClient, monthYear])
 
