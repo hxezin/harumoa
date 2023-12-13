@@ -111,6 +111,7 @@ const Calendar = () => {
 
             return (
               <DateBox
+                key={date}
                 selectedDate={selectedDate}
                 date={date}
                 detail={detail}

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { ellipsisStyles } from '../assets/css/global'
 import { MonthDetail } from '../types'
+import { useNavigate } from 'react-router-dom'
 
 const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
   border-top: 0.1px solid #ccc;
@@ -12,13 +12,18 @@ const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  cursor: pointer;
+
+  &:hover button {
+    visibility: visible;
+  }
 `
 
 const ContentContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
 `
 
 const Date = styled.div`
@@ -74,6 +79,25 @@ const TotalPrice = styled.div<{ $totalPrice: number }>`
   color: ${({ $totalPrice }) => ($totalPrice > 0 ? 'blue' : 'red')};
 `
 
+const EditButton = styled.button`
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0 0.1rem;
+  visibility: hidden;
+`
+
+const AddButton = styled.button`
+  visibility: hidden;
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`
+
 interface Props {
   selectedDate?: string
   date: number
@@ -82,6 +106,21 @@ interface Props {
 }
 
 const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
+  const navigate = useNavigate()
+
+  function handleContainerClick() {
+    navigate(`/detail?date=${selectedDate}`)
+  }
+
+  function handleEditBtnClick(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation()
+    navigate(`/edit?date=${selectedDate}`)
+  }
+
+  function handleAddBtnClick() {
+    navigate(`/write?date=${selectedDate}`)
+  }
+
   if (detail) {
     const { diary, account_book } = detail
 
@@ -90,33 +129,42 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
     }, 0)
 
     return (
-      <Link to={`/detail?date=${selectedDate}`}>
-        <DateBoxContainer $isCurrentMonth={isCurrentMonth}>
-          <ContentContainer>
-            <Date>{date}</Date>
-            <Diary>
-              <span>{diary.title}</span>
-            </Diary>
-          </ContentContainer>
+      <DateBoxContainer
+        $isCurrentMonth={isCurrentMonth}
+        onClick={handleContainerClick}
+      >
+        <ContentContainer>
+          <Date>{date}</Date>
+          <EditButton onClick={handleEditBtnClick}>수정</EditButton>
+          <Diary>
+            <span>{diary.title}</span>
+          </Diary>
+        </ContentContainer>
 
-          <AccountBookList>
-            {Object.entries(account_book).map(([key, account]) => (
-              <AccountBookItem key={key}>
-                <Comment>{account.comment}</Comment>
-                <Price>₩ {account.price}</Price>
-              </AccountBookItem>
-            ))}
-          </AccountBookList>
+        <AccountBookList>
+          {Object.entries(account_book).map(([key, account]) => (
+            <AccountBookItem key={key}>
+              <Comment>{account.comment}</Comment>
+              <Price>₩ {account.price}</Price>
+            </AccountBookItem>
+          ))}
+        </AccountBookList>
 
-          <TotalPrice $totalPrice={totalPrice}>₩ {totalPrice}</TotalPrice>
-        </DateBoxContainer>
-      </Link>
+        <TotalPrice $totalPrice={totalPrice}>₩ {totalPrice}</TotalPrice>
+      </DateBoxContainer>
     )
   }
 
   return (
     <DateBoxContainer $isCurrentMonth={isCurrentMonth}>
-      <Date>{date}</Date>
+      <ContentContainer>
+        <Date>{date}</Date>
+      </ContentContainer>
+      {isCurrentMonth && (
+        <ButtonContainer>
+          <AddButton onClick={handleAddBtnClick}>+</AddButton>
+        </ButtonContainer>
+      )}
     </DateBoxContainer>
   )
 }
