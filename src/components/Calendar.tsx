@@ -105,12 +105,17 @@ const Calendar = () => {
 
           {/* 당월 날짜 렌더링 */}
           {getDateArray(1, monthYear.lastDate)?.map((date, i) => {
-            const detail = query.data?.[
-              date.toString().padStart(2, '0')
-            ] as MonthDetail | null
+            const dateIdx = date.toString().padStart(2, '0')
+            const detail = query.data?.[dateIdx] as MonthDetail | null
+            const selectedDate = `${monthYear.year}-${monthYear.month}-${dateIdx}`
 
             return (
-              <DateBox key={date} date={date} detail={detail} isCurrentMonth />
+              <DateBox
+                selectedDate={selectedDate}
+                date={date}
+                detail={detail}
+                isCurrentMonth
+              />
             )
           })}
 
