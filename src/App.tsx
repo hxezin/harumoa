@@ -10,6 +10,7 @@ import Write from './pages/Write'
 import Detail from './pages/Detail'
 import Root from './pages/Root'
 import NotFound from './pages/NotFound'
+import { AuthContextProvider } from './components/context/AuthContext'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { queryClient } from './api/react-query'
@@ -35,11 +36,13 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <GlobalStyle />
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+    <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <GlobalStyle />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </AuthContextProvider>
   )
 }
 export default App
