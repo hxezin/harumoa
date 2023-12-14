@@ -92,3 +92,20 @@ export async function LogoutGoogle() {
     .then(() => true)
     .catch((e) => false)
 }
+
+export async function getBooks(year: string, month: string) {
+  const uid = 349392019
+
+  try {
+    const snapshot = await get(child(ref(db), `books/${uid}/${year}/${month}`))
+
+    if (snapshot.exists()) {
+      return snapshot.val()
+    } else {
+      return {}
+    }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
