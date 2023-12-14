@@ -11,8 +11,20 @@ import {
   getNewMonthYear,
 } from '../utils/calendar'
 import DateBox from './DateBox'
+import SidebarToggleButton from './SidebarToggleButton'
 
 const dayOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
+const Container = styled.section`
+  position: relative;
+  width: calc(100% - 300px);
+  transition: width 0.3s ease;
+
+  &.expanded {
+    width: 100%;
+    transition: width 0.3s ease;
+  }
+`
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -43,7 +55,7 @@ const DOWCell = styled.div`
 `
 
 const DateGrid = styled.div<{ $weeksInMonth: number }>`
-  height: calc(100vh - 190px);
+  height: calc(100vh - 170px);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: ${({ $weeksInMonth }) => `repeat(${$weeksInMonth}, 1fr)`};
@@ -51,7 +63,12 @@ const DateGrid = styled.div<{ $weeksInMonth: number }>`
   border-left: 0.1px solid #ccc;
 `
 
-const Calendar = () => {
+interface Props {
+  isSidebarOpen: boolean
+  onToggle: () => void
+}
+
+const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
   const currentMonthYear = getMonthYearDetails(dayjs())
   const [monthYear, setMonthYear] = useState(currentMonthYear)
   const prevMonth = getMonthDetails(monthYear.startDate.subtract(1, 'month'))
@@ -75,7 +92,8 @@ const Calendar = () => {
   }
 
   return (
-    <>
+    <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
+      <SidebarToggleButton isSidebarOpen={isSidebarOpen} onToggle={onToggle} />
       <HeaderContainer>
         <LocationButton onClick={() => updateMonthYear(-1)}>
           {'<'}
@@ -126,7 +144,7 @@ const Calendar = () => {
           ))}
         </DateGrid>
       </CalendarContainer>
-    </>
+    </Container>
   )
 }
 
