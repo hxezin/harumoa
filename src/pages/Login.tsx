@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import styled from 'styled-components'
-import { LoginGoogle, onUserStateChange } from '../api/firebase'
-import { UserCredential } from '@firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../components/context/AuthContext'
 
 const Container = styled.div`
   display: flex;
@@ -54,30 +53,23 @@ interface LoginFormType {
 }
 
 const Login = () => {
+  const { user, login } = useAuthContext()
+
   const navigate = useNavigate()
 
-  const handleLogin = async () => {
-    const res = await LoginGoogle()
-
-    console.log(res)
-  }
-
   useEffect(() => {
-    onUserStateChange((user: UserCredential['user']) => {
-      //  console.log(user)
-      if (user) {
-        //routing
-        navigate('/')
-      }
-    })
-  }, [])
+    if (localStorage.getItem('nickName')) {
+      //로그인 유저 막기
+      navigate('/')
+    }
+  }, [user])
 
   return (
     <Container>
       <LoginContainer>
         <p>Haru Moa</p>
 
-        <button onClick={handleLogin}>login</button>
+        <button onClick={login}>login</button>
       </LoginContainer>
     </Container>
   )

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { LogoutGoogle } from '../api/firebase'
+import { useAuthContext } from './context/AuthContext'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -15,16 +15,25 @@ const HeaderContainer = styled.div`
       font-weight: 700;
     }
   }
+
+  p {
+    margin: 0;
+    color: #757575;
+  }
 `
 
 const Header = () => {
   const navigate = useNavigate()
 
+  const { logout } = useAuthContext()
+  const nickName = localStorage.getItem('nickName')
+
   const handleLogout = async () => {
-    const res = await LogoutGoogle()
+    const res = await logout()
 
     if (res) {
       navigate('/login')
+      localStorage.clear()
     } else {
       //error 처리
     }
@@ -32,6 +41,7 @@ const Header = () => {
 
   return (
     <HeaderContainer>
+      <p>{nickName} 🫡 </p>
       <Link to='/custom'>Custom</Link>
       <Link to='/profile'>Profile</Link>
       <button onClick={handleLogout}>Logout</button>

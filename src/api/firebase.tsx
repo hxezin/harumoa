@@ -83,7 +83,7 @@ export async function LoginGoogle() {
     }
     return res.user
   } catch (e) {
-    return e
+    // return e
   }
 }
 

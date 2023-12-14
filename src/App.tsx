@@ -10,6 +10,7 @@ import Write from './pages/Write'
 import Detail from './pages/Detail'
 import Root from './pages/Root'
 import NotFound from './pages/NotFound'
+import { AuthContextProvider } from './components/context/AuthContext'
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-  return <RouterProvider router={router} />
+  return (
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
+  )
 }
 
 export default App
