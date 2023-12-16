@@ -1,5 +1,3 @@
-import styled from 'styled-components'
-
 type SelectValData = {
   label: string
   value: string
@@ -23,8 +21,8 @@ const Select = ({ handleOnChange, valData, name, defaultVal }: SelectProps) => {
       defaultValue={defaultVal}
       style={{ width: '80%' }}
     >
-      {valData.map((item, idx) => (
-        <option value={item.value} key={idx}>
+      {valData.map((item) => (
+        <option value={item.value} key={item.value}>
           {item.label}
         </option>
       ))}
