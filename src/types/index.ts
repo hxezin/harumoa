@@ -3,15 +3,15 @@ interface TotalPrice {
   expense_price: number
 }
 
-interface Diary {
+export interface IDiary {
   title: string
   emotion: string
   content: string
 }
 
-interface AccountBook {
+export interface IAccountBook {
   [key: string]: {
-    comment: string
+    memo: string
     price: number
     category: string
     is_income: boolean
@@ -19,8 +19,8 @@ interface AccountBook {
 }
 
 export interface MonthDetail {
-  diary: Diary
-  account_book: AccountBook
+  diary: IDiary
+  account_book: IAccountBook
 }
 
 export interface Books {
