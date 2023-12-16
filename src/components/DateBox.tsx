@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { ellipsisStyles } from '../assets/css/global'
 import { MonthDetail } from '../types'
 import { useNavigate } from 'react-router-dom'
+import { inputNumberWithComma } from '../utils/\baccountBook'
 
 const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
   border-top: 0.1px solid #ccc;
@@ -67,7 +68,7 @@ const Comment = styled.span`
 const Price = styled.span`
   ${ellipsisStyles}
   text-align: right;
-  flex: 1;
+  // flex: 1;
 `
 
 const TotalPrice = styled.div<{ $totalPrice: number }>`
@@ -145,12 +146,14 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
           {Object.entries(account_book).map(([key, account]) => (
             <AccountBookItem key={key}>
               <Comment>{account.memo}</Comment>
-              <Price>₩ {account.price}</Price>
+              <Price>₩ {inputNumberWithComma(account.price)}</Price>
             </AccountBookItem>
           ))}
         </AccountBookList>
 
-        <TotalPrice $totalPrice={totalPrice}>₩ {totalPrice}</TotalPrice>
+        <TotalPrice $totalPrice={totalPrice}>
+          ₩ {inputNumberWithComma(totalPrice)}
+        </TotalPrice>
       </DateBoxContainer>
     )
   }
