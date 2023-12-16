@@ -34,6 +34,7 @@ export function AuthContextProvider({
         const nickName = user.email?.split('@')[0]
 
         nickName && localStorage.setItem('nickName', nickName)
+        localStorage.setItem('user', user.uid)
       } else {
         localStorage.clear() //구글 로그인 풀렸을 경우 로컬 지워줌
       }

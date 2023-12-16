@@ -144,7 +144,7 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
         <AccountBookList>
           {Object.entries(account_book).map(([key, account]) => (
             <AccountBookItem key={key}>
-              <Comment>{account.comment}</Comment>
+              <Comment>{account.memo}</Comment>
               <Price>₩ {account.price}</Price>
             </AccountBookItem>
           ))}

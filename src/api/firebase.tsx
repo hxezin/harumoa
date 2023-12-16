@@ -8,6 +8,7 @@ import {
   onAuthStateChanged,
   UserCredential,
 } from '@firebase/auth'
+import { MonthDetail } from '../types'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -24,6 +25,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth()
 const provider = new GoogleAuthProvider()
+
+const userID = localStorage.getItem('user')
 
 const db = getDatabase(app)
 
@@ -108,4 +111,9 @@ export async function getBooks(year: string, month: string) {
     console.error(error)
     throw error
   }
+}
+
+//가계부, 다이어리 저장 메소드
+export async function setBook(date: string, reqData: MonthDetail) {
+  return set(ref(db, `books/${userID}/${date}/`), reqData)
 }
