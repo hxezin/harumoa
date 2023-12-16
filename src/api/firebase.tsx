@@ -26,7 +26,7 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth()
 const provider = new GoogleAuthProvider()
 
-const userID = localStorage.getItem('user')
+const userId = localStorage.getItem('user')
 
 const db = getDatabase(app)
 
@@ -97,10 +97,10 @@ export async function LogoutGoogle() {
 }
 
 export async function getBooks(year: string, month: string) {
-  const uid = 349392019
-
   try {
-    const snapshot = await get(child(ref(db), `books/${uid}/${year}/${month}`))
+    const snapshot = await get(
+      child(ref(db), `books/${userId}/${year}/${month}`)
+    )
 
     if (snapshot.exists()) {
       return snapshot.val()
@@ -115,5 +115,5 @@ export async function getBooks(year: string, month: string) {
 
 //가계부, 다이어리 저장 메소드
 export async function setBook(date: string, reqData: MonthDetail) {
-  return set(ref(db, `books/${userID}/${date}/`), reqData)
+  return set(ref(db, `books/${userId}/${date}/`), reqData)
 }
