@@ -17,8 +17,6 @@ const Detail = () => {
 
   const diaryData = location.state.detail.diary
 
-  const detail = location.state
-
   return (
     <BookContainer>
       <BookDataContainer>
