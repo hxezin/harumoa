@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
-
-import AccountBook from '../components/book/AccountBook'
-import Diary from '../components/book/Diary'
+import AccountBookWrite from '../components/book/AccountBookWrite'
+import DiaryWrite from '../components/book/DiaryWrite'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setBook } from '../api/firebase'
 import {
@@ -61,8 +60,8 @@ const Write = () => {
       </BookDataContainer>
 
       <BookContentContainer>
-        <Diary diaryData={diaryData} setDiary={setDiaryData} />
-        <AccountBook
+        <DiaryWrite diaryData={diaryData} setDiary={setDiaryData} />
+        <AccountBookWrite
           accountBookData={accountBookData}
           setAccountBook={setAccountBookData}
         />
