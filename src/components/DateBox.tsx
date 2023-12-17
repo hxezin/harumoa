@@ -115,7 +115,7 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
 
   function handleEditBtnClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation()
-    navigate(`/edit?date=${selectedDate}`)
+    navigate(`/edit?date=${selectedDate}`, { state: { detail } })
   }
 
   function handleAddBtnClick() {

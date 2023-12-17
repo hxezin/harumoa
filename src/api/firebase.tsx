@@ -115,5 +115,5 @@ export async function getBooks(year: string, month: string) {
 
 //가계부, 다이어리 저장 메소드
 export async function setBook(date: string, reqData: MonthDetail) {
-  return set(ref(db, `books/${userId}/${date}/`), reqData)
+  return set(ref(db, `books/${userId}/${date}/`), reqData).then(() => true)
 }

@@ -28,20 +28,18 @@ const Diary = ({ setDiary, diaryData }: DiaryProps) => {
       <DiaryColumnContainer>
         <input
           type='text'
+          value={diaryData.title}
           onChange={(e) => {
-            diaryData.title = e.target.value
-
-            setDiary(diaryData)
+            setDiary({ ...diaryData, title: e.target.value })
           }}
         />
 
         <h3>풀어쓰기 (선택)</h3>
         <textarea
           onChange={(e) => {
-            diaryData.content = e.target.value
-
-            setDiary(diaryData)
+            setDiary({ ...diaryData, content: e.target.value })
           }}
+          value={diaryData.content ?? ''}
         />
       </DiaryColumnContainer>
     </DiaryContainer>
