@@ -96,6 +96,7 @@ export async function LogoutGoogle() {
     .catch((e) => false)
 }
 
+// 캘린더 데이터 가져오기
 export async function getBooks(year: string, month: string) {
   try {
     const snapshot = await get(
@@ -109,7 +110,23 @@ export async function getBooks(year: string, month: string) {
     }
   } catch (error) {
     console.error(error)
-    throw error
+  }
+}
+
+// 커스텀 가져오기
+export async function getCustom() {
+  const uid = localStorage.getItem('user')
+
+  try {
+    const snapshot = await get(child(ref(db), `users/${uid}/custom`))
+
+    if (snapshot.exists()) {
+      return snapshot.val()
+    } else {
+      throw new Error('예상 한도가 존재하지 않습니다.')
+    }
+  } catch (error) {
+    console.error(error)
   }
 }
 
