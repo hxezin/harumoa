@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { styled } from 'styled-components'
-import Calendar from '../components/Calendar'
-import Sidebar from '../components/Sidebar'
+import Calendar from '../components/calendar/Calendar'
+import Sidebar from '../components/sidebar/Sidebar'
 
 const Container = styled.div`
   display: flex;

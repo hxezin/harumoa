@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { ellipsisStyles } from '../assets/css/global'
-import { MonthDetail } from '../types'
+import { ellipsisStyles } from '../../assets/css/global'
+import { MonthDetail } from '../../types'
 import { useNavigate } from 'react-router-dom'
-import { inputNumberWithComma } from '../utils/\baccountBook'
+import { inputNumberWithComma } from '../../utils/accountBook'
 
 const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
   border-top: 0.1px solid #ccc;
