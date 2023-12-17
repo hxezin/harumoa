@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { IDiary } from '../types'
+import { IDiary } from '../../types'
 
 const DiaryContainer = styled.div`
   width: 40%;

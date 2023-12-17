@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
 
-import AccountBook from '../components/AccountBook'
-import Diary from '../components/Diary'
+import AccountBook from '../components/book/AccountBook'
+import Diary from '../components/book/Diary'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setBook } from '../api/firebase'
 import {

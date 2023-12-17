@@ -1,8 +1,8 @@
-import { IAccountBook } from '../types'
+import { IAccountBook } from '../../types'
 import styled from 'styled-components'
 import uuid from 'react-uuid'
-import Select from './Select'
-import { inputNumberCheck, inputNumberWithComma } from '../utils/\baccountBook'
+import Select from '../common/Select'
+import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import { AiFillMinusCircle } from 'react-icons/ai'
 
 interface AccountBookProps {

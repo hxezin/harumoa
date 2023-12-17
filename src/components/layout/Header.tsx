@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { useAuthContext } from './context/AuthContext'
+import { useAuthContext } from '../context/AuthContext'
 
 const HeaderContainer = styled.div`
   display: flex;
