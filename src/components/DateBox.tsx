@@ -110,7 +110,7 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
   const navigate = useNavigate()
 
   function handleContainerClick() {
-    navigate(`/detail?date=${selectedDate}`)
+    navigate(`/detail?date=${selectedDate}`, { state: { detail } })
   }
 
   function handleEditBtnClick(e: React.MouseEvent<HTMLButtonElement>) {

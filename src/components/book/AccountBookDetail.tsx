@@ -1,12 +1,13 @@
 import { IAccountBook } from '../../types'
 import AccountBookThead from './AccountBookThead'
 import { AccountBookContainer, AccountBookTable } from '../../assets/css/Book'
+import { inputNumberWithComma } from '../../utils/\baccountBook'
 
 interface AccountBookProps {
   accountBookData: IAccountBook
 }
 
-const AccountBook = ({ accountBookData }: AccountBookProps) => {
+const AccountBookDetail = ({ accountBookData }: AccountBookProps) => {
   return (
     <AccountBookContainer>
       <h3>가계부</h3>
@@ -18,10 +19,10 @@ const AccountBook = ({ accountBookData }: AccountBookProps) => {
           {accountBookData &&
             Object.entries(accountBookData).map(([key, val]) => (
               <tr key={key}>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{val.is_income ? '수입' : '지출'}</td>
+                <td>{val.category}</td>
+                <td>{val.memo}</td>
+                <td>{inputNumberWithComma(val.price)}</td>
 
                 <td></td>
               </tr>
@@ -32,4 +33,4 @@ const AccountBook = ({ accountBookData }: AccountBookProps) => {
   )
 }
 
-export default AccountBook
+export default AccountBookDetail

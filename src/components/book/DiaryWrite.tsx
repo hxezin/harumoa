@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import { IDiary } from '../../types'
 import { DiaryColumnContainer, DiaryContainer } from '../../assets/css/Book'
 
@@ -20,7 +19,7 @@ const DiaryWrite = ({ setDiary, diaryData }: DiaryProps) => {
           }}
         />
 
-        <h3>풀어쓰기 (선택)</h3>
+        <h3 style={{ margin: '30px 0px 0px' }}>풀어쓰기 (선택)</h3>
         <textarea
           onChange={(e) => {
             setDiary({ ...diaryData, content: e.target.value })

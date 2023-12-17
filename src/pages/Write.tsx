@@ -15,7 +15,6 @@ const Write = () => {
   const location = useLocation()
 
   const date = location.search.split('=')[1]
-  const isEdit = location.pathname.split('/')[1]
 
   const [accountBookData, setAccountBookData] = useState<IAccountBook>(
     location.state?.detail.account_book ?? {}
@@ -38,7 +37,11 @@ const Write = () => {
     const res = await setBook(date.replaceAll('-', '/'), reqData)
 
     if (res) {
-      navigate(`/detail?date=${date}`)
+      navigate(`/detail?date=${date}`, {
+        state: {
+          detail: reqData,
+        },
+      })
     }
   }
 
@@ -55,7 +58,7 @@ const Write = () => {
             Object.keys(accountBookData).length === 0
           }
         >
-          {isEdit === 'edit' ? '수정하기' : '저장하기'}
+          저장
         </button>
       </BookDataContainer>
 
