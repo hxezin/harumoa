@@ -2,13 +2,23 @@ import { IAccountBook } from '../../types'
 import styled from 'styled-components'
 import uuid from 'react-uuid'
 import Select from '../common/Select'
-import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import { AiFillMinusCircle } from 'react-icons/ai'
+import {
+  inputNumberCheck,
+  inputNumberWithComma,
+} from '../../utils/\baccountBook'
+import AccountBookThead from './AccountBookThead'
+import { AccountBookContainer, AccountBookTable } from '../../assets/css/Book'
 
 interface AccountBookProps {
   setAccountBook: React.Dispatch<React.SetStateAction<IAccountBook>>
   accountBookData: IAccountBook
 }
+
+const AddBtn = styled.button`
+  display: flex;
+  margin: 50px auto 0;
+`
 
 const isIncomeSelect = [
   { label: '수입', value: 'true' },
@@ -28,28 +38,6 @@ const expenseSelect = [
   { label: '생활비', value: '생활비' },
   { label: '교통비', value: '교통비' },
 ]
-
-const AccountBookContainer = styled.div`
-  width: 60%;
-`
-
-const AccountBookTable = styled.table`
-  width: 100%;
-
-  tr > td {
-    width: 20%;
-    text-align: center;
-  }
-
-  tr > td:nth-last-child(1) {
-    width: 5%;
-  }
-`
-
-const AddBtn = styled.button`
-  display: flex;
-  margin: 50px auto 0;
-`
 
 const AccountBook = ({ setAccountBook, accountBookData }: AccountBookProps) => {
   const AddAccountBookItem = () => {
@@ -75,15 +63,7 @@ const AccountBook = ({ setAccountBook, accountBookData }: AccountBookProps) => {
       <h3>가계부</h3>
 
       <AccountBookTable>
-        <thead>
-          <tr>
-            <td>항목</td>
-            <td>카테고리</td>
-            <td>메모</td>
-            <td>가격</td>
-            <td></td>
-          </tr>
-        </thead>
+        <AccountBookThead />
 
         <tbody>
           {accountBookData &&

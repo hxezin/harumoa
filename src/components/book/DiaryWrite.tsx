@@ -1,27 +1,12 @@
-import styled from 'styled-components'
 import { IDiary } from '../../types'
-
-const DiaryContainer = styled.div`
-  width: 40%;
-`
-
-const DiaryColumnContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  row-gap: 20px;
-
-  textarea {
-    height: 300px;
-  }
-`
+import { DiaryColumnContainer, DiaryContainer } from '../../assets/css/Book'
 
 interface DiaryProps {
   setDiary: React.Dispatch<React.SetStateAction<IDiary>>
   diaryData: IDiary
 }
 
-const Diary = ({ setDiary, diaryData }: DiaryProps) => {
+const DiaryWrite = ({ setDiary, diaryData }: DiaryProps) => {
   return (
     <DiaryContainer>
       <h3>오늘의 요약 (필수)</h3>
@@ -34,7 +19,7 @@ const Diary = ({ setDiary, diaryData }: DiaryProps) => {
           }}
         />
 
-        <h3>풀어쓰기 (선택)</h3>
+        <h3 style={{ margin: '30px 0px 0px' }}>풀어쓰기 (선택)</h3>
         <textarea
           onChange={(e) => {
             setDiary({ ...diaryData, content: e.target.value })
@@ -46,4 +31,4 @@ const Diary = ({ setDiary, diaryData }: DiaryProps) => {
   )
 }
 
-export default Diary
+export default DiaryWrite

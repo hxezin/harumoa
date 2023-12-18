@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
-
-import AccountBook from '../components/book/AccountBook'
-import Diary from '../components/book/Diary'
+import AccountBookWrite from '../components/book/AccountBookWrite'
+import DiaryWrite from '../components/book/DiaryWrite'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setBook } from '../api/firebase'
 import {
@@ -16,7 +15,6 @@ const Write = () => {
   const location = useLocation()
 
   const date = location.search.split('=')[1]
-  const isEdit = location.pathname.split('/')[1]
 
   const [accountBookData, setAccountBookData] = useState<IAccountBook>(
     location.state?.detail.account_book ?? {}
@@ -39,7 +37,11 @@ const Write = () => {
     const res = await setBook(date.replaceAll('-', '/'), reqData)
 
     if (res) {
-      navigate(`/detail?date=${date}`)
+      navigate(`/detail?date=${date}`, {
+        state: {
+          detail: reqData,
+        },
+      })
     }
   }
 
@@ -56,13 +58,13 @@ const Write = () => {
             Object.keys(accountBookData).length === 0
           }
         >
-          {isEdit === 'edit' ? '수정하기' : '저장하기'}
+          저장
         </button>
       </BookDataContainer>
 
       <BookContentContainer>
-        <Diary diaryData={diaryData} setDiary={setDiaryData} />
-        <AccountBook
+        <DiaryWrite diaryData={diaryData} setDiary={setDiaryData} />
+        <AccountBookWrite
           accountBookData={accountBookData}
           setAccountBook={setAccountBookData}
         />
