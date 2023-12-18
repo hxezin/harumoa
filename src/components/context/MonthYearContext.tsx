@@ -1,14 +1,25 @@
+import React, { useEffect, useState, createContext, useContext } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
-import { getBooks } from '../api/firebase'
+import { getBooks } from '../../api/firebase'
 import {
   getMonthDetails,
   getMonthYearDetails,
   getNewMonthYear,
-} from '../utils/calendar'
+  MonthYear,
+} from '../../utils/calendar'
+import { Books, TotalPrice } from '../../types'
 
-function useMonthYear() {
+interface MonthYearProps {
+  data: Books
+  monthYear: MonthYear
+  prevMonthLastDate: number
+  updateMonthYear: (monthIncrement: number) => void
+  total: TotalPrice
+}
+
+// useMonthYear custom hooks
+function useMonthYear(): MonthYearProps {
   const queryClient = useQueryClient()
   const currentMonthYear = getMonthYearDetails(dayjs())
   const [monthYear, setMonthYear] = useState(currentMonthYear)
@@ -37,7 +48,33 @@ function useMonthYear() {
     monthYear,
     prevMonthLastDate: prevMonth.lastDate,
     updateMonthYear,
+    total: data.total,
   }
 }
 
-export default useMonthYear
+// useMonthYearContext
+const MonthYearContext = createContext<MonthYearProps | undefined>(undefined)
+
+export const MonthYearProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
+  const monthYearProps = useMonthYear()
+
+  return (
+    <MonthYearContext.Provider value={monthYearProps}>
+      {children}
+    </MonthYearContext.Provider>
+  )
+}
+
+export const useMonthYearContext = () => {
+  const context = useContext(MonthYearContext)
+  if (!context) {
+    throw new Error(
+      'useMonthYearContext must be used within a MonthYearProvider'
+    )
+  }
+  return context
+}

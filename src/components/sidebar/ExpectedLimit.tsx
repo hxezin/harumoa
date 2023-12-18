@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import useMonthYear from '../../hooks/useMonthYear'
+import { IExpectedLimit, TotalPrice } from '../../types'
 import SidebarTitle from './SidebarTitle'
 
 const Indicator = styled.div<{ $isExcess: boolean }>`
@@ -24,14 +24,14 @@ const Fill = styled.div<{ width: string; $isExcess: boolean }>`
 `
 
 interface Props {
-  expectedLimit: { is_possible: boolean; price: number }
+  expectedLimit: IExpectedLimit
+  total: TotalPrice
 }
 
-const ExpectedLimit = ({ expectedLimit }: Props) => {
+const ExpectedLimit = ({ expectedLimit, total }: Props) => {
   const { is_possible: isPossible, price } = expectedLimit
-  const { data } = useMonthYear()
-  const incomePrice = data.total?.income_price || 0
-  const expensePrice = data.total?.expense_price || 0
+  const incomePrice = total?.income_price || 0
+  const expensePrice = total?.expense_price || 0
 
   // (수입 - 지출) / 예상 한도
   const percentage = Math.round(

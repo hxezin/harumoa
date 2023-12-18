@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import useMonthYear from '../../hooks/useMonthYear'
 import { MonthDetail } from '../../types'
 import { getDateArray } from '../../utils/calendar'
 import DateBox from './DateBox'
 import SidebarToggleButton from '../sidebar/SidebarToggleButton'
+import { useMonthYearContext } from '../context/MonthYearContext'
 
 const dayOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
@@ -61,7 +61,8 @@ interface Props {
 }
 
 const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
-  const { data, monthYear, prevMonthLastDate, updateMonthYear } = useMonthYear()
+  const { data, monthYear, prevMonthLastDate, updateMonthYear } =
+    useMonthYearContext()
 
   return (
     <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
