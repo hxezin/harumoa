@@ -4,9 +4,23 @@ import { useAuthContext } from '../context/AuthContext'
 
 const HeaderContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  column-gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+
   padding: 10px;
+`
+
+const HeaderLogoContainer = styled.div`
+  cursor: pointer;
+
+  font-weight: 700;
+  font-size: 18px;
+  color: #3de6fd;
+`
+
+const HeaderMenuContainer = styled.div`
+  display: flex;
+  column-gap: 10px;
 
   a {
     color: #757575;
@@ -41,10 +55,15 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <p>{nickName} 🫡 </p>
-      <Link to='/custom'>Custom</Link>
-      <Link to='/profile'>Profile</Link>
-      <button onClick={handleLogout}>Logout</button>
+      <HeaderLogoContainer onClick={() => navigate('/')}>
+        Haru Moa
+      </HeaderLogoContainer>
+      <HeaderMenuContainer>
+        <p>{nickName} 🫡 </p>
+        <Link to='/custom'>Custom</Link>
+        <Link to='/profile'>Profile</Link>
+        <button onClick={handleLogout}>Logout</button>
+      </HeaderMenuContainer>
     </HeaderContainer>
   )
 }
