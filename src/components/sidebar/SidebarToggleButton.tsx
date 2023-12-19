@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 const StyledToggleButton = styled.button`
   position: absolute;
-  right: 0;
-  top: 50%;
+  right: 1rem;
+  top: 1.2rem;
   z-index: 2;
   width: 30px;
   height: 30px;
@@ -15,11 +15,7 @@ interface Props {
 }
 
 const SidebarToggleButton = ({ isSidebarOpen, onToggle }: Props) => {
-  return (
-    <StyledToggleButton onClick={onToggle}>
-      {isSidebarOpen ? '>' : '<'}
-    </StyledToggleButton>
-  )
+  return <StyledToggleButton onClick={onToggle}>☰</StyledToggleButton>
 }
 
 export default SidebarToggleButton
