@@ -32,7 +32,7 @@ export interface Books {
 export interface IFixedExpense {
   [key: string]: {
     payment_period: { start_date: string; end_date: string }
-    payment_day: number
+    payment_day: string
     category: string
     memo: string
     price: number

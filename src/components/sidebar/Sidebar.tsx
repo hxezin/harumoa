@@ -2,7 +2,12 @@ import { styled } from 'styled-components'
 import FixedExpense from './FixedExpense'
 import ExpectedLimit from './ExpectedLimit'
 import { useQuery } from '@tanstack/react-query'
-import { getCustom } from '../../api/firebase'
+import isBetween from 'dayjs/plugin/isBetween'
+import { useMonthYearContext } from '../context/MonthYearContext'
+import { getFilteredCustom } from '../../utils/calendar'
+import dayjs from 'dayjs'
+
+dayjs.extend(isBetween)
 
 const Container = styled.aside`
   width: 300px;
@@ -10,29 +15,21 @@ const Container = styled.aside`
   padding: 1rem;
 `
 
-interface CustomResponse {
-  category: string
-  daily_result: 'income' | 'expense' | 'revenue'
-  expected_limit: {
-    is_possible: boolean
-    price: number
-  }
-}
-
 const Sidebar = () => {
+  const { monthYear, total } = useMonthYearContext()
+
   const { data, isLoading } = useQuery({
-    queryKey: ['custom'],
-    queryFn: () => getCustom(),
+    queryKey: ['custom', monthYear.year, monthYear.month],
+    queryFn: () => getFilteredCustom(monthYear.year, monthYear.month),
   })
 
+  // 로딩 스피너 추후 변경
   if (!data || isLoading) return <div>Loading...</div>
-
-  const { expected_limit: expectedLimit, daily_result: dailyResult } = data
 
   return (
     <Container>
-      <FixedExpense />
-      <ExpectedLimit expectedLimit={expectedLimit} />
+      <FixedExpense fixedExpense={data.fixed_expense} />
+      <ExpectedLimit expectedLimit={data.expected_limit} total={total} />
     </Container>
   )
 }

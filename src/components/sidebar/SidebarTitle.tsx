@@ -1,8 +1,6 @@
 import { styled } from 'styled-components'
 
-const Container = styled.h3`
-  margin-bottom: 0;
-`
+const Container = styled.h3``
 
 interface Props {
   title: string
