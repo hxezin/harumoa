@@ -1,6 +1,8 @@
+import isBetween from 'dayjs/plugin/isBetween'
 import dayjs, { Dayjs } from 'dayjs'
 import { getCustom } from '../api/firebase'
 import { IFixedExpense } from '../types'
+dayjs.extend(isBetween)
 
 export interface MonthYear {
   startDate: Dayjs

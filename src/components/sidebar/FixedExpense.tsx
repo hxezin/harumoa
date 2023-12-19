@@ -9,20 +9,29 @@ import { useMonthYearContext } from '../context/MonthYearContext'
 import FixedExpenseModal from './FixedExpenseModal'
 import SidebarTitle from './SidebarTitle'
 
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
-
 const ManagementButton = styled.button`
   height: 20px;
 `
 
-const TableContainer = styled.table`
+const Table = styled.table`
   width: 100%;
-  border: 1px solid #c2c2c2;
   padding: 0.5rem;
+
+  thead {
+    padding-bottom: 0.5rem;
+  }
+
+  tbody {
+    display: block;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  thead,
+  tbody tr {
+    display: table;
+    width: 100%;
+  }
 
   td {
     width: 20%;
@@ -58,12 +67,11 @@ const FixedExpense = ({ fixedExpense }: Props) => {
 
   return (
     <section>
-      <TitleContainer>
-        <SidebarTitle title='고정 지출' />
+      <SidebarTitle title='고정 지출'>
         <ManagementButton onClick={onOpen}>관리</ManagementButton>
-      </TitleContainer>
+      </SidebarTitle>
       {data && (
-        <TableContainer>
+        <Table>
           <thead>
             <tr>
               <th>날짜</th>
@@ -96,7 +104,7 @@ const FixedExpense = ({ fixedExpense }: Props) => {
                 )
               })}
           </tbody>
-        </TableContainer>
+        </Table>
       )}
       {isOpen && (
         <FixedExpenseModal data={data} setData={setData} onClose={onClose} />

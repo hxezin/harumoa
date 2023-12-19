@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { IExpectedLimit, TotalPrice } from '../../types'
+import { inputNumberWithComma } from '../../utils/\baccountBook'
 import SidebarTitle from './SidebarTitle'
 
 const Indicator = styled.div<{ $isExcess: boolean }>`
@@ -45,7 +46,10 @@ const ExpectedLimit = ({ expectedLimit, total }: Props) => {
     <section>
       <SidebarTitle title='예상 한도' />
       <Indicator $isExcess={isExcess}>
-        <span>{Math.abs(incomePrice - expensePrice)}</span> / {price}
+        <span>
+          {inputNumberWithComma(Math.abs(incomePrice - expensePrice))}
+        </span>{' '}
+        / {inputNumberWithComma(price)}
       </Indicator>
       <Percentage>
         <Fill width={`${percentageWidth}%`} $isExcess={isExcess}></Fill>
