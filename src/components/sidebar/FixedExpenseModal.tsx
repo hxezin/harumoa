@@ -13,9 +13,15 @@ import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useMonthYearContext } from '../context/MonthYearContext'
+import Modal from '../common/Modal'
 
-const Container = styled.div`
+const HeaderContainer = styled.div`
   position: relative;
+
+  h3 {
+    margin: 0;
+    margin-bottom: 1rem;
+  }
 `
 
 const AddButton = styled.button`
@@ -50,7 +56,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 `
 
 const dayOptions = Array.from({ length: 30 }, (_, index) =>
@@ -136,9 +142,11 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
   }
 
   return (
-    <Container>
-      <h3>고정 지출 관리</h3>
-      {isEdit ? <AddButton onClick={handleAdd}>➕</AddButton> : null}
+    <Modal onClose={onClose}>
+      <HeaderContainer>
+        <h3>고정 지출 관리</h3>
+        {isEdit ? <AddButton onClick={handleAdd}>➕</AddButton> : null}
+      </HeaderContainer>
       <TableContainer $isEdit={isEdit}>
         <thead>
           <tr>
@@ -283,7 +291,7 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
           </>
         )}
       </ButtonContainer>
-    </Container>
+    </Modal>
   )
 }
 

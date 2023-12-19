@@ -49,7 +49,7 @@ interface Props {
 
 const FixedExpense = ({ fixedExpense }: Props) => {
   const { monthYear } = useMonthYearContext()
-  const { Modal, onOpen, onClose, isOpen } = useModal()
+  const { onOpen, onClose, isOpen } = useModal()
   const [data, setData] = useState<IFixedExpense>({})
 
   useEffect(() => {
@@ -99,9 +99,7 @@ const FixedExpense = ({ fixedExpense }: Props) => {
         </TableContainer>
       )}
       {isOpen && (
-        <Modal>
-          <FixedExpenseModal data={data} setData={setData} onClose={onClose} />
-        </Modal>
+        <FixedExpenseModal data={data} setData={setData} onClose={onClose} />
       )}
     </section>
   )

@@ -1,5 +1,4 @@
-import { ReactElement, useCallback, useState } from 'react'
-import Modal from '../components/common/Modal'
+import { useCallback, useState } from 'react'
 
 const useModal = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -12,14 +11,7 @@ const useModal = () => {
     setIsOpen(() => false)
   }, [])
 
-  const modalComponent = isOpen
-    ? ({ children }: { children: ReactElement }) => (
-        <Modal onClose={handleClose}>{children}</Modal>
-      )
-    : () => null
-
   return {
-    Modal: modalComponent,
     onOpen: handleOpen,
     onClose: handleClose,
     isOpen,
