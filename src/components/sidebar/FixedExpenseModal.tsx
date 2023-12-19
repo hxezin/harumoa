@@ -282,7 +282,15 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
         {isEdit ? (
           <>
             <button onClick={handleCancle}>취소</button>
-            <button onClick={handleSave}>저장</button>
+            <button
+              onClick={handleSave}
+              disabled={
+                Object.values(newData).filter((item) => item.price === 0)
+                  .length !== 0
+              }
+            >
+              저장
+            </button>
           </>
         ) : (
           <>
