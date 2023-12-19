@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ellipsisStyles } from '../../assets/css/global'
@@ -38,6 +39,10 @@ const TableContainer = styled.table`
   }
 `
 
+const TableRow = styled.tr<{ $isPastDate: boolean }>`
+  color: ${({ $isPastDate }) => ($isPastDate ? 'gray' : 'black')};
+`
+
 interface Props {
   fixedExpense: IFixedExpense
 }
@@ -75,16 +80,19 @@ const FixedExpense = ({ fixedExpense }: Props) => {
                   parseInt(a[1].payment_day) - parseInt(b[1].payment_day)
               )
               .map(([key, value]) => {
+                const currentDate = dayjs()
+                const targetDate = dayjs(
+                  `${monthYear.year}-${monthYear.month}-${value.payment_day}`
+                )
+                // target 날짜가 지났는지 여부
+                const isPastDate = currentDate.isAfter(targetDate)
                 return (
-                  <tr key={key}>
-                    <td>
-                      {monthYear.year}-{monthYear.month}-
-                      {value.payment_day.toString().padStart(2, '0')}
-                    </td>
+                  <TableRow key={key} $isPastDate={isPastDate}>
+                    <td>{targetDate.format('YYYY-MM-DD')}</td>
                     <td>{value.memo}</td>
                     <td>{inputNumberWithComma(value.price)}</td>
                     <td>{value.payment_type === 'card' ? '💳' : '💵'}</td>
-                  </tr>
+                  </TableRow>
                 )
               })}
           </tbody>
