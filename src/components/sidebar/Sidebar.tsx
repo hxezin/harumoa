@@ -43,7 +43,7 @@ const Sidebar = () => {
       <FixedExpense fixedExpense={data.fixed_expense} />
       <SubContainer>
         <ExpectedLimit expectedLimit={data.expected_limit} />
-        <MonthlyFinancialOverview custom={data.daily_result} />
+        <MonthlyFinancialOverview />
       </SubContainer>
     </Container>
   )
