@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { child, get, getDatabase, ref, set } from 'firebase/database'
+import { child, get, getDatabase, ref, set, update } from 'firebase/database'
 import {
   GoogleAuthProvider,
   getAuth,
@@ -8,7 +8,7 @@ import {
   onAuthStateChanged,
   UserCredential,
 } from '@firebase/auth'
-import { MonthDetail } from '../types'
+import { IFixedExpense, MonthDetail } from '../types'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -96,6 +96,7 @@ export async function LogoutGoogle() {
     .catch((e) => false)
 }
 
+// 캘린더 데이터 가져오기
 export async function getBooks(year: string, month: string) {
   try {
     const snapshot = await get(
@@ -109,7 +110,52 @@ export async function getBooks(year: string, month: string) {
     }
   } catch (error) {
     console.error(error)
-    throw error
+  }
+}
+
+// 커스텀 가져오기
+export async function getCustom() {
+  const uid = localStorage.getItem('user')
+
+  try {
+    const snapshot = await get(child(ref(db), `users/${uid}/custom`))
+
+    if (snapshot.exists()) {
+      return snapshot.val()
+    } else {
+      throw new Error('예상 한도가 존재하지 않습니다.')
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// 고정 지출 저장
+export async function setFixedExpense(
+  reqData: IFixedExpense,
+  deleteList: string[]
+) {
+  const databaseRef = ref(db, `users/${userId}/custom/fixed_expense`)
+
+  try {
+    // newData를 그대로 사용하여 나머지 데이터 업데이트
+    await update(databaseRef, reqData)
+
+    // deleteList에 있는 각 키에 대해 삭제
+    deleteList.forEach((key) => {
+      const updates: { [key: string]: null } = {}
+      updates[key] = null
+
+      // 특정 키에 대해 null 값을 설정하여 삭제
+      update(databaseRef, updates)
+    })
+
+    return { success: true }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('데이터 업데이트 실패:', error.message)
+      return { success: false, error: error.message }
+    }
   }
 }
 

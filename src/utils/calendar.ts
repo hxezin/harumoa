@@ -1,4 +1,7 @@
-import { Dayjs } from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
+import dayjs, { Dayjs } from 'dayjs'
+import { IFixedExpense } from '../types'
+dayjs.extend(isBetween)
 
 export interface MonthYear {
   startDate: Dayjs
@@ -78,4 +81,45 @@ export function getDateArray(
 ): number[] | null {
   if (start === null || end === null) return null
   return Array.from({ length: end - start + 1 }, (_, index) => start + index)
+}
+
+// 고정 지출 기간에 지출 날짜(year-month-payment_day)가 포함되어 있는 항목 필터링
+export function filterFixedExpense(
+  data: IFixedExpense,
+  year: string,
+  month: string
+) {
+  const filteredData = Object.entries(data).filter(([key, data]) => {
+    const startDate = dayjs(data.payment_period.start_date)
+    const endDate = dayjs(data.payment_period.end_date)
+    const paymentDate = dayjs(`${year}-${month}-${data.payment_day}`)
+
+    const isPaymentDateIncluded = paymentDate.isBetween(
+      startDate,
+      endDate,
+      'day',
+      '[]'
+    )
+
+    return isPaymentDateIncluded
+  })
+
+  // 고정 지출 리스트 정렬 - 시작 날짜 오름차순, 마지막 날짜 오름차순
+  const sortedData = filteredData.sort((a, b) => {
+    const startDateA = dayjs(a[1]?.payment_period.start_date)
+    const startDateB = dayjs(b[1]?.payment_period.start_date)
+
+    if (startDateA.isBefore(startDateB)) return -1
+    if (startDateA.isAfter(startDateB)) return 1
+
+    const endDateA = dayjs(a[1].payment_period.end_date)
+    const endDateB = dayjs(b[1].payment_period.end_date)
+
+    return endDateA.isBefore(endDateB) ? -1 : endDateA.isAfter(endDateB) ? 1 : 0
+  })
+
+  // 정렬된 데이터를 객체로 변경
+  const objectData: IFixedExpense = Object.fromEntries(sortedData)
+
+  return objectData
 }

@@ -15,6 +15,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { queryClient } from './api/react-query'
 import GlobalStyle from './assets/css/global'
+import { MonthYearProvider } from './components/context/MonthYearContext'
 
 const router = createBrowserRouter([
   {
@@ -38,9 +39,11 @@ const App = () => {
   return (
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <GlobalStyle />
-        <ReactQueryDevtools />
+        <MonthYearProvider>
+          <RouterProvider router={router} />
+          <GlobalStyle />
+          <ReactQueryDevtools />
+        </MonthYearProvider>
       </QueryClientProvider>
     </AuthContextProvider>
   )
