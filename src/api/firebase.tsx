@@ -30,6 +30,22 @@ const userId = localStorage.getItem('user')
 
 const db = getDatabase(app)
 
+//localStorage 세팅
+const localStorageSetting = (
+  user: UserCredential['user'],
+  category: { income: string; expense: string }
+) => {
+  const nickName = user.email?.split('@')[0]
+
+  nickName && localStorage.setItem('nickName', nickName)
+
+  localStorage.setItem('user', user.uid)
+
+  localStorage.setItem('category_income', category.income)
+
+  localStorage.setItem('category_expense', category.expense)
+}
+
 //user가 로그인중인가..
 export async function onUserStateChange(callback: Function) {
   onAuthStateChanged(auth, (user) => {
@@ -38,10 +54,12 @@ export async function onUserStateChange(callback: Function) {
 }
 
 //유저 가져오기
-async function getUser(uid: string) {
+async function getUser(user: UserCredential['user']) {
+  const { uid } = user
   return get(child(ref(getDatabase(app)), `users/${uid}`))
     .then((snapshot) => {
       if (snapshot.exists()) {
+        localStorageSetting(user, snapshot.val().custom.category)
         return true
       } else {
         return false
@@ -66,19 +84,24 @@ async function setUser(userCredential: UserCredential['user']) {
         is_possible: true,
         price: 300000,
       },
-      category: '식비,쇼핑,생활비,교통비',
+      category: {
+        expense: '식비,쇼핑,생활비,교통비',
+        income: '월급, 용돈, 이월',
+      },
       daily_result: 'revenue',
     },
   }
 
-  return set(ref(db, `users/${uid}`), reqData)
+  return set(ref(db, `users/${uid}`), reqData).then(() =>
+    localStorageSetting(userCredential, reqData.custom.category)
+  )
 }
 
 export async function LoginGoogle() {
   try {
     const res = await signInWithPopup(auth, provider)
     if (res.user) {
-      const isUser = await getUser(res.user.uid)
+      const isUser = await getUser(res.user)
 
       if (!isUser) {
         const settingUser = await setUser(res.user)
