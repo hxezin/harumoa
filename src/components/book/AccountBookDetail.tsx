@@ -1,7 +1,7 @@
 import { IAccountBook } from '../../types'
 import AccountBookThead from './AccountBookThead'
 import { AccountBookContainer, AccountBookTable } from '../../assets/css/Book'
-import { inputNumberWithComma } from '../../utils/\baccountBook'
+import { inputNumberWithComma } from '../../utils/accountBook'
 
 interface AccountBookProps {
   accountBookData: IAccountBook

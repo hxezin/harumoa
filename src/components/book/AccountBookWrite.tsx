@@ -3,10 +3,7 @@ import styled from 'styled-components'
 import uuid from 'react-uuid'
 import Select from '../common/Select'
 import { AiFillMinusCircle } from 'react-icons/ai'
-import {
-  inputNumberCheck,
-  inputNumberWithComma,
-} from '../../utils/\baccountBook'
+import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import AccountBookThead from './AccountBookThead'
 import { AccountBookContainer, AccountBookTable } from '../../assets/css/Book'
 

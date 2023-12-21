@@ -3,10 +3,7 @@ import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { IFixedExpense } from '../../types'
-import {
-  inputNumberCheck,
-  inputNumberWithComma,
-} from '../../utils/\baccountBook'
+import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import { expenseSelect, paymentTypeOptions } from '../../constants'
 import Select from '../common/Select'
 import { setFixedExpense } from '../../api/firebase'
