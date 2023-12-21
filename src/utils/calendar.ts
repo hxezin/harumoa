@@ -1,6 +1,5 @@
 import isBetween from 'dayjs/plugin/isBetween'
 import dayjs, { Dayjs } from 'dayjs'
-import { getCustom } from '../api/firebase'
 import { IFixedExpense } from '../types'
 dayjs.extend(isBetween)
 
@@ -85,7 +84,11 @@ export function getDateArray(
 }
 
 // 고정 지출 기간에 지출 날짜(year-month-payment_day)가 포함되어 있는 항목 필터링
-function filterFixedExpense(data: IFixedExpense, year: string, month: string) {
+export function filterFixedExpense(
+  data: IFixedExpense,
+  year: string,
+  month: string
+) {
   const filteredData = Object.entries(data).filter(([key, data]) => {
     const startDate = dayjs(data.payment_period.start_date)
     const endDate = dayjs(data.payment_period.end_date)
@@ -119,17 +122,4 @@ function filterFixedExpense(data: IFixedExpense, year: string, month: string) {
   const objectData: IFixedExpense = Object.fromEntries(sortedData)
 
   return objectData
-}
-
-export async function getFilteredCustom(year: string, month: string) {
-  const custom = await getCustom()
-  const filteredFixedExpense = filterFixedExpense(
-    custom.fixed_expense,
-    year,
-    month
-  )
-  return {
-    ...custom,
-    fixed_expense: filteredFixedExpense,
-  }
 }

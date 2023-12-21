@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { IExpectedLimit, TotalPrice } from '../../types'
+import { IExpectedLimit } from '../../types'
 import { inputNumberWithComma } from '../../utils/\baccountBook'
+import { useMonthYearContext } from '../context/MonthYearContext'
 import SidebarTitle from './SidebarTitle'
 
 const Indicator = styled.div<{ $isExcess: boolean }>`
@@ -26,10 +27,10 @@ const Fill = styled.div<{ width: string; $isExcess: boolean }>`
 
 interface Props {
   expectedLimit: IExpectedLimit
-  total: TotalPrice
 }
 
-const ExpectedLimit = ({ expectedLimit, total }: Props) => {
+const ExpectedLimit = ({ expectedLimit }: Props) => {
+  const { total } = useMonthYearContext()
   const { is_possible: isPossible, price } = expectedLimit
   const incomePrice = total?.income_price || 0
   const expensePrice = total?.expense_price || 0

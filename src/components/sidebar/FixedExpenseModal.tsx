@@ -12,7 +12,6 @@ import Select from '../common/Select'
 import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useMonthYearContext } from '../context/MonthYearContext'
 import Modal from '../common/Modal'
 
 const HeaderContainer = styled.div`
@@ -73,8 +72,6 @@ interface Props {
 }
 
 const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
-  const { monthYear } = useMonthYearContext()
-
   const [isEdit, setIsEdit] = useState(false)
   const [originData, setOriginData] = useState<IFixedExpense>({})
   const [newData, setNewData] = useState<IFixedExpense>({})
@@ -93,21 +90,16 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
   }, [data, originData])
 
   const queryClient = useQueryClient()
-
-  const { mutate } = useMutation({
+  const { mutate: onSave } = useMutation({
     mutationFn: () => setFixedExpense(newData, deleteList),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['custom', monthYear.year, monthYear.year],
+        queryKey: ['custom'],
       })
       setData(newData)
       handleEditMode()
     },
   })
-
-  async function handleSave() {
-    mutate()
-  }
 
   function handleAdd() {
     setNewData((prev) => ({
@@ -283,7 +275,7 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
           <>
             <button onClick={handleCancle}>취소</button>
             <button
-              onClick={handleSave}
+              onClick={() => onSave()}
               disabled={
                 Object.values(newData).filter((item) => item.price === 0)
                   .length !== 0

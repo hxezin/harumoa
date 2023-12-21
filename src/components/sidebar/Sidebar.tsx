@@ -2,9 +2,8 @@ import { styled } from 'styled-components'
 import FixedExpense from './FixedExpense'
 import ExpectedLimit from './ExpectedLimit'
 import { useQuery } from '@tanstack/react-query'
-import { useMonthYearContext } from '../context/MonthYearContext'
-import { getFilteredCustom } from '../../utils/calendar'
 import MonthlyFinancialOverview from './MonthlyFinancialOverview'
+import { getCustom } from '../../api/firebase'
 
 const Container = styled.aside`
   display: flex;
@@ -17,22 +16,19 @@ const Container = styled.aside`
   overflow-y: auto;
 
   section {
-    flex: 1;
     border: 1px solid #c2c2c2;
     padding: 1rem;
   }
 
   section:first-child {
-    flex: 1 0 50%;
+    height: 70%;
   }
 `
 
 const Sidebar = () => {
-  const { monthYear, total } = useMonthYearContext()
-
   const { data, isLoading } = useQuery({
-    queryKey: ['custom', monthYear.year, monthYear.month],
-    queryFn: () => getFilteredCustom(monthYear.year, monthYear.month),
+    queryKey: ['custom'],
+    queryFn: () => getCustom(),
   })
 
   // 로딩 스피너 추후 변경
@@ -41,8 +37,8 @@ const Sidebar = () => {
   return (
     <Container>
       <FixedExpense fixedExpense={data.fixed_expense} />
-      <ExpectedLimit expectedLimit={data.expected_limit} total={total} />
-      <MonthlyFinancialOverview custom={data.daily_result} total={total} />
+      <ExpectedLimit expectedLimit={data.expected_limit} />
+      <MonthlyFinancialOverview custom={data.daily_result} />
     </Container>
   )
 }

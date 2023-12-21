@@ -1,11 +1,10 @@
 import { styled } from 'styled-components'
-import { TotalPrice } from '../../types'
 import { inputNumberWithComma } from '../../utils/\baccountBook'
+import { useMonthYearContext } from '../context/MonthYearContext'
 import SidebarTitle from './SidebarTitle'
 
 interface Props {
   custom: 'income' | 'expense' | 'revenue'
-  total: TotalPrice
 }
 
 const TableContainer = styled.table`
@@ -29,7 +28,8 @@ const TableContainer = styled.table`
   }
 `
 
-const MonthlyFinancialOverview = ({ custom, total }: Props) => {
+const MonthlyFinancialOverview = ({ custom }: Props) => {
+  const { total } = useMonthYearContext()
   const incomePrice = total?.income_price || 0
   const expensePrice = total?.expense_price || 0
 
@@ -38,18 +38,24 @@ const MonthlyFinancialOverview = ({ custom, total }: Props) => {
       <SidebarTitle title='월간 개요' />
       <TableContainer>
         <tbody>
-          <tr>
-            <td>수입</td>
-            <td>{inputNumberWithComma(incomePrice)}</td>
-          </tr>
-          <tr>
-            <td>지출</td>
-            <td>{inputNumberWithComma(expensePrice)}</td>
-          </tr>
-          <tr>
-            <td>합계</td>
-            <td>{inputNumberWithComma(incomePrice - expensePrice)}</td>
-          </tr>
+          {custom === 'expense' ? null : (
+            <tr>
+              <td>수입</td>
+              <td>{inputNumberWithComma(incomePrice)}</td>
+            </tr>
+          )}
+          {custom === 'income' ? null : (
+            <tr>
+              <td>지출</td>
+              <td>{inputNumberWithComma(expensePrice)}</td>
+            </tr>
+          )}
+          {custom === 'revenue' && (
+            <tr>
+              <td>합계</td>
+              <td>{inputNumberWithComma(incomePrice - expensePrice)}</td>
+            </tr>
+          )}
         </tbody>
       </TableContainer>
     </section>

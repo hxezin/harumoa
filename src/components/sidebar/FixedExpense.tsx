@@ -5,6 +5,7 @@ import { ellipsisStyles } from '../../assets/css/global'
 import useModal from '../../hooks/useModal'
 import { IFixedExpense } from '../../types'
 import { inputNumberWithComma } from '../../utils/\baccountBook'
+import { filterFixedExpense } from '../../utils/calendar'
 import { useMonthYearContext } from '../context/MonthYearContext'
 import FixedExpenseModal from './FixedExpenseModal'
 import SidebarTitle from './SidebarTitle'
@@ -62,8 +63,14 @@ const FixedExpense = ({ fixedExpense }: Props) => {
   const [data, setData] = useState<IFixedExpense>({})
 
   useEffect(() => {
-    setData(fixedExpense)
-  }, [fixedExpense])
+    // 캘린더가 바뀔 때마다 데이터 필터링
+    const filteredData = filterFixedExpense(
+      fixedExpense,
+      monthYear.year,
+      monthYear.month
+    )
+    setData(filteredData)
+  }, [fixedExpense, monthYear.month, monthYear.year])
 
   return (
     <section>
