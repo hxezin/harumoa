@@ -1,8 +1,6 @@
 import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import UserProfile from './pages/UserProfile'
-import UserCustom from './pages/UserCustom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Join from './pages/Join'
@@ -16,6 +14,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { queryClient } from './api/react-query'
 import GlobalStyle from './assets/css/global'
 import { MonthYearProvider } from './components/context/MonthYearContext'
+import Setting from './pages/Setting'
 
 const router = createBrowserRouter([
   {
@@ -24,8 +23,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
-      { path: '/profile', element: <UserProfile /> },
-      { path: '/custom', element: <UserCustom /> },
+      { path: '/setting', element: <Setting /> },
       { path: '/write', element: <Write /> },
       { path: '/edit', element: <Write /> },
       { path: '/detail', element: <Detail /> },
