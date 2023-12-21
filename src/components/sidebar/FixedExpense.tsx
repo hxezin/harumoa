@@ -69,6 +69,7 @@ const FixedExpense = ({ fixedExpense }: Props) => {
       monthYear.year,
       monthYear.month
     )
+
     setData(filteredData)
   }, [fixedExpense, monthYear.month, monthYear.year])
 
@@ -77,7 +78,7 @@ const FixedExpense = ({ fixedExpense }: Props) => {
       <SidebarTitle title='고정 지출'>
         <ManagementButton onClick={onOpen}>관리</ManagementButton>
       </SidebarTitle>
-      {data && (
+      {Object.keys(data).length !== 0 && (
         <Table>
           <thead>
             <tr>

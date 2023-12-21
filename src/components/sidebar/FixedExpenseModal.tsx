@@ -33,6 +33,7 @@ const TableContainer = styled.table<{ $isEdit: boolean }>`
   width: 100%;
   border: 1px solid #c2c2c2;
   padding: 0.5rem;
+  min-width: 800px;
 
   th {
     padding: 0 0.5rem;
@@ -82,12 +83,8 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
 
   useEffect(() => {
     setNewData(JSON.parse(JSON.stringify(data)))
-
-    // 초기 렌더링 시에만 호출
-    if (!Object.keys(originData).length) {
-      setOriginData(JSON.parse(JSON.stringify(data)))
-    }
-  }, [data, originData])
+    setOriginData(JSON.parse(JSON.stringify(data)))
+  }, [data])
 
   const queryClient = useQueryClient()
   const { mutate: onSave } = useMutation({
@@ -129,7 +126,7 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
   }
 
   function handleCancle() {
-    setNewData(originData)
+    setNewData(JSON.parse(JSON.stringify(originData)))
     handleEditMode()
   }
 
@@ -178,6 +175,7 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
                       })
                     }}
                     value={newData[key].payment_period.end_date}
+                    min={newData[key].payment_period.start_date}
                   />
                 </td>
                 <td>

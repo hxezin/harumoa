@@ -123,7 +123,7 @@ export async function getCustom() {
     if (snapshot.exists()) {
       return snapshot.val()
     } else {
-      throw new Error('예상 한도가 존재하지 않습니다.')
+      throw new Error('custom이 존재하지 않습니다.')
     }
   } catch (error) {
     console.error(error)
@@ -138,17 +138,15 @@ export async function setFixedExpense(
   const databaseRef = ref(db, `users/${userId}/custom/fixed_expense`)
 
   try {
-    // newData를 그대로 사용하여 나머지 데이터 업데이트
+    // newData를 사용하여 데이터 업데이트
     await update(databaseRef, reqData)
 
-    // deleteList에 있는 각 키에 대해 삭제
+    // deleteList에 있는 각 키에 null 값을 설정하여 삭제
+    const deletes: { [key: string]: null } = {}
     deleteList.forEach((key) => {
-      const updates: { [key: string]: null } = {}
-      updates[key] = null
-
-      // 특정 키에 대해 null 값을 설정하여 삭제
-      update(databaseRef, updates)
+      deletes[key] = null
     })
+    await update(databaseRef, deletes)
 
     return { success: true }
   } catch (error) {

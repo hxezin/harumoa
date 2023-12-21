@@ -85,10 +85,12 @@ export function getDateArray(
 
 // 고정 지출 기간에 지출 날짜(year-month-payment_day)가 포함되어 있는 항목 필터링
 export function filterFixedExpense(
-  data: IFixedExpense,
+  data: IFixedExpense | undefined,
   year: string,
   month: string
 ) {
+  if (!data) return {}
+
   const filteredData = Object.entries(data).filter(([key, data]) => {
     const startDate = dayjs(data.payment_period.start_date)
     const endDate = dayjs(data.payment_period.end_date)
