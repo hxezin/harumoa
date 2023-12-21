@@ -45,3 +45,10 @@ export interface IExpectedLimit {
   is_possible: boolean
   price: number
 }
+
+export interface Custom {
+  category: string
+  daily_result: string
+
+  expected_limit: IExpectedLimit
+}
