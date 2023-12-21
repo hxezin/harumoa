@@ -5,9 +5,10 @@ import { useQuery } from '@tanstack/react-query'
 import MonthlyFinancialOverview from './MonthlyFinancialOverview'
 import { getCustom } from '../../api/firebase'
 
-const Container = styled.aside`
+const Container = styled.section`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
   width: 300px;
   background-color: #f6f6f6;
@@ -16,12 +17,15 @@ const Container = styled.aside`
   overflow-y: auto;
 
   section {
+    flex: 1;
     border: 1px solid #c2c2c2;
     padding: 1rem;
   }
+`
 
+const SubContainer = styled.div`
   section:first-child {
-    height: 70%;
+    margin-bottom: 1rem;
   }
 `
 
@@ -37,8 +41,10 @@ const Sidebar = () => {
   return (
     <Container>
       <FixedExpense fixedExpense={data.fixed_expense} />
-      <ExpectedLimit expectedLimit={data.expected_limit} />
-      <MonthlyFinancialOverview custom={data.daily_result} />
+      <SubContainer>
+        <ExpectedLimit expectedLimit={data.expected_limit} />
+        <MonthlyFinancialOverview custom={data.daily_result} />
+      </SubContainer>
     </Container>
   )
 }

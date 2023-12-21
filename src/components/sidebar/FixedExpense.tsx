@@ -24,8 +24,8 @@ const Table = styled.table`
 
   tbody {
     display: block;
-    max-height: 400px;
-    overflow-y: scroll;
+    max-height: 300px;
+    overflow-y: auto;
   }
 
   thead,
