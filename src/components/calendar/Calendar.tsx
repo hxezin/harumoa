@@ -10,7 +10,6 @@ const dayOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 const Container = styled.section`
   position: relative;
   width: calc(100% - 300px);
-  transition: width 0.3s ease;
 
   &.expanded {
     width: 100%;
