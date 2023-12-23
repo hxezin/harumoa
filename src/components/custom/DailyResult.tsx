@@ -41,7 +41,7 @@ const DailyResult = ({
 }: DailyResultProps) => {
   const { isOpen, selectedValue, toggleDropdown, dropdownRef, selectOption } =
     useDropdown({
-      defaultSelectedValue: dailyResultCategory[dailyResult] || '',
+      defaultSelectedValue: dailyResult,
       onSelect: (option) => {
         setDailyResult(option)
       },
@@ -53,7 +53,7 @@ const DailyResult = ({
       <DropdownContainer ref={dropdownRef}>
         <DropdownInput
           onClick={toggleDropdown}
-          value={selectedValue}
+          value={dailyResultCategory[selectedValue] || ''}
           disabled={!isEdit}
           readOnly
         />

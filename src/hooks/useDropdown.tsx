@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { dailyResultCategory } from '../constants'
 
 interface UseDropdownProps {
   defaultSelectedValue: string
@@ -20,7 +19,7 @@ const useDropdown = ({ defaultSelectedValue, onSelect }: UseDropdownProps) => {
   }
 
   const selectOption = (option: string) => {
-    setSelectedValue(dailyResultCategory[option])
+    setSelectedValue(option)
     onSelect(option)
     closeDropdown()
   }
