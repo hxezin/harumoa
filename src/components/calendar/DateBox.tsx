@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import { ellipsisStyles } from '../../assets/css/global'
-import { MonthDetail } from '../../types'
+import { IAccountBook, MonthDetail } from '../../types'
 import { useNavigate } from 'react-router-dom'
 import { inputNumberWithComma } from '../../utils/accountBook'
+import { useQuery } from '@tanstack/react-query'
+import { getCustom } from '../../api/firebase'
 
 const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
   border-top: 0.1px solid #ccc;
@@ -109,6 +111,11 @@ interface Props {
 const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
   const navigate = useNavigate()
 
+  const { data: custom } = useQuery({
+    queryKey: ['custom'],
+    queryFn: () => getCustom(),
+  })
+
   function handleContainerClick() {
     navigate(`/detail?date=${selectedDate}`, { state: { detail } })
   }
@@ -122,12 +129,42 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
     navigate(`/write?date=${selectedDate}`)
   }
 
+  // 일간 내역 커스텀에 따라 totalPrice 계산
+  function getTotalPrice(accountBook: IAccountBook) {
+    let totalPrice
+
+    switch (custom.daily_result) {
+      case 'revenue':
+        totalPrice = Object.values(accountBook).reduce((acc, cur) => {
+          return cur.is_income ? acc + cur.price : acc - cur.price
+        }, 0)
+        break
+
+      case 'income':
+        totalPrice = Object.values(accountBook).reduce((acc, cur) => {
+          return cur.is_income ? acc + cur.price : acc
+        }, 0)
+        break
+
+      case 'expense':
+        totalPrice = Object.values(accountBook).reduce((acc, cur) => {
+          return cur.is_income ? acc : acc - cur.price
+        }, 0)
+        break
+
+      default:
+        totalPrice = 0
+    }
+
+    return totalPrice
+  }
+
   if (detail) {
     const { diary, account_book } = detail
 
-    const totalPrice = Object.values(account_book).reduce((acc, cur) => {
-      return cur.is_income ? acc + cur.price : acc - cur.price
-    }, 0)
+    // const totalPrice = Object.values(account_book).reduce((acc, cur) => {
+    //   return cur.is_income ? acc + cur.price : acc - cur.price
+    // }, 0)
 
     return (
       <DateBoxContainer
@@ -151,8 +188,8 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
           ))}
         </AccountBookList>
 
-        <TotalPrice $totalPrice={totalPrice}>
-          ₩ {inputNumberWithComma(totalPrice)}
+        <TotalPrice $totalPrice={getTotalPrice(account_book)}>
+          ₩ {inputNumberWithComma(getTotalPrice(account_book))}
         </TotalPrice>
       </DateBoxContainer>
     )
