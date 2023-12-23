@@ -24,17 +24,25 @@ const TitleContainer = styled.div`
   }
 `
 
+const CustomContainer = styled.div`
+  section {
+    margin-bottom: 2rem;
+  }
+`
+
 const Setting = () => {
   const [isEdit, setIsEdit] = useState(false)
 
   const [customData, setCustomData] = useState<Custom>({
-    category: '',
+    category: { expense: '', income: '' },
     daily_result: '',
     expected_limit: {
       is_possible: true,
       price: 300000,
     },
   })
+
+  const [originData, setOriginData] = useState({})
 
   const { data, isLoading } = useQuery({
     queryKey: ['custom'],
@@ -44,8 +52,14 @@ const Setting = () => {
   useEffect(() => {
     if (data) {
       setCustomData(data)
+      setOriginData(JSON.parse(JSON.stringify(data)))
     }
   }, [data])
+
+  function handleCancle() {
+    setIsEdit(false)
+    setCustomData(JSON.parse(JSON.stringify(originData)))
+  }
 
   // 로딩 스피너 추후 변경
   if (!data || isLoading) return <div>Loading...</div>
@@ -61,15 +75,13 @@ const Setting = () => {
         </div>
         <div>
           {isEdit && (
-            <button
-              style={{ marginRight: '10px' }}
-              onClick={() => setIsEdit(false)}
-            >
+            <button style={{ marginRight: '10px' }} onClick={handleCancle}>
               취소하기
             </button>
           )}
           <button
             onClick={() => {
+              console.log(customData)
               setIsEdit(!isEdit)
             }}
           >
@@ -78,25 +90,30 @@ const Setting = () => {
         </div>
       </TitleContainer>
 
-      <DailyResult
-        dailyResult={customData.daily_result}
-        setDailyResult={(data) =>
-          setCustomData({ ...customData, daily_result: data })
-        }
-        isEdit
-      />
-      <ExpectedLimit
-        expectedLimit={customData.expected_limit}
-        setExpectedLimit={(data) => {
-          setCustomData({ ...customData, expected_limit: data })
-        }}
-        isEdit
-      />
-      <Category
-        category={customData.category}
-        setCategory={(data) => setCustomData({ ...customData, category: data })}
-        isEdit
-      />
+      <CustomContainer>
+        <DailyResult
+          dailyResult={customData.daily_result}
+          setDailyResult={(data) =>
+            setCustomData({ ...customData, daily_result: data })
+          }
+          isEdit={isEdit}
+        />
+        <ExpectedLimit
+          expectedLimit={customData.expected_limit}
+          setExpectedLimit={(data) => {
+            setCustomData({ ...customData, expected_limit: data })
+          }}
+          isEdit={isEdit}
+        />
+        <Category
+          category={customData.category}
+          setCategory={(data) =>
+            setCustomData({ ...customData, category: data })
+          }
+          isEdit={isEdit}
+        />
+      </CustomContainer>
+
       <button>회원 탈퇴하기</button>
     </SettingContainer>
   )
