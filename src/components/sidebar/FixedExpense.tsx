@@ -55,9 +55,10 @@ const TableRow = styled.tr<{ $isPastDate: boolean }>`
 
 interface Props {
   fixedExpense: IFixedExpense
+  category: string
 }
 
-const FixedExpense = ({ fixedExpense }: Props) => {
+const FixedExpense = ({ fixedExpense, category }: Props) => {
   const { monthYear } = useMonthYearContext()
   const { onOpen, onClose, isOpen } = useModal()
   const [data, setData] = useState<IFixedExpense>({})
@@ -115,7 +116,12 @@ const FixedExpense = ({ fixedExpense }: Props) => {
         </Table>
       )}
       {isOpen && (
-        <FixedExpenseModal data={data} setData={setData} onClose={onClose} />
+        <FixedExpenseModal
+          data={data}
+          setData={setData}
+          category={category}
+          onClose={onClose}
+        />
       )}
     </section>
   )
