@@ -10,6 +10,7 @@ import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Modal from '../common/Modal'
+import { formatSelectOptions } from '../../utils'
 
 const HeaderContainer = styled.div`
   position: relative;
@@ -55,13 +56,6 @@ const ButtonContainer = styled.div`
   gap: 0.5rem;
   margin-top: 1rem;
 `
-
-const dayOptions = Array.from({ length: 30 }, (_, index) =>
-  (index + 1).toString()
-).map((day) => ({
-  label: day,
-  value: day,
-}))
 
 interface Props {
   data: IFixedExpense
@@ -185,7 +179,11 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                         return { ...prev }
                       })
                     }}
-                    valData={dayOptions}
+                    valData={formatSelectOptions(
+                      Array.from({ length: 30 }, (_, index) =>
+                        (index + 1).toString()
+                      )
+                    )}
                     defaultVal={newData[key].payment_day}
                   />
                 </td>
@@ -198,9 +196,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                         return { ...prev }
                       })
                     }}
-                    valData={category
-                      .split(',')
-                      .map((item) => ({ label: item, value: item }))}
+                    valData={formatSelectOptions(category.split(','))}
                     defaultVal={newData[key].category}
                   />
                 </td>
