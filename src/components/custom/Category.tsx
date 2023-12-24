@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent, ChangeEvent } from 'react'
+import { useState, KeyboardEvent, ChangeEvent, useEffect } from 'react'
 import styled from 'styled-components'
 import { CategoryType, ICategory } from '../../types'
 
@@ -58,7 +58,11 @@ const Category = ({ category, setCategory, isEdit }: CategoryProps) => {
     e: KeyboardEvent<HTMLInputElement>,
     type: CategoryType
   ) => {
-    if (e.key === 'Enter' && currentCategory[type].trim() !== '') {
+    if (
+      e.key === 'Enter' &&
+      currentCategory[type].trim() !== '' &&
+      e.nativeEvent.isComposing === false
+    ) {
       setCategory({
         ...category,
         [type]: [
