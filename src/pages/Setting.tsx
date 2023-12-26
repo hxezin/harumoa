@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 import ExpectedLimit from '../components/custom/ExpectedLimit'
 import DailyResult from '../components/custom/DailyResult'
-import Category from '../components/custom/Category'
+import CustomCategory from '../components/custom/CustomCategory'
 import styled from 'styled-components'
 
 const SettingContainer = styled.div`
@@ -105,7 +105,7 @@ const Setting = () => {
           }}
           isEdit={isEdit}
         />
-        <Category
+        <CustomCategory
           category={customData.category}
           setCategory={(data) =>
             setCustomData({ ...customData, category: data })

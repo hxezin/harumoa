@@ -1,6 +1,6 @@
-import { useState, KeyboardEvent, ChangeEvent, useEffect } from 'react'
+import { ChangeEvent, KeyboardEvent } from 'react'
 import styled from 'styled-components'
-import { CategoryType, ICategory } from '../../types'
+import { CategoryType } from '../../types'
 
 const CategoryContainer = styled.div`
   display: flex;
@@ -13,6 +13,7 @@ const CategoryContainer = styled.div`
   input {
     outline: none;
     border: none;
+    width: 150px;
   }
 `
 
@@ -34,108 +35,51 @@ const DeleteButton = styled.button`
 `
 
 interface CategoryProps {
-  category: ICategory
-
-  setCategory: (data: ICategory) => void
-
-  isEdit: boolean
+  categories: string
+  type: CategoryType
+  isEdit?: boolean
+  onDelete: (index: number, type: CategoryType) => void
+  currentValue: string
+  onChange: (e: ChangeEvent<HTMLInputElement>, type: CategoryType) => void
+  onKeyDown: (e: KeyboardEvent<HTMLInputElement>, type: CategoryType) => void
+  placeholder: string
 }
 
-const Category = ({ category, setCategory, isEdit }: CategoryProps) => {
-  const [currentCategory, setCurrentCategory] = useState<ICategory>({
-    expense: '',
-    income: '',
-  })
-
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    type: CategoryType
-  ) => {
-    setCurrentCategory((prev) => ({ ...prev, [type]: e.target.value }))
-  }
-
-  const handleInputKeyDown = (
-    e: KeyboardEvent<HTMLInputElement>,
-    type: CategoryType
-  ) => {
-    if (
-      e.key === 'Enter' &&
-      currentCategory[type].trim() !== '' &&
-      e.nativeEvent.isComposing === false
-    ) {
-      setCategory({
-        ...category,
-        [type]: [
-          ...category[type].split(','),
-          currentCategory[type].trim(),
-        ].join(','),
-      })
-      setCurrentCategory((prev) => ({ ...prev, [type]: '' }))
-    }
-  }
-
-  const handleDelete = (index: number, type: CategoryType) => {
-    setCategory({
-      ...category,
-      [type]: category[type]
-        .split(',')
-        .filter((_, i) => i !== index)
-        .join(','),
-    })
-  }
-
+const Category = ({
+  categories,
+  type,
+  isEdit,
+  onDelete,
+  currentValue,
+  onChange,
+  onKeyDown,
+  placeholder,
+}: CategoryProps) => {
   return (
-    <section>
-      <h3>카테고리</h3>
-      <div>지출 카테고리</div>
-      <CategoryContainer>
-        {category.expense.length !== 0 &&
-          category.expense.split(',').map((category, index) => (
+    <CategoryContainer>
+      {categories.length !== 0
+        ? categories.split(',').map((category, index) => (
             <CategoryItem key={index}>
               <span>{category}</span>
               {isEdit && (
-                <DeleteButton onClick={() => handleDelete(index, 'expense')}>
+                <DeleteButton onClick={() => onDelete(index, type)}>
                   ❌
                 </DeleteButton>
               )}
             </CategoryItem>
-          ))}
-        {isEdit && (
-          <input
-            type='text'
-            value={currentCategory.expense}
-            onChange={(e) => handleInputChange(e, 'expense')}
-            onKeyDown={(e) => handleInputKeyDown(e, 'expense')}
-            placeholder='지출 카테고리 입력'
-            autoFocus
-          />
-        )}
-      </CategoryContainer>
-
-      <div>수입 카테고리</div>
-      <CategoryContainer>
-        {category.income.length !== 0 &&
-          category.income.split(',').map((category, index) => (
-            <CategoryItem key={index}>
-              <span>{category}</span>
-              {isEdit && (
-                <DeleteButton onClick={() => handleDelete(index, 'income')}>
-                  ❌
-                </DeleteButton>
-              )}
-            </CategoryItem>
-          ))}
-        {isEdit && (
-          <input
-            type='text'
-            value={currentCategory.income}
-            onChange={(e) => handleInputChange(e, 'income')}
-            onKeyDown={(e) => handleInputKeyDown(e, 'income')}
-            placeholder='수입 카테고리 입력'
-          />
-        )}
-      </CategoryContainer>
-    </section>
+          ))
+        : null}
+      {isEdit && (
+        <input
+          type='text'
+          value={currentValue}
+          onChange={(e) => onChange(e, type)}
+          onKeyDown={(e) => onKeyDown(e, type)}
+          placeholder={placeholder}
+          autoFocus
+        />
+      )}
+    </CategoryContainer>
   )
 }
 
