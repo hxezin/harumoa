@@ -1,5 +1,6 @@
+import { useMemo } from 'react'
 import { dailyResultOptions } from '../../constants'
-import Dropdown from '../common/Dropdown'
+import Select from '../common/Select'
 
 interface DailyResultProps {
   dailyResult: string
@@ -12,15 +13,24 @@ const DailyResult = ({
   setDailyResult,
   isEdit,
 }: DailyResultProps) => {
+  const defaultValue = useMemo(
+    () => dailyResultOptions.find((option) => option.value === dailyResult),
+    [dailyResult]
+  )
+
   return (
     <section>
       <h3>일간 내역</h3>
-      <Dropdown
-        options={dailyResultOptions}
-        defaultValue={dailyResult}
-        onSelect={setDailyResult}
-        isEdit={isEdit}
-      />
+      {isEdit ? (
+        <Select
+          name='dailyResult'
+          handleOnChange={setDailyResult}
+          valData={dailyResultOptions}
+          defaultVal={dailyResult}
+        />
+      ) : (
+        <input type='text' value={defaultValue?.label || ''} disabled />
+      )}
     </section>
   )
 }
