@@ -31,16 +31,7 @@ const userId = localStorage.getItem('user')
 const db = getDatabase(app)
 
 //localStorage 세팅
-const localStorageSetting = (
-  user: UserCredential['user'],
-  category: { income: string; expense: string }
-) => {
-  const nickName = user.email?.split('@')[0]
-
-  nickName && localStorage.setItem('nickName', nickName)
-
-  localStorage.setItem('user', user.uid)
-
+const localStorageSetting = (category: { income: string; expense: string }) => {
   localStorage.setItem('category_income', category.income)
 
   localStorage.setItem('category_expense', category.expense)
@@ -56,10 +47,10 @@ export async function onUserStateChange(callback: Function) {
 //유저 가져오기
 async function getUser(user: UserCredential['user']) {
   const { uid } = user
-  return get(child(ref(getDatabase(app)), `users/${uid}`))
+  return get(child(ref(getDatabase(app)), `${uid}/users`))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        localStorageSetting(user, snapshot.val().custom.category)
+        localStorageSetting(snapshot.val().custom.category)
         return true
       } else {
         return false
@@ -92,8 +83,8 @@ async function setUser(userCredential: UserCredential['user']) {
     },
   }
 
-  return set(ref(db, `users/${uid}`), reqData).then(() =>
-    localStorageSetting(userCredential, reqData.custom.category)
+  return set(ref(db, `${uid}/users`), reqData).then(() =>
+    localStorageSetting(reqData.custom.category)
   )
 }
 
@@ -123,7 +114,7 @@ export async function LogoutGoogle() {
 export async function getBooks(year: string, month: string) {
   try {
     const snapshot = await get(
-      child(ref(db), `books/${userId}/${year}/${month}`)
+      child(ref(db), `${userId}/books/${year}/${month}`)
     )
 
     if (snapshot.exists()) {
@@ -141,7 +132,7 @@ export async function getCustom() {
   const uid = localStorage.getItem('user')
 
   try {
-    const snapshot = await get(child(ref(db), `users/${uid}/custom`))
+    const snapshot = await get(child(ref(db), `${uid}/users/custom`))
 
     if (snapshot.exists()) {
       return snapshot.val()
@@ -158,7 +149,7 @@ export async function setFixedExpense(
   reqData: IFixedExpense,
   deleteList: string[]
 ) {
-  const databaseRef = ref(db, `users/${userId}/custom/fixed_expense`)
+  const databaseRef = ref(db, `${userId}/users/custom/fixed_expense`)
 
   try {
     // newData를 사용하여 데이터 업데이트
@@ -182,5 +173,5 @@ export async function setFixedExpense(
 
 //가계부, 다이어리 저장 메소드
 export async function setBook(date: string, reqData: MonthDetail) {
-  return set(ref(db, `books/${userId}/${date}/`), reqData).then(() => true)
+  return set(ref(db, `${userId}/books/${date}/`), reqData).then(() => true)
 }
