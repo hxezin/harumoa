@@ -60,8 +60,7 @@ const Header = () => {
       </HeaderLogoContainer>
       <HeaderMenuContainer>
         <p>{nickName} 🫡 </p>
-        <Link to='/custom'>Custom</Link>
-        <Link to='/profile'>Profile</Link>
+        <Link to='/setting'>Setting</Link>
         <button onClick={handleLogout}>Logout</button>
       </HeaderMenuContainer>
     </HeaderContainer>
