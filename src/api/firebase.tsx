@@ -9,7 +9,7 @@ import {
   UserCredential,
   deleteUser,
 } from '@firebase/auth'
-import { IFixedExpense, MonthDetail } from '../types'
+import { Custom, IFixedExpense, MonthDetail } from '../types'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -158,6 +158,11 @@ export async function getCustom() {
   } catch (error) {
     console.error(error)
   }
+}
+
+//커스텀 수정하기
+export async function setCustom(reqData: Custom) {
+  return set(ref(db, `${userId}/users/custom/`), reqData).then(() => true)
 }
 
 // 고정 지출 저장

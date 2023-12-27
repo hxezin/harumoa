@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
-import { UserOut, getCustom } from '../api/firebase'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { UserOut, getCustom, setCustom } from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
 
@@ -74,9 +74,21 @@ const Setting = () => {
 
   const [originData, setOriginData] = useState({})
 
+  const queryClient = useQueryClient()
+
   const { data, isLoading } = useQuery({
     queryKey: ['custom'],
     queryFn: () => getCustom(),
+  })
+
+  const { mutate: handleSave } = useMutation({
+    mutationFn: () => setCustom(customData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['custom'],
+      })
+      setIsEdit(false)
+    },
   })
 
   useEffect(() => {
@@ -119,12 +131,7 @@ const Setting = () => {
               취소하기
             </button>
           )}
-          <button
-            onClick={() => {
-              console.log(customData)
-              setIsEdit(!isEdit)
-            }}
-          >
+          <button onClick={() => (isEdit ? handleSave() : setIsEdit(true))}>
             {isEdit ? '저장하기' : '수정하기'}
           </button>
         </div>
