@@ -10,6 +10,7 @@ import {
   BookDataContainer,
 } from '../assets/css/Book'
 import { useMonthYearContext } from '../components/context/MonthYearContext'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const Write = () => {
   const navigate = useNavigate()
@@ -31,8 +32,34 @@ const Write = () => {
     }
   )
 
-  const handleSavaClick = async () => {
+  const queryClient = useQueryClient()
 
+  const { mutate: saveBook } = useMutation({
+    mutationFn: () =>
+      setBook(
+        date.replaceAll('-', '/'),
+        {
+          diary: diaryData,
+          account_book: accountBookData,
+        },
+        total //에러 시 total price 롤백하기 위한 값
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['books', date.split('-')[0], date.split('-')[1]],
+      })
+      navigate(`/detail?date=${date}`, {
+        state: {
+          detail: {
+            diary: diaryData,
+            account_book: accountBookData,
+          },
+        },
+      })
+    },
+  })
+
+  const handleSavaClick = async () => {
     let income = total ? total.income_price : 0
     let expense = total ? total.expense_price : 0
 
@@ -52,27 +79,7 @@ const Write = () => {
 
     if (resSetTotalPrice) {
       //update 성공 시 가계부, 일기 set api call
-      const reqData = {
-        diary: diaryData,
-        account_book: accountBookData,
-      }
-
-      const resSetBook = await setBook(
-        date.replaceAll('-', '/'),
-        {
-          diary: diaryData,
-          account_book: accountBookData,
-        },
-        total //에러 시 total price 롤백하기 위한 값
-      )
-
-      if (resSetBook) {
-        navigate(`/detail?date=${date}`, {
-          state: {
-            detail: reqData,
-          },
-        })
-      }
+      saveBook()
     }
   }
 
