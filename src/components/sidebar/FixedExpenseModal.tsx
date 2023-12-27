@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { IFixedExpense } from '../../types'
 import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
-import { expenseSelect, paymentTypeOptions } from '../../constants'
+import { paymentTypeOptions } from '../../constants'
 import Select from '../common/Select'
 import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Modal from '../common/Modal'
+import { formatSelectOptions } from '../../utils'
 
 const HeaderContainer = styled.div`
   position: relative;
@@ -56,20 +57,14 @@ const ButtonContainer = styled.div`
   margin-top: 1rem;
 `
 
-const dayOptions = Array.from({ length: 30 }, (_, index) =>
-  (index + 1).toString()
-).map((day) => ({
-  label: day,
-  value: day,
-}))
-
 interface Props {
   data: IFixedExpense
   setData: React.Dispatch<React.SetStateAction<IFixedExpense>>
+  category: string
   onClose: () => void
 }
 
-const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
+const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   const [isEdit, setIsEdit] = useState(false)
   const [originData, setOriginData] = useState<IFixedExpense>({})
   const [newData, setNewData] = useState<IFixedExpense>({})
@@ -184,7 +179,11 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
                         return { ...prev }
                       })
                     }}
-                    valData={dayOptions}
+                    valData={formatSelectOptions(
+                      Array.from({ length: 30 }, (_, index) =>
+                        (index + 1).toString()
+                      )
+                    )}
                     defaultVal={newData[key].payment_day}
                   />
                 </td>
@@ -197,7 +196,7 @@ const FixedExpenseModal = ({ data, setData, onClose }: Props) => {
                         return { ...prev }
                       })
                     }}
-                    valData={expenseSelect}
+                    valData={formatSelectOptions(category.split(','))}
                     defaultVal={newData[key].category}
                   />
                 </td>

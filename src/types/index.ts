@@ -46,8 +46,16 @@ export interface IExpectedLimit {
   price: number
 }
 
+// 카테고리
+export type CategoryType = 'expense' | 'income'
+
+export interface ICategory {
+  expense: string
+  income: string
+}
+
 export interface Custom {
-  category: string
+  category: ICategory
   daily_result: string
 
   expected_limit: IExpectedLimit
