@@ -7,8 +7,9 @@ import {
   signOut,
   onAuthStateChanged,
   UserCredential,
+  deleteUser,
 } from '@firebase/auth'
-import { IFixedExpense, MonthDetail } from '../types'
+import { Custom, IFixedExpense, MonthDetail } from '../types'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -88,6 +89,7 @@ async function setUser(userCredential: UserCredential['user']) {
   )
 }
 
+//로그인
 export async function LoginGoogle() {
   try {
     const res = await signInWithPopup(auth, provider)
@@ -104,10 +106,24 @@ export async function LoginGoogle() {
   }
 }
 
+//로그아웃
 export async function LogoutGoogle() {
   return signOut(auth)
     .then(() => true)
     .catch((e) => false)
+}
+
+//회원탈퇴
+export async function UserOut() {
+  const user = auth.currentUser
+
+  if (user) {
+    return deleteUser(user)
+      .then(() => set(ref(db, `${userId}`), null).then(() => true))
+      .catch((error) => {
+        return false
+      })
+  }
 }
 
 // 캘린더 데이터 가져오기
@@ -142,6 +158,11 @@ export async function getCustom() {
   } catch (error) {
     console.error(error)
   }
+}
+
+//커스텀 수정하기
+export async function setCustom(reqData: Custom) {
+  return set(ref(db, `${userId}/users/custom/`), reqData).then(() => true)
 }
 
 // 고정 지출 저장
