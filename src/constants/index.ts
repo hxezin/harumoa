@@ -1,8 +1,3 @@
-export interface Option {
-  value: string
-  label: string
-}
-
 export const paymentTypeOptions = [
   { label: '현금', value: 'cash' },
   { label: '카드', value: 'card' },
