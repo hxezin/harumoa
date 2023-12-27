@@ -6,6 +6,7 @@ import { AiFillMinusCircle } from 'react-icons/ai'
 import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import AccountBookThead from './AccountBookThead'
 import { AccountBookContainer, AccountBookTable } from '../../assets/css/Book'
+import { formatSelectOptions } from '../../utils'
 
 interface AccountBookProps {
   setAccountBook: React.Dispatch<React.SetStateAction<IAccountBook>>
@@ -22,14 +23,14 @@ const isIncomeSelect = [
   { label: '지출', value: 'false' },
 ]
 
-const incomeSelect = [
+const incomeDefault = [
   { label: '월급', value: '월급' },
   { label: '용돈', value: '용돈' },
   { label: '이월', value: '이월' },
   { label: '기타', value: '기타' },
 ]
 
-const expenseSelect = [
+const expenseDefault = [
   { label: '식비', value: '식비' },
   { label: '쇼핑', value: '쇼핑' },
   { label: '생활비', value: '생활비' },
@@ -37,6 +38,17 @@ const expenseSelect = [
 ]
 
 const AccountBook = ({ setAccountBook, accountBookData }: AccountBookProps) => {
+  const categoryIncome = localStorage.getItem('category_income')
+  const categoryExpense = localStorage.getItem('category_expense')
+
+  const incomeSelect = categoryIncome
+    ? formatSelectOptions(categoryIncome.split(','))
+    : incomeDefault
+
+  const expenseSelect = categoryExpense
+    ? formatSelectOptions(categoryExpense.split(','))
+    : expenseDefault
+
   const AddAccountBookItem = () => {
     //가계부 아이템 하나 추가
     setAccountBook((prev) => ({
