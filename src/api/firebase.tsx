@@ -9,7 +9,7 @@ import {
   UserCredential,
   deleteUser,
 } from '@firebase/auth'
-import { Custom, IFixedExpense, MonthDetail } from '../types'
+import { Custom, IFixedExpense, MonthDetail, TotalPrice } from '../types'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -192,7 +192,21 @@ export async function setFixedExpense(
   }
 }
 
+//가계부 total 값 업데이트
+export async function setTotalPrice(date: string[], reqData: TotalPrice) {
+  return set(
+    ref(db, `${userId}/books/${date[0]}/${date[1]}/total`),
+    reqData
+  ).then(() => true)
+}
+
 //가계부, 다이어리 저장 메소드
-export async function setBook(date: string, reqData: MonthDetail) {
-  return set(ref(db, `${userId}/books/${date}/`), reqData).then(() => true)
+export async function setBook(
+  date: string,
+  reqData: MonthDetail,
+  totalPrice: TotalPrice
+) {
+  return set(ref(db, `${userId}/books/${date}/`), reqData)
+    .then(() => true)
+    .catch(() => setTotalPrice(date.split('-'), totalPrice))
 }
