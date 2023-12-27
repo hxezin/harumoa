@@ -38,7 +38,6 @@ const Write = () => {
 
     //수입/지출 데이터 가공
     Object.entries(accountBookData).map(([key, value]) => {
-      console.log(key, value)
       if (value.is_income) {
         income += value.price
       } else {
