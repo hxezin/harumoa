@@ -12,6 +12,16 @@ export const BookDataContainer = styled.div`
   h2 {
     margin: 0;
   }
+
+  div {
+    display: flex;
+    column-gap: 10px;
+
+    button {
+      border: none;
+      padding: 5px 10px;
+    }
+  }
 `
 
 export const BookContentContainer = styled.div`

@@ -203,7 +203,7 @@ export async function setTotalPrice(date: string[], reqData: TotalPrice) {
 //가계부, 다이어리 저장 메소드
 export async function setBook(
   date: string,
-  reqData: MonthDetail,
+  reqData: MonthDetail | null,
   totalPrice: TotalPrice
 ) {
   return set(ref(db, `${userId}/books/${date}/`), reqData)
