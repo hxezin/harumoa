@@ -45,8 +45,6 @@ const Write = () => {
         total //에러 시 total price 롤백하기 위한 값
       ),
     onSuccess: () => {
-      console.log(date.split('-'))
-
       queryClient.invalidateQueries({
         queryKey: ['books', date.split('-')[0], date.split('-')[1]],
       })
