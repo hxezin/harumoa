@@ -32,7 +32,6 @@ const Write = () => {
   )
 
   const handleSavaClick = async () => {
-    console.log(total)
 
     let income = total ? total.income_price : 0
     let expense = total ? total.expense_price : 0
