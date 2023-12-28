@@ -11,6 +11,7 @@ import {
 } from '../assets/css/Book'
 import { useMonthYearContext } from '../components/context/MonthYearContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { calcTotalPrice } from '../utils/accountBook'
 
 const Write = () => {
   const navigate = useNavigate()
@@ -60,22 +61,9 @@ const Write = () => {
   })
 
   const handleSavaClick = async () => {
-    let income = total ? total.income_price : 0
-    let expense = total ? total.expense_price : 0
+    const calcTotal = calcTotalPrice(accountBookData, total, false)
 
-    //수입/지출 데이터 가공
-    Object.entries(accountBookData).map(([key, value]) => {
-      if (value.is_income) {
-        income += value.price
-      } else {
-        expense += value.price
-      }
-    })
-
-    const resSetTotalPrice = await setTotalPrice(date.split('-'), {
-      income_price: income,
-      expense_price: expense,
-    }) //total price update
+    const resSetTotalPrice = await setTotalPrice(date.split('-'), calcTotal) //total price update
 
     if (resSetTotalPrice) {
       //update 성공 시 가계부, 일기 set api call

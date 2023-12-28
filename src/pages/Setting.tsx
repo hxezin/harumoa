@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import Modal from '../components/common/Modal'
 import useModal from '../hooks/useModal'
 import { useNavigate } from 'react-router-dom'
+import { ConfirmContainer } from '../assets/css/Confirm'
 
 const SettingContainer = styled.div`
   padding: 10px;
@@ -30,30 +31,6 @@ const TitleContainer = styled.div`
 const CustomContainer = styled.div`
   section {
     margin-bottom: 2rem;
-  }
-`
-
-const UserOutContainer = styled.div`
-  width: 250px;
-
-  h5 {
-    font-weight: 400;
-  }
-
-  div {
-    display: flex;
-    column-gap: 10px;
-    justify-content: center;
-
-    button {
-      width: 50px;
-      border: none;
-      padding: 5px 10px;
-    }
-  }
-
-  div > button:nth-child(2) {
-    background: #3de6fd;
   }
 `
 
@@ -165,7 +142,7 @@ const Setting = () => {
 
       {isOpen && (
         <Modal onClose={onClose}>
-          <UserOutContainer>
+          <ConfirmContainer>
             <h3>정말 탈퇴하시겠습니까?</h3>
             <h5>탈퇴 시 저장된 데이터는 삭제됩니다.</h5>
 
@@ -173,7 +150,7 @@ const Setting = () => {
               <button onClick={onClose}>취소</button>
               <button onClick={handleUserOut}>확인</button>
             </div>
-          </UserOutContainer>
+          </ConfirmContainer>
         </Modal>
       )}
     </SettingContainer>
