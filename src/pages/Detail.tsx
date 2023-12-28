@@ -45,16 +45,17 @@ const Detail = () => {
     },
   })
 
-  const handleDeleteBook = async () => {
-    const calcTotal = calcTotalPrice(accountBookData, total, true) //세번째 파라미터가 true로 누적 시 마이너스로 계산된다
+  const { mutate: updateTotalPrice } = useMutation({
+    mutationFn: () => {
+      const calcTotal = calcTotalPrice(accountBookData, total, false)
 
-    const resSetTotalPrice = await setTotalPrice(date.split('-'), calcTotal) //total price update
-
-    if (resSetTotalPrice) {
-      //update 성공 시 삭제
+      return setTotalPrice(date.split('-'), calcTotal) //total price update
+    },
+    onSuccess: () => {
+      //update 성공 시 가계부, 일기 set api call
       deleteBook()
-    }
-  }
+    },
+  })
 
   return (
     <BookContainer>
@@ -90,7 +91,7 @@ const Detail = () => {
 
             <div>
               <button onClick={onClose}>취소</button>
-              <button onClick={handleDeleteBook}>확인</button>
+              <button onClick={() => updateTotalPrice()}>확인</button>
             </div>
           </ConfirmContainer>
         </Modal>
