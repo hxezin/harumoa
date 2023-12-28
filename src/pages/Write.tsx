@@ -60,23 +60,24 @@ const Write = () => {
     },
   })
 
-  const handleSavaClick = async () => {
-    const calcTotal = calcTotalPrice(accountBookData, total, false)
+  const { mutate: updateTotalPrice } = useMutation({
+    mutationFn: () => {
+      const calcTotal = calcTotalPrice(accountBookData, total, false)
 
-    const resSetTotalPrice = await setTotalPrice(date.split('-'), calcTotal) //total price update
-
-    if (resSetTotalPrice) {
+      return setTotalPrice(date.split('-'), calcTotal) //total price update
+    },
+    onSuccess: () => {
       //update 성공 시 가계부, 일기 set api call
       saveBook()
-    }
-  }
+    },
+  })
 
   return (
     <BookContainer>
       <BookDataContainer>
         <h2>{date}</h2>
         <button
-          onClick={handleSavaClick}
+          onClick={() => updateTotalPrice()}
           disabled={
             diaryData.title === '' ||
             Object.values(accountBookData).filter((item) => item.price === 0)

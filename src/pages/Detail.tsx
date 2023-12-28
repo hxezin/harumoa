@@ -86,7 +86,7 @@ const Detail = () => {
         <Modal onClose={onClose}>
           <ConfirmContainer>
             <h3>{date} 글을 삭제하시겠습니까?</h3>
-            <h5>삭제 시 다이어리와 가계부는 삭제됩니다. </h5>
+            <h5>삭제 시 일기와 가계부는 삭제됩니다. </h5>
 
             <div>
               <button onClick={onClose}>취소</button>
