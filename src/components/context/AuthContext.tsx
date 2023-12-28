@@ -5,7 +5,7 @@ import {
   onUserStateChange,
 } from '../../api/firebase'
 import { UserCredential } from '@firebase/auth'
-import { useLocation } from 'react-router-dom'
+import { queryClient } from '../../api/react-query'
 
 type Auth = {
   user: UserCredential['user'] | undefined
@@ -37,6 +37,7 @@ export function AuthContextProvider({
         setUser(user)
       } else {
         localStorage.clear() //구글 로그인 풀렸을 경우 로컬 지워줌
+        queryClient.clear() // 리액트 쿼리 캐시 초기화
       }
     })
   }, [])
