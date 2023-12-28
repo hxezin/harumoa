@@ -2,19 +2,17 @@ import { useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
 import AccountBookWrite from '../components/book/AccountBookWrite'
 import DiaryWrite from '../components/book/DiaryWrite'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { setBook, setTotalPrice } from '../api/firebase'
+import { useLocation } from 'react-router-dom'
 import {
   BookContainer,
   BookContentContainer,
   BookDataContainer,
 } from '../assets/css/Book'
 import { useMonthYearContext } from '../components/context/MonthYearContext'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { calcTotalPrice } from '../utils/accountBook'
+import { useSetBook } from '../hooks/book/useSetBook'
+import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
 
 const Write = () => {
-  const navigate = useNavigate()
   const location = useLocation()
 
   const date = location.search.split('=')[1]
@@ -33,50 +31,25 @@ const Write = () => {
     }
   )
 
-  const queryClient = useQueryClient()
-
-  const { mutate: saveBook } = useMutation({
-    mutationFn: () =>
-      setBook(
-        date.replaceAll('-', '/'),
-        {
-          diary: diaryData,
-          account_book: accountBookData,
-        },
-        total //에러 시 total price 롤백하기 위한 값
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['books', date.split('-')[0], date.split('-')[1]],
-      })
-      navigate(`/detail?date=${date}`, {
-        state: {
-          detail: {
-            diary: diaryData,
-            account_book: accountBookData,
-          },
-        },
-      })
-    },
+  const { mutate: saveBook } = useSetBook(date, total, {
+    diary: diaryData,
+    account_book: accountBookData,
   })
 
-  const handleSavaClick = async () => {
-    const calcTotal = calcTotalPrice(accountBookData, total, false)
-
-    const resSetTotalPrice = await setTotalPrice(date.split('-'), calcTotal) //total price update
-
-    if (resSetTotalPrice) {
-      //update 성공 시 가계부, 일기 set api call
-      saveBook()
-    }
-  }
+  const { updateTotalPrice } = useSetTotalPrice(
+    date,
+    total,
+    accountBookData,
+    false, //total price 더하기
+    saveBook
+  )
 
   return (
     <BookContainer>
       <BookDataContainer>
         <h2>{date}</h2>
         <button
-          onClick={handleSavaClick}
+          onClick={() => updateTotalPrice()}
           disabled={
             diaryData.title === '' ||
             Object.values(accountBookData).filter((item) => item.price === 0)
