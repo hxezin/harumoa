@@ -131,9 +131,9 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
 
   // 일간 내역 커스텀에 따라 totalPrice 계산
   function getTotalPrice(accountBook: IAccountBook) {
-    let totalPrice
+    let totalPrice = 0
 
-    switch (custom.daily_result) {
+    switch (custom?.daily_result) {
       case 'revenue':
         totalPrice = Object.values(accountBook).reduce((acc, cur) => {
           return cur.is_income ? acc + cur.price : acc - cur.price
