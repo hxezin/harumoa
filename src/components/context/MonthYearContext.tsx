@@ -9,6 +9,7 @@ import {
   MonthYear,
 } from '../../utils/calendar'
 import { Books, TotalPrice } from '../../types'
+import { useAuthContext } from './AuthContext'
 
 interface MonthYearProps {
   data: Books
@@ -20,16 +21,25 @@ interface MonthYearProps {
 
 // useMonthYear custom hooks
 function useMonthYear(): MonthYearProps {
+  const { isLoggedIn } = useAuthContext()
   const queryClient = useQueryClient()
   const currentMonthYear = getMonthYearDetails(dayjs())
   const [monthYear, setMonthYear] = useState(currentMonthYear)
   const prevMonth = getMonthDetails(monthYear.startDate.subtract(1, 'month'))
 
   const fallback = {}
-  const { data = fallback } = useQuery({
+  const { data = fallback, refetch } = useQuery({
     queryKey: ['books', monthYear.year, monthYear.month],
     queryFn: () => getBooks(monthYear.year, monthYear.month),
+    enabled: isLoggedIn, // isLoggedIn이 true일 때만 쿼리를 활성화
   })
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      // 로그인 상태가 변경되었을 때만 refetch 함수를 호출
+      refetch()
+    }
+  }, [isLoggedIn, refetch])
 
   useEffect(() => {
     const prevMonthYear = getNewMonthYear(monthYear, -1)
@@ -53,7 +63,7 @@ function useMonthYear(): MonthYearProps {
 }
 
 // useMonthYearContext
-const MonthYearContext = createContext<MonthYearProps | undefined>(undefined)
+const MonthYearContext = createContext<MonthYearProps | null>(null)
 
 export const MonthYearProvider = ({
   children,
