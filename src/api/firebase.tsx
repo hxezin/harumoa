@@ -128,10 +128,10 @@ export async function UserOut() {
 
 // 캘린더 데이터 가져오기
 export async function getBooks(year: string, month: string) {
+  const uid = localStorage.getItem('user')
+
   try {
-    const snapshot = await get(
-      child(ref(db), `${userId}/books/${year}/${month}`)
-    )
+    const snapshot = await get(child(ref(db), `${uid}/books/${year}/${month}`))
 
     if (snapshot.exists()) {
       return snapshot.val()
