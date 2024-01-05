@@ -36,7 +36,6 @@ const ExpectedLimit = ({ expectedLimit }: Props) => {
   const expensePrice = total?.expense_price || 0
 
   const percentage = Math.round((expensePrice / price) * 100)
-
   const isExcess = percentage > 100 // 한도 초과 플래그
   const percentageWidth = isExcess ? 100 : percentage
 
@@ -44,10 +43,8 @@ const ExpectedLimit = ({ expectedLimit }: Props) => {
     <section>
       <SidebarTitle title='예상 지출 한도' />
       <Indicator $isExcess={isExcess}>
-        <span>
-          {inputNumberWithComma(Math.abs(incomePrice - expensePrice))}
-        </span>{' '}
-        / {inputNumberWithComma(price)}
+        <span>{inputNumberWithComma(expensePrice)}</span> /{' '}
+        {inputNumberWithComma(price)}
       </Indicator>
       <Percentage>
         <Fill width={`${percentageWidth}%`} $isExcess={isExcess}></Fill>
