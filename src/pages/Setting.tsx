@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { UserOut, getCustom, setCustom } from '../api/firebase'
+import {
+  UserOut,
+  getCustom,
+  localStorageSetting,
+  setCustom,
+} from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
 
@@ -64,6 +69,9 @@ const Setting = () => {
       queryClient.invalidateQueries({
         queryKey: ['custom'],
       })
+
+      //로컬스토리지 변경된 카테고리 업데이트
+      localStorageSetting(customData.category)
       setIsEdit(false)
     },
   })
@@ -131,9 +139,11 @@ const Setting = () => {
         />
         <CustomCategory
           category={customData.category}
-          setCategory={(data) =>
+          setCategory={(data) => {
+            console.log(data)
+
             setCustomData({ ...customData, category: data })
-          }
+          }}
           isEdit={isEdit}
         />
       </CustomContainer>
