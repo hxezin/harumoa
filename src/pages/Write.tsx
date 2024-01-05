@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
 import AccountBookWrite from '../components/book/AccountBookWrite'
 import DiaryWrite from '../components/book/DiaryWrite'
@@ -11,6 +11,7 @@ import {
 import { useMonthYearContext } from '../components/context/MonthYearContext'
 import { useSetBook } from '../hooks/book/useSetBook'
 import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
+import { calcTotalPrice } from '../utils/accountBook'
 
 const Write = () => {
   const location = useLocation()
@@ -18,6 +19,11 @@ const Write = () => {
   const date = location.search.split('=')[1]
 
   const { total } = useMonthYearContext()
+
+  const [modifyPrice, setModifyPrice] = useState({
+    income_price: 0,
+    expense_price: 0,
+  }) //수정 중일때 사용하는 price state
 
   const [accountBookData, setAccountBookData] = useState<IAccountBook>(
     location.state?.detail.account_book ?? {}
@@ -38,11 +44,19 @@ const Write = () => {
 
   const { updateTotalPrice } = useSetTotalPrice(
     date,
-    total,
+    location.state ? modifyPrice : total, //edit ? 계산된 total : total
     accountBookData,
     false, //total price 더하기
     saveBook
   )
+
+  useEffect(() => {
+    if (location.state) {
+      //수정 시 있는 값에서 줄이거나 늘릴 때 기존꺼에서 누적되는 현상 발생 변수 별도로 두는걸로 해결
+
+      setModifyPrice(calcTotalPrice(accountBookData, total, true)) //isDelete true로 줘서 수입을 빼주고, 지출은 더해준다. 함수 재사용
+    }
+  }, [])
 
   return (
     <BookContainer>
