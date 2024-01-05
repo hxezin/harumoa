@@ -9,7 +9,13 @@ import {
   UserCredential,
   deleteUser,
 } from '@firebase/auth'
-import { Custom, IFixedExpense, MonthDetail, TotalPrice } from '../types'
+import {
+  Custom,
+  ICategory,
+  IFixedExpense,
+  MonthDetail,
+  TotalPrice,
+} from '../types'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -32,10 +38,7 @@ const userId = localStorage.getItem('user')
 const db = getDatabase(app)
 
 //localStorage 세팅
-export const localStorageSetting = (category: {
-  income: string
-  expense: string
-}) => {
+export const localStorageSetting = (category: ICategory) => {
   localStorage.setItem('category_income', category.income)
 
   localStorage.setItem('category_expense', category.expense)
