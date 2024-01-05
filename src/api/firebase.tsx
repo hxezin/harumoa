@@ -32,7 +32,10 @@ const userId = localStorage.getItem('user')
 const db = getDatabase(app)
 
 //localStorage 세팅
-const localStorageSetting = (category: { income: string; expense: string }) => {
+export const localStorageSetting = (category: {
+  income: string
+  expense: string
+}) => {
   localStorage.setItem('category_income', category.income)
 
   localStorage.setItem('category_expense', category.expense)
