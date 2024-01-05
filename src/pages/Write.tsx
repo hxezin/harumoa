@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
 import AccountBookWrite from '../components/book/AccountBookWrite'
 import DiaryWrite from '../components/book/DiaryWrite'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   BookContainer,
   BookContentContainer,
@@ -15,6 +15,7 @@ import { calcTotalPrice } from '../utils/accountBook'
 
 const Write = () => {
   const location = useLocation()
+  const navigate = useNavigate()
 
   const date = location.search.split('=')[1]
 
@@ -40,7 +41,7 @@ const Write = () => {
   const { mutate: saveBook } = useSetBook(date, total, {
     diary: diaryData,
     account_book: accountBookData,
-  })
+  }) //아래 useSetTotalPrice 처럼 mutate를 다른 이름으로 반환하지 않은 이유는 Detail.tsx에서는 해당 커스텀 훅의 mutate를 삭제용도로 사용하기 때문
 
   const { updateTotalPrice } = useSetTotalPrice(
     date,
@@ -62,17 +63,28 @@ const Write = () => {
     <BookContainer>
       <BookDataContainer>
         <h2>{date}</h2>
-        <button
-          onClick={() => updateTotalPrice()}
-          disabled={
-            diaryData.title === '' ||
-            Object.values(accountBookData).filter((item) => item.price === 0)
-              .length !== 0 ||
-            Object.keys(accountBookData).length === 0
-          }
-        >
-          저장
-        </button>
+
+        <div>
+          <button
+            onClick={() => {
+              navigate(-1)
+            }}
+          >
+            취소
+          </button>
+
+          <button
+            onClick={() => updateTotalPrice()}
+            disabled={
+              diaryData.title === '' ||
+              Object.values(accountBookData).filter((item) => item.price === 0)
+                .length !== 0 ||
+              Object.keys(accountBookData).length === 0
+            }
+          >
+            저장
+          </button>
+        </div>
       </BookDataContainer>
 
       <BookContentContainer>
