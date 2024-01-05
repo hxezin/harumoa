@@ -174,7 +174,7 @@ export async function setCustom(reqData: Custom) {
 // 고정 지출 저장
 export async function setFixedExpense(
   reqData: IFixedExpense,
-  deleteList: string[]
+  deleteList?: string[]
 ) {
   const databaseRef = ref(db, `${userId}/users/custom/fixed_expense`)
 
@@ -182,12 +182,14 @@ export async function setFixedExpense(
     // newData를 사용하여 데이터 업데이트
     await update(databaseRef, reqData)
 
-    // deleteList에 있는 각 키에 null 값을 설정하여 삭제
-    const deletes: { [key: string]: null } = {}
-    deleteList.forEach((key) => {
-      deletes[key] = null
-    })
-    await update(databaseRef, deletes)
+    if (deleteList) {
+      // deleteList에 있는 각 키에 null 값을 설정하여 삭제
+      const deletes: { [key: string]: null } = {}
+      deleteList.forEach((key) => {
+        deletes[key] = null
+      })
+      await update(databaseRef, deletes)
+    }
 
     return { success: true }
   } catch (error) {

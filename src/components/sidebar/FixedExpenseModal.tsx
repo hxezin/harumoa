@@ -88,6 +88,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
       setData(newData)
       handleEditMode()
     },
+    onError: () => setFixedExpense(originData),
   })
 
   function handleAdd() {
