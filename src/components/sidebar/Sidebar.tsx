@@ -1,9 +1,8 @@
 import { styled } from 'styled-components'
 import FixedExpense from './FixedExpense'
 import ExpectedLimit from './ExpectedLimit'
-import { useQuery } from '@tanstack/react-query'
 import MonthlyFinancialOverview from './MonthlyFinancialOverview'
-import { getCustom } from '../../api/firebase'
+import useCustom from '../../hooks/custom/useCustom'
 
 const Container = styled.section`
   display: flex;
@@ -30,22 +29,19 @@ const SubContainer = styled.div`
 `
 
 const Sidebar = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['custom'],
-    queryFn: () => getCustom(),
-  })
+  const { custom, isLoading } = useCustom()
 
   // 로딩 스피너 추후 변경
-  if (!data || isLoading) return <div>Loading...</div>
+  if (!custom || isLoading) return <div>Loading...</div>
 
   return (
     <Container>
       <FixedExpense
-        fixedExpense={data.fixed_expense}
-        category={data.category.expense}
+        fixedExpense={custom.fixed_expense}
+        category={custom.category.expense}
       />
       <SubContainer>
-        <ExpectedLimit expectedLimit={data.expected_limit} />
+        <ExpectedLimit expectedLimit={custom.expected_limit} />
         <MonthlyFinancialOverview />
       </SubContainer>
     </Container>

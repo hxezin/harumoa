@@ -3,8 +3,7 @@ import { ellipsisStyles } from '../../assets/css/global'
 import { IAccountBook, MonthDetail } from '../../types'
 import { useNavigate } from 'react-router-dom'
 import { inputNumberWithComma } from '../../utils/accountBook'
-import { useQuery } from '@tanstack/react-query'
-import { getCustom } from '../../api/firebase'
+import useCustom from '../../hooks/custom/useCustom'
 
 const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
   border-top: 0.1px solid #ccc;
@@ -110,11 +109,7 @@ interface Props {
 
 const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
   const navigate = useNavigate()
-
-  const { data: custom } = useQuery({
-    queryKey: ['custom'],
-    queryFn: () => getCustom(),
-  })
+  const { custom } = useCustom()
 
   function handleContainerClick() {
     navigate(`/detail?date=${selectedDate}`, { state: { detail } })

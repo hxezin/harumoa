@@ -1,10 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  UserOut,
-  getCustom,
-  localStorageSetting,
-  setCustom,
-} from '../api/firebase'
+import { UserOut, localStorageSetting, setCustom } from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
 
@@ -16,6 +10,8 @@ import Modal from '../components/common/Modal'
 import useModal from '../hooks/useModal'
 import { useNavigate } from 'react-router-dom'
 import { ConfirmContainer } from '../assets/css/Confirm'
+import usePatchCustom from '../hooks/custom/usePatchCustom'
+import useCustom from '../hooks/custom/useCustom'
 
 const SettingContainer = styled.div`
   padding: 10px;
@@ -56,32 +52,24 @@ const Setting = () => {
 
   const [originData, setOriginData] = useState({})
 
-  const queryClient = useQueryClient()
+  const { custom, isLoading } = useCustom()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['custom'],
-    queryFn: () => getCustom(),
-  })
-
-  const { mutate: handleSave } = useMutation({
-    mutationFn: () => setCustom(customData),
+  const { patchCustom } = usePatchCustom({
+    onMutate: () => setCustom(customData),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['custom'],
-      })
-
       //로컬스토리지 변경된 카테고리 업데이트
       localStorageSetting(customData.category)
       setIsEdit(false)
     },
+    onError: () => setCustom(custom),
   })
 
   useEffect(() => {
-    if (data) {
-      setCustomData(data)
-      setOriginData(JSON.parse(JSON.stringify(data)))
+    if (custom) {
+      setCustomData(custom)
+      setOriginData(JSON.parse(JSON.stringify(custom)))
     }
-  }, [data])
+  }, [custom])
 
   const handleCancle = () => {
     setIsEdit(false)
@@ -99,7 +87,7 @@ const Setting = () => {
   }
 
   // 로딩 스피너 추후 변경
-  if (!data || isLoading) return <div>Loading...</div>
+  if (!custom || isLoading) return <div>Loading...</div>
 
   return (
     <SettingContainer>
@@ -116,7 +104,7 @@ const Setting = () => {
               취소하기
             </button>
           )}
-          <button onClick={() => (isEdit ? handleSave() : setIsEdit(true))}>
+          <button onClick={() => (isEdit ? patchCustom() : setIsEdit(true))}>
             {isEdit ? '저장하기' : '수정하기'}
           </button>
         </div>
