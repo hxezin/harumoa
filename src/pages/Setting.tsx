@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom'
 import { ConfirmContainer } from '../assets/css/Confirm'
 import usePatchCustom from '../hooks/custom/usePatchCustom'
 import useCustom from '../hooks/custom/useCustom'
+import { deepCopy } from '../utils'
+import { initialCustom } from '../constants/config'
 
 const SettingContainer = styled.div`
   padding: 10px;
@@ -41,16 +43,9 @@ const Setting = () => {
   const [isEdit, setIsEdit] = useState(false)
   const { isOpen, onClose, onOpen } = useModal()
 
-  const [customData, setCustomData] = useState<Custom>({
-    category: { expense: '', income: '' },
-    daily_result: '',
-    expected_limit: {
-      is_possible: true,
-      price: 300000,
-    },
-  })
+  const [customData, setCustomData] = useState<Custom>(initialCustom)
 
-  const [originData, setOriginData] = useState({})
+  const [originData, setOriginData] = useState<Custom>(initialCustom)
 
   const { custom, isLoading } = useCustom()
 
@@ -61,19 +56,19 @@ const Setting = () => {
       localStorageSetting(customData.category)
       setIsEdit(false)
     },
-    onError: () => setCustom(custom),
+    onError: () => setCustom(originData),
   })
 
   useEffect(() => {
     if (custom) {
-      setCustomData(custom)
-      setOriginData(JSON.parse(JSON.stringify(custom)))
+      setCustomData(deepCopy(custom))
+      setOriginData(deepCopy(custom))
     }
   }, [custom])
 
   const handleCancle = () => {
     setIsEdit(false)
-    setCustomData(JSON.parse(JSON.stringify(originData)))
+    setCustomData(deepCopy(originData))
   }
 
   const handleUserOut = async () => {

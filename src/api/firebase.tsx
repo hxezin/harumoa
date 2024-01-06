@@ -16,6 +16,7 @@ import {
   MonthDetail,
   TotalPrice,
 } from '../types'
+import { initialCustom } from '../constants/config'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -77,17 +78,7 @@ async function setUser(userCredential: UserCredential['user']) {
     //TODO : default 값 정의 필요
 
     email: email,
-    custom: {
-      expected_limit: {
-        is_possible: true,
-        price: 300000,
-      },
-      category: {
-        expense: '식비,쇼핑,생활비,교통비',
-        income: '월급,용돈,이월,적금',
-      },
-      daily_result: 'revenue',
-    },
+    custom: initialCustom,
   }
 
   return set(ref(db, `${uid}/users`), reqData).then(() =>
@@ -155,11 +146,10 @@ export async function getCustom() {
 
   try {
     const snapshot = await get(child(ref(db), `${uid}/users/custom`))
-
     if (snapshot.exists()) {
       return snapshot.val()
     } else {
-      throw new Error('custom이 존재하지 않습니다.')
+      return initialCustom
     }
   } catch (error) {
     console.error(error)

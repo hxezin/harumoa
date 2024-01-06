@@ -9,7 +9,7 @@ import Select from '../common/Select'
 import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
 import Modal from '../common/Modal'
-import { formatSelectOptions } from '../../utils'
+import { deepCopy, formatSelectOptions } from '../../utils'
 import usePatchCustom from '../../hooks/custom/usePatchCustom'
 
 const HeaderContainer = styled.div`
@@ -74,8 +74,8 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   const oneYearLater = dayjs().add(1, 'year').format('YYYY-MM-DD')
 
   useEffect(() => {
-    setNewData(JSON.parse(JSON.stringify(data)))
-    setOriginData(JSON.parse(JSON.stringify(data)))
+    setNewData(deepCopy(data))
+    setOriginData(deepCopy(data))
   }, [data])
 
   const { patchCustom } = usePatchCustom({
@@ -115,7 +115,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   }
 
   function handleCancle() {
-    setNewData(JSON.parse(JSON.stringify(originData)))
+    setNewData(deepCopy(originData))
     handleEditMode()
   }
 
