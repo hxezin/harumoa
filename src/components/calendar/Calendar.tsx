@@ -25,8 +25,7 @@ const HeaderContainer = styled.header`
 `
 
 const LocationButton = styled.button`
-  width: 30px;
-  height: 30px;
+  padding: 0.3rem 0.5rem;
 `
 
 const CalendarContainer = styled.section`
@@ -60,12 +59,19 @@ interface Props {
 }
 
 const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
-  const { data, monthYear, prevMonthLastDate, updateMonthYear, isToday } =
-    useMonthYearContext()
+  const {
+    data,
+    monthYear,
+    prevMonthLastDate,
+    updateMonthYear,
+    isToday,
+    revertToToday,
+  } = useMonthYearContext()
 
   return (
     <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
       <SidebarToggleButton isSidebarOpen={isSidebarOpen} onToggle={onToggle} />
+
       <HeaderContainer>
         <LocationButton onClick={() => updateMonthYear(-1)}>
           {'<'}
@@ -76,6 +82,7 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
         <LocationButton onClick={() => updateMonthYear(1)}>
           {'>'}
         </LocationButton>
+        <LocationButton onClick={revertToToday}>Today</LocationButton>
       </HeaderContainer>
 
       <CalendarContainer>

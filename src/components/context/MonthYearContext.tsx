@@ -18,6 +18,7 @@ interface MonthYearProps {
   updateMonthYear: (monthIncrement: number) => void
   total: TotalPrice
   isToday: (date: string) => boolean
+  revertToToday: () => void
 }
 
 // useMonthYear custom hooks
@@ -53,16 +54,23 @@ function useMonthYear(): MonthYearProps {
     })
   }, [queryClient, monthYear])
 
+  // 이전 달, 다음 달로 이동
   function updateMonthYear(monthIncrement: number): void {
     setMonthYear((prevData) => getNewMonthYear(prevData, monthIncrement))
   }
 
+  // 캘린더에 오늘 날짜 표기
   function isToday(date: string) {
     return (
       monthYear.year === currentDate.format('YYYY') &&
       monthYear.month === currentDate.format('MM') &&
       date === currentDate.format('DD')
     )
+  }
+
+  // 오늘 날짜로 돌아가기
+  function revertToToday() {
+    setMonthYear(() => getMonthYearDetails(currentDate))
   }
 
   return {
@@ -72,6 +80,7 @@ function useMonthYear(): MonthYearProps {
     updateMonthYear,
     total: data.total,
     isToday,
+    revertToToday,
   }
 }
 
