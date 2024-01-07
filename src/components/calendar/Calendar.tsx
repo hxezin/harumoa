@@ -60,7 +60,7 @@ interface Props {
 }
 
 const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
-  const { data, monthYear, prevMonthLastDate, updateMonthYear } =
+  const { data, monthYear, prevMonthLastDate, updateMonthYear, isToday } =
     useMonthYearContext()
 
   return (
@@ -106,6 +106,7 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
                 date={date}
                 detail={detail}
                 isCurrentMonth
+                isToday={isToday(dateIdx)}
               />
             )
           })}

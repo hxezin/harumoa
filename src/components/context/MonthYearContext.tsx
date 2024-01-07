@@ -17,13 +17,17 @@ interface MonthYearProps {
   prevMonthLastDate: number
   updateMonthYear: (monthIncrement: number) => void
   total: TotalPrice
+  isToday: (date: string) => boolean
 }
 
 // useMonthYear custom hooks
 function useMonthYear(): MonthYearProps {
   const { isLoggedIn } = useAuthContext()
   const queryClient = useQueryClient()
-  const currentMonthYear = getMonthYearDetails(dayjs())
+
+  const currentDate = dayjs()
+  const currentMonthYear = getMonthYearDetails(currentDate)
+
   const [monthYear, setMonthYear] = useState(currentMonthYear)
   const prevMonth = getMonthDetails(monthYear.startDate.subtract(1, 'month'))
 
@@ -53,12 +57,21 @@ function useMonthYear(): MonthYearProps {
     setMonthYear((prevData) => getNewMonthYear(prevData, monthIncrement))
   }
 
+  function isToday(date: string) {
+    return (
+      monthYear.year === currentDate.format('YYYY') &&
+      monthYear.month === currentDate.format('MM') &&
+      date === currentDate.format('DD')
+    )
+  }
+
   return {
     data,
     monthYear,
     prevMonthLastDate: prevMonth.lastDate,
     updateMonthYear,
     total: data.total,
+    isToday,
   }
 }
 

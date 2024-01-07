@@ -29,9 +29,18 @@ const ContentContainer = styled.div`
   position: relative;
 `
 
-const Date = styled.div`
+const Date = styled.div<{ $isToday?: boolean }>`
   margin-bottom: 0.5rem;
   text-align: center;
+
+  div {
+    background: ${({ $isToday }) => ($isToday ? '#b2e7e8' : 'transparent')};
+    width: 1rem;
+    height: 1rem;
+    padding: 0.1rem;
+    border-radius: 50%;
+    line-height: 0.9rem;
+  }
 `
 
 const Diary = styled.div`
@@ -106,9 +115,16 @@ interface Props {
   date: number
   detail?: MonthDetail | null
   isCurrentMonth?: boolean
+  isToday?: boolean
 }
 
-const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
+const DateBox = ({
+  selectedDate,
+  date,
+  detail,
+  isCurrentMonth,
+  isToday,
+}: Props) => {
   const navigate = useNavigate()
 
   const { data: custom } = useQuery({
@@ -162,17 +178,15 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
   if (detail) {
     const { diary, account_book } = detail
 
-    // const totalPrice = Object.values(account_book).reduce((acc, cur) => {
-    //   return cur.is_income ? acc + cur.price : acc - cur.price
-    // }, 0)
-
     return (
       <DateBoxContainer
         $isCurrentMonth={isCurrentMonth}
         onClick={handleContainerClick}
       >
         <ContentContainer>
-          <Date>{date}</Date>
+          <Date $isToday={isToday}>
+            <div>{date}</div>
+          </Date>
           <EditButton onClick={handleEditBtnClick}>수정</EditButton>
           <Diary>
             <span>{diary.title}</span>
@@ -198,7 +212,9 @@ const DateBox = ({ selectedDate, date, detail, isCurrentMonth }: Props) => {
   return (
     <DateBoxContainer $isCurrentMonth={isCurrentMonth}>
       <ContentContainer>
-        <Date>{date}</Date>
+        <Date $isToday={isToday}>
+          <div>{date}</div>
+        </Date>
       </ContentContainer>
       {isCurrentMonth && (
         <ButtonContainer>
