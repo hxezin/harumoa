@@ -8,9 +8,9 @@ import { paymentTypeOptions } from '../../constants'
 import Select from '../common/Select'
 import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Modal from '../common/Modal'
-import { formatSelectOptions } from '../../utils'
+import { deepCopy, formatSelectOptions } from '../../utils'
+import usePatchCustom from '../../hooks/custom/usePatchCustom'
 
 const HeaderContainer = styled.div`
   position: relative;
@@ -74,20 +74,17 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   const oneYearLater = dayjs().add(1, 'year').format('YYYY-MM-DD')
 
   useEffect(() => {
-    setNewData(JSON.parse(JSON.stringify(data)))
-    setOriginData(JSON.parse(JSON.stringify(data)))
+    setNewData(deepCopy(data))
+    setOriginData(deepCopy(data))
   }, [data])
 
-  const queryClient = useQueryClient()
-  const { mutate: onSave } = useMutation({
-    mutationFn: () => setFixedExpense(newData, deleteList),
+  const { patchCustom } = usePatchCustom({
+    onMutate: () => setFixedExpense(newData, deleteList),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['custom'],
-      })
       setData(newData)
       handleEditMode()
     },
+    onError: () => setFixedExpense(originData),
   })
 
   function handleAdd() {
@@ -118,7 +115,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   }
 
   function handleCancle() {
-    setNewData(JSON.parse(JSON.stringify(originData)))
+    setNewData(deepCopy(originData))
     handleEditMode()
   }
 
@@ -269,7 +266,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
           <>
             <button onClick={handleCancle}>취소</button>
             <button
-              onClick={() => onSave()}
+              onClick={() => patchCustom()}
               disabled={
                 Object.values(newData).filter((item) => item.price === 0)
                   .length !== 0
