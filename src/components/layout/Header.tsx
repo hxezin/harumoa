@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAuthContext } from '../context/AuthContext'
+import logo from '../../assets/images/logo.png'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -56,7 +57,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderLogoContainer onClick={() => navigate('/')}>
-        Haru Moa
+        <img src={logo} height='40px' />
       </HeaderLogoContainer>
       <HeaderMenuContainer>
         <p>{nickName} 🫡 </p>

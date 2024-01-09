@@ -1,12 +1,19 @@
 import { Outlet } from 'react-router-dom'
 import Header from '../components/layout/Header'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  width: 1440px;
+  height: 100%;
+  margin: auto;
+`
 
 const Root = () => {
   return (
-    <div>
+    <Container>
       <Header />
       <Outlet />
-    </div>
+    </Container>
   )
 }
 
