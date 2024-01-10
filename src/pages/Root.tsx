@@ -3,7 +3,9 @@ import Header from '../components/layout/Header'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  width: 1440px;
+  width: 100%;
+  max-width: 1440px;
+
   height: 100%;
   margin: auto;
 `

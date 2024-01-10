@@ -4,8 +4,7 @@ const fontSize = {
   base: '1rem', //16px
   md: '1.25', //20px
   lg: '1.5rem', //24px
-  xl: '2.25rem', //36px
-  xxl: '2.5rem', //40px
+  xl: '2rem', //32px
 }
 
 const fontWeight = {
