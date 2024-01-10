@@ -25,6 +25,7 @@ const color = {
   gray3: '#333333',
 
   primary: '#85A0E6',
+  secondary: '#EBF1FF',
   error: '#E68585',
 }
 
