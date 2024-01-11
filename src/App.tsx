@@ -15,6 +15,8 @@ import { queryClient } from './api/react-query'
 import GlobalStyle from './assets/css/global'
 import { MonthYearProvider } from './components/context/MonthYearContext'
 import Setting from './pages/Setting'
+import { ThemeProvider } from 'styled-components'
+import theme from './assets/css/theme'
 
 const router = createBrowserRouter([
   {
@@ -38,9 +40,11 @@ const App = () => {
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>
         <MonthYearProvider>
-          <RouterProvider router={router} />
-          <GlobalStyle />
-          <ReactQueryDevtools />
+          <ThemeProvider theme={theme}>
+            <RouterProvider router={router} />
+            <GlobalStyle />
+            <ReactQueryDevtools />
+          </ThemeProvider>
         </MonthYearProvider>
       </QueryClientProvider>
     </AuthContextProvider>
