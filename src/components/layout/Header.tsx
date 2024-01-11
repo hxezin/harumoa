@@ -2,13 +2,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAuthContext } from '../context/AuthContext'
 import logo from '../../assets/images/logo.svg'
+import { Button } from '../common/Button'
+import settingIcon from '../../assets/icons/settingIcon.svg'
 
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  padding: 10px;
+  padding: 0.5rem 1.5rem;
 `
 
 const HeaderLogoContainer = styled.div`
@@ -21,6 +23,7 @@ const HeaderLogoContainer = styled.div`
 
 const HeaderMenuContainer = styled.div`
   display: flex;
+  flex-direction: row;
   column-gap: 10px;
 
   a {
@@ -31,9 +34,23 @@ const HeaderMenuContainer = styled.div`
     }
   }
 
-  p {
+  div {
+    margin: auto;
+    cursor: default;
+  }
+
+  span {
     margin: 0;
-    color: #757575;
+    color: ${({ theme }) => theme.color.gray1};
+    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+  }
+
+  span:nth-of-type(1) {
+    color: ${({ theme }) => theme.color.primary};
+  }
+
+  a {
+    display: flex;
   }
 `
 
@@ -57,12 +74,19 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderLogoContainer onClick={() => navigate('/')}>
-        <img src={logo} height='40px' />
+        <img src={logo} height='35px' />
       </HeaderLogoContainer>
       <HeaderMenuContainer>
-        <p>{nickName} 🫡 </p>
-        <Link to='/setting'>Setting</Link>
-        <button onClick={handleLogout}>Logout</button>
+        <div>
+          <span>{nickName}</span> <span>의 하루 </span>
+        </div>
+        <Button value='로그아웃' onClick={handleLogout} fontSize='sm' />
+
+        <div>
+          <Link to='/setting'>
+            <img src={settingIcon} />
+          </Link>
+        </div>
       </HeaderMenuContainer>
     </HeaderContainer>
   )
