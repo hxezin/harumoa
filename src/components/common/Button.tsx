@@ -10,7 +10,7 @@ const disabledButtonStyle = css`
 `
 
 // 기본 버튼
-const Container = styled.button`
+const Container = styled.button<{ fontSize?: string }>`
   padding: 0.3rem 0.7rem;
   border-radius: 1.43rem;
   border: 1px solid ${({ theme }) => theme.color.gray1};
@@ -19,7 +19,8 @@ const Container = styled.button`
 
   color: ${({ theme }) => theme.color.gray1};
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-  font-size: ${({ theme }) => theme.fontSize.base};
+  font-size: ${({ theme, fontSize }) =>
+    fontSize ? theme.fontSize['fontSize'] : theme.fontSize.base};
 
   ${(props) => props.disabled && disabledButtonStyle};
 `
@@ -28,11 +29,12 @@ interface ButtonProps {
   value: string
   onClick: () => void
   disabled?: boolean
+  fontSize?: string
 }
 
-export const Button = ({ value, onClick, disabled }: ButtonProps) => {
+export const Button = ({ value, onClick, disabled, fontSize }: ButtonProps) => {
   return (
-    <Container onClick={onClick} disabled={disabled}>
+    <Container onClick={onClick} disabled={disabled} fontSize={fontSize}>
       {value}
     </Container>
   )
@@ -46,9 +48,18 @@ const BlueButtonContainer = styled(Container)`
   ${(props) => props.disabled && disabledButtonStyle};
 `
 
-export const BlueButton = ({ value, onClick, disabled }: ButtonProps) => {
+export const BlueButton = ({
+  value,
+  onClick,
+  disabled,
+  fontSize,
+}: ButtonProps) => {
   return (
-    <BlueButtonContainer onClick={onClick} disabled={disabled}>
+    <BlueButtonContainer
+      onClick={onClick}
+      disabled={disabled}
+      fontSize={fontSize}
+    >
       {value}
     </BlueButtonContainer>
   )
@@ -62,9 +73,18 @@ const RedButtonContainer = styled(Container)`
   ${(props) => props.disabled && disabledButtonStyle};
 `
 
-export const RedButton = ({ value, onClick, disabled }: ButtonProps) => {
+export const RedButton = ({
+  value,
+  onClick,
+  disabled,
+  fontSize,
+}: ButtonProps) => {
   return (
-    <RedButtonContainer onClick={onClick} disabled={disabled}>
+    <RedButtonContainer
+      onClick={onClick}
+      disabled={disabled}
+      fontSize={fontSize}
+    >
       {value}
     </RedButtonContainer>
   )
