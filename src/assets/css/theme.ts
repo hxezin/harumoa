@@ -16,7 +16,7 @@ const fontWeight = {
 }
 
 const color = {
-  white: '#FCFCFC', // default, bacgkround
+  white: '#FCFCFC', // default, background
   white2: '#FAFAFA', // sidebar
 
   black: '#030303',

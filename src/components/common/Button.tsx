@@ -5,9 +5,7 @@ interface ButtonContainerProps {
   $fontColor?: string
   $bgColor?: string
   $borderColor?: string
-
   $hoverBgColor?: string
-
   padding?: string
 }
 
@@ -59,7 +57,6 @@ interface ButtonProps {
   fontSize?: string
   fontColor?: string
   bgColor?: string
-
   borderColor?: string
   hoverBgColor?: string
   padding?: string
