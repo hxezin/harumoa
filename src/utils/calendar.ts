@@ -8,6 +8,7 @@ export interface MonthYear {
   lastDate: number
   month: string
   year: string
+  enMonth: string //캘린더에서 영어로 달 출력하기 위함
   calendarStartDate: number | null
   calendarLastDate: number | null
   weeksInMonth: number
@@ -60,6 +61,7 @@ export function getMonthYearDetails(initialDate: Dayjs): MonthYear {
     lastDate,
     month: monthStartDate.format('MM'),
     year: monthStartDate.format('YYYY'),
+    enMonth: monthStartDate.format('MMMM'),
     calendarStartDate,
     calendarLastDate,
     weeksInMonth,
