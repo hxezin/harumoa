@@ -23,8 +23,12 @@ const GlobalStyle = createGlobalStyle`
     color: #000;
   }
 
-  button {
+  button, button:hover {
     cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: default;
   }
 `
 
