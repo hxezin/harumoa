@@ -2,10 +2,22 @@ import styled from 'styled-components'
 import { MonthDetail } from '../../types'
 import { getDateArray } from '../../utils/calendar'
 import DateBox from './DateBox'
-import SidebarToggleButton from '../sidebar/SidebarToggleButton'
 import { useMonthYearContext } from '../context/MonthYearContext'
+import nextArrow from '../../assets/icons/nextArrow.svg'
+import beforeArrow from '../../assets/icons/beforeArrow.svg'
+import sidebarOpen from '../../assets/icons/sidebarOpen.svg'
+import sidebarClose from '../../assets/icons/sidebarClose.svg'
+import { BlueButton } from '../common/Button'
 
-const dayOfTheWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+const dayOfTheWeek = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+]
 
 const Container = styled.section`
   position: relative;
@@ -19,13 +31,45 @@ const Container = styled.section`
 
 const HeaderContainer = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  padding: 0 1.5rem;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+`
+
+const MonthlyContainer = styled.div`
+  div {
+    gap: 0.5rem;
+  }
+
+  span:nth-of-type(1) {
+    color: ${({ theme }) => theme.color.gray1};
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  }
+
+  span:nth-of-type(2) {
+    color: ${({ theme }) => theme.color.black};
+    font-size: ${({ theme }) => theme.fontSize.lg};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  }
 `
 
 const LocationButton = styled.button`
-  padding: 0.3rem 0.5rem;
+  border-radius: 0.15rem;
+  background: #fcfcfc;
+  box-shadow: 1.2px 1.2px 3.6px 0px rgba(97, 97, 97, 0.5);
+  border: none;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const CalendarContainer = styled.section`
@@ -35,13 +79,18 @@ const CalendarContainer = styled.section`
 const DOWHeader = styled.div`
   display: flex;
   margin-bottom: 0.5rem;
+
+  div:nth-of-type(1) {
+    color: ${({ theme }) => theme.color.error};
+  }
 `
 
 const DOWCell = styled.div`
   flex: 1;
   text-align: center;
-  padding: '10px';
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.color.gray1};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `
 
 const DateGrid = styled.div<{ $weeksInMonth: number }>`
@@ -70,19 +119,28 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
 
   return (
     <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
-      <SidebarToggleButton isSidebarOpen={isSidebarOpen} onToggle={onToggle} />
-
       <HeaderContainer>
-        <LocationButton onClick={() => updateMonthYear(-1)}>
-          {'<'}
+        <BlueButton onClick={revertToToday} value='Today' />
+
+        <MonthlyContainer>
+          <LocationButton onClick={() => updateMonthYear(-1)}>
+            <img src={beforeArrow} />
+          </LocationButton>
+
+          <div>
+            <span>{monthYear.year}</span>
+            <span>{monthYear.enMonth.toUpperCase()}</span>
+          </div>
+
+          <LocationButton onClick={() => updateMonthYear(1)}>
+            <img src={nextArrow} />
+          </LocationButton>
+        </MonthlyContainer>
+
+        <LocationButton onClick={onToggle}>
+          {isSidebarOpen && <img src={sidebarClose} />}
+          {!isSidebarOpen && <img src={sidebarOpen} />}
         </LocationButton>
-        <h1>
-          {monthYear.year}년 {monthYear.month}월
-        </h1>
-        <LocationButton onClick={() => updateMonthYear(1)}>
-          {'>'}
-        </LocationButton>
-        <LocationButton onClick={revertToToday}>Today</LocationButton>
       </HeaderContainer>
 
       <CalendarContainer>

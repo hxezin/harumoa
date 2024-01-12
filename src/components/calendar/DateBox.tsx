@@ -4,12 +4,21 @@ import { IAccountBook, MonthDetail } from '../../types'
 import { useNavigate } from 'react-router-dom'
 import { inputNumberWithComma } from '../../utils/accountBook'
 import useCustom from '../../hooks/custom/useCustom'
+import editIcon from '../../assets/icons/editIcon.svg'
+import plusIcon from '../../assets/icons/plusIcon.svg'
 
-const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
-  border-top: 0.1px solid #ccc;
-  border-right: 0.1px solid #ccc;
+const DateBoxContainer = styled.div<{
+  $isCurrentMonth?: boolean
+  $isToday?: boolean
+}>`
+  border-top: 0.1px solid #e4e4e4;
+  border-right: 0.1px solid #e4e4e4;
   padding: 0.5rem;
-  color: ${({ $isCurrentMonth }) => ($isCurrentMonth ? '#000' : '#ccc')};
+
+  background: ${({ theme, $isToday }) =>
+    $isToday ? theme.color.secondary : 'inherit'};
+  color: ${({ $isCurrentMonth, theme }) =>
+    $isCurrentMonth ? theme.color.gray2 : theme.color.gray1};
   font-size: 0.8rem;
   overflow-x: hidden;
   display: flex;
@@ -22,23 +31,34 @@ const DateBoxContainer = styled.div<{ $isCurrentMonth?: boolean }>`
 `
 
 const ContentContainer = styled.div`
-  flex: 1;
   display: flex;
-  flex-direction: column;
   position: relative;
+  align-items: center;
+
+  gap: 0.25rem;
 `
 
 const Date = styled.div<{ $isToday?: boolean }>`
-  margin-bottom: 0.5rem;
   text-align: center;
 
   div {
-    background: ${({ $isToday }) => ($isToday ? '#b2e7e8' : 'transparent')};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ${({ $isToday, theme }) =>
+      $isToday
+        ? `background: ${theme.color.primary}; color: ${theme.color.white}`
+        : `background: transparent; color: inherit`};
+
     width: 1rem;
     height: 1rem;
     padding: 0.1rem;
     border-radius: 50%;
     line-height: 0.9rem;
+
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
   }
 `
 
@@ -46,9 +66,12 @@ const Diary = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.3rem;
-  padding: 0.2rem;
-  background-color: #b2e7e8;
+  border-radius: 0.62rem;
+  padding: 0.1rem 0.3rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  background-color: ${({ theme }) => theme.color.primary};
+  color: ${({ theme }) => theme.color.white};
 
   > span {
     ${ellipsisStyles}
@@ -62,7 +85,9 @@ const AccountBookList = styled.ul`
   margin: 0.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.5rem;
+
+  color: ${({ theme }) => theme.color.gray1};
 `
 
 const AccountBookItem = styled.li`
@@ -78,27 +103,43 @@ const Comment = styled.span`
 const Price = styled.span`
   ${ellipsisStyles}
   text-align: right;
-  // flex: 1;
 `
 
 const TotalPrice = styled.div<{ $totalPrice: number }>`
   ${ellipsisStyles}
-  border-top: 1px solid black;
+  border-top: 1px solid ${({ theme }) => theme.color.gray0};
   margin-top: 0.3rem;
   padding-top: 0.3rem;
-  text-align: right;
-  color: ${({ $totalPrice }) => ($totalPrice > 0 ? 'blue' : 'red')};
+  display: flex;
+  justify-content: space-between;
+
+  span:nth-of-type(1) {
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+  }
+
+  span {
+    color: ${({ $totalPrice, theme }) =>
+      $totalPrice > 0 ? theme.color.primary : theme.color.gray2};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.fontSize.sm};
+  }
 `
 
-const EditButton = styled.button`
+const ActionButton = styled.button`
+  border-radius: 0.15rem;
+  background: #fcfcfc;
+  box-shadow: 1.2px 1.2px 3.6px 0px rgba(97, 97, 97, 0.5);
+  border: none;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   position: absolute;
   right: 0;
   top: 0;
   padding: 0 0.1rem;
-  visibility: hidden;
-`
-
-const AddButton = styled.button`
   visibility: hidden;
 `
 
@@ -177,45 +218,54 @@ const DateBox = ({
       <DateBoxContainer
         $isCurrentMonth={isCurrentMonth}
         onClick={handleContainerClick}
+        $isToday={isToday}
       >
         <ContentContainer>
           <Date $isToday={isToday}>
-            <div>{date}</div>
+            <div>
+              <span>{date}</span>
+            </div>
           </Date>
-          <EditButton onClick={handleEditBtnClick}>수정</EditButton>
           <Diary>
             <span>{diary.title}</span>
           </Diary>
+          <ActionButton onClick={handleEditBtnClick}>
+            <img src={editIcon} />
+          </ActionButton>
         </ContentContainer>
 
         <AccountBookList>
           {Object.entries(account_book).map(([key, account]) => (
             <AccountBookItem key={key}>
-              <Comment>{account.memo}</Comment>
-              <Price>₩ {inputNumberWithComma(account.price)}</Price>
+              <Comment>{account.category}</Comment>
+              <Price>{inputNumberWithComma(account.price)}₩</Price>
             </AccountBookItem>
           ))}
         </AccountBookList>
 
         <TotalPrice $totalPrice={getTotalPrice(account_book)}>
-          ₩ {inputNumberWithComma(getTotalPrice(account_book))}
+          <span> 총 </span>{' '}
+          <span> {inputNumberWithComma(getTotalPrice(account_book))}₩ </span>
         </TotalPrice>
       </DateBoxContainer>
     )
   }
 
   return (
-    <DateBoxContainer $isCurrentMonth={isCurrentMonth}>
+    <DateBoxContainer $isCurrentMonth={isCurrentMonth} $isToday={isToday}>
       <ContentContainer>
         <Date $isToday={isToday}>
           <div>{date}</div>
         </Date>
+
+        {isCurrentMonth && (
+          <ButtonContainer>
+            <ActionButton onClick={handleAddBtnClick}>
+              <img src={plusIcon} />
+            </ActionButton>
+          </ButtonContainer>
+        )}
       </ContentContainer>
-      {isCurrentMonth && (
-        <ButtonContainer>
-          <AddButton onClick={handleAddBtnClick}>+</AddButton>
-        </ButtonContainer>
-      )}
     </DateBoxContainer>
   )
 }
