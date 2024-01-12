@@ -7,7 +7,7 @@ import nextArrow from '../../assets/icons/nextArrow.svg'
 import beforeArrow from '../../assets/icons/beforeArrow.svg'
 import sidebarOpen from '../../assets/icons/sidebarOpen.svg'
 import sidebarClose from '../../assets/icons/sidebarClose.svg'
-import { BlueButton } from '../common/Button'
+import Button from '../common/Button'
 
 const dayOfTheWeek = [
   'Sunday',
@@ -120,7 +120,7 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
   return (
     <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
       <HeaderContainer>
-        <BlueButton onClick={revertToToday} value='Today' />
+        <Button value='오늘' onClick={revertToToday} />
 
         <MonthlyContainer>
           <LocationButton onClick={() => updateMonthYear(-1)}>
