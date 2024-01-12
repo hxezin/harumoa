@@ -2,8 +2,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAuthContext } from '../context/AuthContext'
 import logo from '../../assets/images/logo.svg'
-import { Button } from '../common/Button'
+import Button from '../common/Button'
 import settingIcon from '../../assets/icons/settingIcon.svg'
+import theme from '../../assets/css/theme'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ const HeaderMenuContainer = styled.div`
   }
 
   span:nth-of-type(1) {
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.primary.main};
   }
 
   a {
@@ -80,7 +81,14 @@ const Header = () => {
         <div>
           <span>{nickName}</span> <span>의 하루 </span>
         </div>
-        <Button value='로그아웃' onClick={handleLogout} fontSize='sm' />
+        <Button
+          value='로그아웃'
+          onClick={handleLogout}
+          fontSize={theme.fontSize.xs}
+          fontColor={theme.color.gray1}
+          borderColor={theme.color.gray1}
+          hoverBgColor={theme.color.white2}
+        />
 
         <div>
           <Link to='/setting'>

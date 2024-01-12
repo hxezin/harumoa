@@ -1,28 +1,53 @@
 import styled, { css } from 'styled-components'
 
-// disabled style
-const disabledButtonStyle = css`
-  border: 1px solid ${({ theme }) => theme.color.gray0} !important;
-  color: ${({ theme }) => theme.color.gray0};
-  background: ${({ theme }) => theme.color.white};
-  box-shadow: 0;
-  cursor: not-allowed;
+interface ButtonContainerProps {
+  $fontSize?: string
+  $fontColor?: string
+  $bgColor?: string
+  $borderColor?: string
+  $hoverBgColor?: string
+  padding?: string
+}
+
+const baseButtonStyles = css`
+  border-radius: 1.43rem;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  white-space: nowrap;
+
+  &:disabled {
+    border: 1px solid ${({ theme }) => theme.color.gray0} !important;
+    box-shadow: 1px 1px 3px 0px rgba(228, 228, 228, 0.7);
+  }
 `
 
-// 기본 버튼
-const Container = styled.button<{ fontSize?: string }>`
-  padding: 0.3rem 0.7rem;
-  border-radius: 1.43rem;
-  border: 1px solid ${({ theme }) => theme.color.gray1};
-  background: ${({ theme }) => theme.color.white};
-  box-shadow: 1px 1px 3px 0px rgba(97, 97, 97, 0.5);
+const ButtonContainer = styled.button<ButtonContainerProps>`
+  ${({
+    theme,
+    $fontSize,
+    $fontColor,
+    $bgColor,
+    $borderColor,
+    $hoverBgColor,
+    padding,
+  }) => css`
+    padding: ${padding || '0.3rem 0.7rem'};
+    font-size: ${$fontSize || theme.fontSize.base};
+    color: ${$fontColor || theme.color.primary.main};
+    background-color: ${$bgColor || theme.color.white};
+    border: 1px solid ${$bgColor || $borderColor || theme.color.primary.main};
+    box-shadow: 1px 1px 3px 0px ${$bgColor || theme.color.gray0};
 
-  color: ${({ theme }) => theme.color.gray1};
-  font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-  font-size: ${({ theme, fontSize }) =>
-    fontSize ? theme.fontSize['fontSize'] : theme.fontSize.base};
+    &:hover {
+      background-color: ${$hoverBgColor || theme.color.secondary.main};
+    }
 
-  ${(props) => props.disabled && disabledButtonStyle};
+    &:disabled {
+      background-color: ${$bgColor ? theme.color.gray0 : theme.color.white};
+      color: ${$bgColor ? theme.color.white : theme.color.gray0};
+    }
+  `}
+
+  ${baseButtonStyles};
 `
 
 interface ButtonProps {
@@ -30,62 +55,38 @@ interface ButtonProps {
   onClick: () => void
   disabled?: boolean
   fontSize?: string
+  fontColor?: string
+  bgColor?: string
+  borderColor?: string
+  hoverBgColor?: string
+  padding?: string
 }
 
-export const Button = ({ value, onClick, disabled, fontSize }: ButtonProps) => {
-  return (
-    <Container onClick={onClick} disabled={disabled} fontSize={fontSize}>
-      {value}
-    </Container>
-  )
-}
-
-// 파란색 버튼(e.g. 저장 버튼)
-const BlueButtonContainer = styled(Container)`
-  background-color: ${({ theme }) => theme.color.primary};
-  color: ${({ theme }) => theme.color.white};
-
-  ${(props) => props.disabled && disabledButtonStyle};
-`
-
-export const BlueButton = ({
+const Button = ({
   value,
   onClick,
   disabled,
   fontSize,
+  fontColor,
+  bgColor,
+  borderColor,
+  hoverBgColor,
+  padding,
 }: ButtonProps) => {
   return (
-    <BlueButtonContainer
+    <ButtonContainer
       onClick={onClick}
       disabled={disabled}
-      fontSize={fontSize}
+      $fontSize={fontSize}
+      $fontColor={fontColor}
+      $bgColor={bgColor}
+      $borderColor={borderColor}
+      $hoverBgColor={hoverBgColor}
+      padding={padding}
     >
       {value}
-    </BlueButtonContainer>
+    </ButtonContainer>
   )
 }
 
-// 빨간색 버튼(e.g. 삭제 버튼)
-const RedButtonContainer = styled(Container)`
-  background-color: ${({ theme }) => theme.color.error};
-  color: ${({ theme }) => theme.color.white};
-
-  ${(props) => props.disabled && disabledButtonStyle};
-`
-
-export const RedButton = ({
-  value,
-  onClick,
-  disabled,
-  fontSize,
-}: ButtonProps) => {
-  return (
-    <RedButtonContainer
-      onClick={onClick}
-      disabled={disabled}
-      fontSize={fontSize}
-    >
-      {value}
-    </RedButtonContainer>
-  )
-}
+export default Button
