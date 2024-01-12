@@ -1,6 +1,6 @@
 const fontSize = {
-  xs: '0.68rem', //11px
-  sm: '0.75rem', //12px
+  xs: '0.75rem', //12px
+  sm: '0.87rem', //14px
   base: '1rem', //16px
   md: '1.25', //20px
   lg: '1.5rem', //24px
@@ -16,7 +16,9 @@ const fontWeight = {
 }
 
 const color = {
-  white: '#FAFAFA',
+  white: '#FCFCFC', // default, bacgkround
+  white2: '#FAFAFA', // sidebar
+
   black: '#030303',
 
   gray0: '#E4E4E4',
@@ -24,9 +26,9 @@ const color = {
   gray2: '#616161',
   gray3: '#333333',
 
-  primary: '#85A0E6',
-  secondary: '#EBF1FF',
-  error: '#E68585',
+  primary: { main: '#85A0E6', dark: '#506CB5' },
+  secondary: { main: '#EBF1FF' },
+  red: { main: '#E68585', dark: '#CB5A5A' },
 }
 
 const theme = {
