@@ -16,7 +16,7 @@ const DateBoxContainer = styled.div<{
   padding: 0.5rem;
 
   background: ${({ theme, $isToday }) =>
-    $isToday ? theme.color.secondary : 'inherit'};
+    $isToday ? theme.color.secondary.main : 'inherit'};
   color: ${({ $isCurrentMonth, theme }) =>
     $isCurrentMonth ? theme.color.gray2 : theme.color.gray1};
   font-size: 0.8rem;
@@ -48,7 +48,7 @@ const Date = styled.div<{ $isToday?: boolean }>`
 
     ${({ $isToday, theme }) =>
       $isToday
-        ? `background: ${theme.color.primary}; color: ${theme.color.white}`
+        ? `background: ${theme.color.primary.main}; color: ${theme.color.white}`
         : `background: transparent; color: inherit`};
 
     width: 1rem;
@@ -70,7 +70,7 @@ const Diary = styled.div`
   padding: 0.1rem 0.3rem;
   font-size: ${({ theme }) => theme.fontSize.sm};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
-  background-color: ${({ theme }) => theme.color.primary};
+  background-color: ${({ theme }) => theme.color.primary.main};
   color: ${({ theme }) => theme.color.white};
 
   > span {
@@ -119,7 +119,7 @@ const TotalPrice = styled.div<{ $totalPrice: number }>`
 
   span {
     color: ${({ $totalPrice, theme }) =>
-      $totalPrice > 0 ? theme.color.primary : theme.color.gray2};
+      $totalPrice > 0 ? theme.color.primary.main : theme.color.gray2};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
