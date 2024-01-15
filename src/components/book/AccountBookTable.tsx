@@ -26,9 +26,22 @@ const TableContainer = styled.table`
     padding-right: 0.5rem;
   }
 
+  tr > td:nth-child(2) {
+    position: relative;
+  }
+
   tr > td:nth-last-child(1) {
     padding-right: 0;
   }
+`
+
+const KRWICon = styled.span<{ $viewMode: boolean }>`
+  position: absolute;
+  left: 0.5rem;
+  top: 1.4rem;
+
+  color: ${({ theme, $viewMode }) =>
+    $viewMode ? theme.color.primary.dark : theme.color.gray3};
 `
 
 const DeleteButton = styled(Minus)`
@@ -115,7 +128,9 @@ const AccountBookTable = ({
                     placeholder='금액'
                     textAlign='right'
                     viewMode={viewMode}
+                    padding='0.75rem 0.75rem 0.75rem 1.5rem'
                   />
+                  <KRWICon $viewMode={viewMode}>₩</KRWICon>
                 </td>
                 <td>
                   <Input
