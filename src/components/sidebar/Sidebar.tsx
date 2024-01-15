@@ -7,19 +7,19 @@ import useCustom from '../../hooks/custom/useCustom'
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 300px;
-  background-color: #f6f6f6;
-  padding: 1rem;
-  height: calc(100vh - 70px);
-  overflow-y: auto;
 
-  section {
-    flex: 1;
-    border: 1px solid #c2c2c2;
-    padding: 1rem;
-  }
+  width: 300px;
+  background-color: ${({ theme }) => theme.color.white2};
+
+  height: calc(100vh - 70px);
+`
+
+const Title = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  text-align: center;
+  margin: 0;
+  padding: 1.5rem 1.5rem 0;
 `
 
 const SubContainer = styled.div`
@@ -36,6 +36,7 @@ const Sidebar = () => {
 
   return (
     <Container>
+      <Title>월간 가계부</Title>
       <FixedExpense
         fixedExpense={custom.fixed_expense}
         category={custom.category.expense}
