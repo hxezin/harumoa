@@ -43,7 +43,7 @@ const App = () => {
           <ThemeProvider theme={theme}>
             <RouterProvider router={router} />
             <GlobalStyle />
-            <ReactQueryDevtools />
+            <ReactQueryDevtools buttonPosition='bottom-left' />
           </ThemeProvider>
         </MonthYearProvider>
       </QueryClientProvider>
