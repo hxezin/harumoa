@@ -43,15 +43,6 @@ const Detail = () => {
 
       {isOpen && (
         <Modal onClose={onClose}>
-          {/* <ConfirmContainer>
-            <h3>{date} 글을 삭제하시겠습니까?</h3>
-            <h5>삭제 시 일기와 가계부는 삭제됩니다. </h5>
-
-            <div>
-              <button onClick={onClose}>취소</button>
-              <button onClick={() => updateTotalPrice()}>확인</button>
-            </div>
-          </ConfirmContainer>*/}
           <Confirm
             title={`정말 삭제하시겠습니까?`}
             guidance={`삭제하시면 ${date.replace(
