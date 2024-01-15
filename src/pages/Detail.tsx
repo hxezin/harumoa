@@ -1,20 +1,16 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import {
-  BookContainer,
-  BookContentContainer,
-  BookDataContainer,
-} from '../assets/css/Book'
-import DiaryDetail from '../components/book/DiaryDetail'
-import AccountBookDetail from '../components/book/AccountBookDetail'
+import { useLocation } from 'react-router-dom'
 import { useMonthYearContext } from '../components/context/MonthYearContext'
 import useModal from '../hooks/useModal'
 import Modal from '../components/common/Modal'
 import { ConfirmContainer } from '../assets/css/Confirm'
 import { useSetBook } from '../hooks/book/useSetBook'
 import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
+import BookFooter from '../components/book/BookFooter'
+import Diary from '../components/book/Diary'
+import AccountBook from '../components/book/AccountBook'
+import BookContainer from '../components/book/BookContainer'
 
 const Detail = () => {
-  const navigate = useNavigate()
   const location = useLocation()
 
   const date = location.search.split('=')[1]
@@ -38,30 +34,11 @@ const Detail = () => {
   )
 
   return (
-    <BookContainer>
-      <BookDataContainer>
-        <h2>{date}</h2>
-        <div>
-          <button
-            onClick={() =>
-              navigate(`/edit?date=${date}`, {
-                state: location.state,
-              })
-            }
-          >
-            수정
-          </button>
-
-          <button onClick={onOpen} style={{ background: '#ff0000' }}>
-            삭제
-          </button>
-        </div>
-      </BookDataContainer>
-
-      <BookContentContainer>
-        <DiaryDetail diaryData={diaryData} />
-        <AccountBookDetail accountBookData={accountBookData} />
-      </BookContentContainer>
+    <>
+      <BookContainer date={date}>
+        <Diary diaryData={diaryData} viewMode={true} />
+        <AccountBook accountBookData={accountBookData} viewMode={true} />
+      </BookContainer>
 
       {isOpen && (
         <Modal onClose={onClose}>
@@ -76,7 +53,9 @@ const Detail = () => {
           </ConfirmContainer>
         </Modal>
       )}
-    </BookContainer>
+
+      <BookFooter date={date} isEditMode={false} onDelete={onOpen} />
+    </>
   )
 }
 
