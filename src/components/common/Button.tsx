@@ -1,68 +1,8 @@
-import styled, { css } from 'styled-components'
+import theme from '../../assets/css/theme'
+import * as S from './Button.styled'
 
-interface ButtonContainerProps {
-  $fontSize?: string
-  $fontColor?: string
-  $bgColor?: string
-  $borderColor?: string
-  $hoverBgColor?: string
-  padding?: string
-}
-
-const baseButtonStyles = css`
-  border-radius: 1.43rem;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  white-space: nowrap;
-
-  &:disabled {
-    border: 1px solid ${({ theme }) => theme.color.gray0} !important;
-    box-shadow: 1px 1px 3px 0px rgba(228, 228, 228, 0.7);
-  }
-`
-
-const ButtonContainer = styled.button<ButtonContainerProps>`
-  ${({
-    theme,
-    $fontSize,
-    $fontColor,
-    $bgColor,
-    $borderColor,
-    $hoverBgColor,
-    padding,
-  }) => css`
-    padding: ${padding || '0.3rem 0.7rem'};
-    font-size: ${$fontSize || theme.fontSize.base};
-    color: ${$fontColor || theme.color.primary.main};
-    background-color: ${$bgColor || theme.color.white};
-    border: 1px solid ${$bgColor || $borderColor || theme.color.primary.main};
-    box-shadow: 1px 1px 3px 0px ${$bgColor || theme.color.gray0};
-
-    &:hover {
-      background-color: ${$hoverBgColor || theme.color.secondary.main};
-    }
-
-    &:disabled {
-      background-color: ${$bgColor ? theme.color.gray0 : theme.color.white};
-      color: ${$bgColor ? theme.color.white : theme.color.gray0};
-    }
-  `}
-
-  ${baseButtonStyles};
-`
-
-interface ButtonProps {
-  value: string
-  onClick: () => void
-  disabled?: boolean
-  fontSize?: string
-  fontColor?: string
-  bgColor?: string
-  borderColor?: string
-  hoverBgColor?: string
-  padding?: string
-}
-
-const Button = ({
+// 기본 회색 버튼
+export const Button = ({
   value,
   onClick,
   disabled,
@@ -72,9 +12,9 @@ const Button = ({
   borderColor,
   hoverBgColor,
   padding,
-}: ButtonProps) => {
+}: StyledButtonProps) => {
   return (
-    <ButtonContainer
+    <S.ButtonContainer
       onClick={onClick}
       disabled={disabled}
       $fontSize={fontSize}
@@ -82,11 +22,112 @@ const Button = ({
       $bgColor={bgColor}
       $borderColor={borderColor}
       $hoverBgColor={hoverBgColor}
-      padding={padding}
+      $padding={padding}
     >
       {value}
-    </ButtonContainer>
+    </S.ButtonContainer>
   )
 }
 
-export default Button
+// 파란색 버튼 (e.g. 저장 버튼)
+export const BlueButton = ({
+  value,
+  onClick,
+  disabled,
+  padding,
+  fontSize,
+}: ButtonProps) => {
+  return (
+    <Button
+      value={value}
+      onClick={onClick}
+      disabled={disabled}
+      padding={padding}
+      fontSize={fontSize}
+      bgColor={theme.color.primary.main}
+      hoverBgColor={theme.color.primary.dark}
+    />
+  )
+}
+
+// 빨간색 버튼 (e.g. 삭제 버튼)
+export const RedButton = ({
+  value,
+  onClick,
+  disabled,
+  padding,
+  fontSize,
+}: ButtonProps) => {
+  return (
+    <Button
+      value={value}
+      onClick={onClick}
+      disabled={disabled}
+      padding={padding}
+      fontSize={fontSize}
+      bgColor={theme.color.red.main}
+      hoverBgColor={theme.color.red.dark}
+    />
+  )
+}
+
+// 회색 테두리 버튼 (e.g. 로그아웃 버튼, 관리 버튼)
+export const GrayBorderButton = ({
+  value,
+  onClick,
+  disabled,
+  padding,
+  fontSize,
+}: ButtonProps) => {
+  return (
+    <Button
+      value={value}
+      onClick={onClick}
+      disabled={disabled}
+      padding={padding}
+      fontSize={fontSize}
+      fontColor={theme.color.gray1}
+      borderColor={theme.color.gray1}
+      bgColor={theme.color.white}
+      hoverBgColor={theme.color.white2}
+    />
+  )
+}
+
+// 파란색 테두리 버튼 (e.g. 오늘 버튼)
+export const BlueBorderButton = ({
+  value,
+  onClick,
+  disabled,
+  padding,
+  fontSize,
+}: ButtonProps) => {
+  return (
+    <Button
+      value={value}
+      onClick={onClick}
+      disabled={disabled}
+      padding={padding}
+      fontSize={fontSize}
+      fontColor={theme.color.primary.main}
+      borderColor={theme.color.primary.main}
+      bgColor={theme.color.white}
+      hoverBgColor={theme.color.secondary.main}
+    />
+  )
+}
+
+interface ButtonProps {
+  value: string
+  onClick: () => void
+  disabled?: boolean
+  padding?: string
+  fontSize?: string
+}
+
+interface StyledButtonProps extends ButtonProps {
+  fontColor?: string
+  bgColor?: string
+  borderColor?: string
+  hoverBgColor?: string
+}

@@ -2,9 +2,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAuthContext } from '../context/AuthContext'
 import logo from '../../assets/images/logo.svg'
-import Button from '../common/Button'
 import settingIcon from '../../assets/icons/settingIcon.svg'
 import theme from '../../assets/css/theme'
+import { GrayBorderButton } from '../common/Button'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -81,13 +81,12 @@ const Header = () => {
         <div>
           <span>{nickName}</span> <span>의 하루 </span>
         </div>
-        <Button
+
+        <GrayBorderButton
           value='로그아웃'
           onClick={handleLogout}
           fontSize={theme.fontSize.xs}
-          fontColor={theme.color.gray1}
-          borderColor={theme.color.gray1}
-          hoverBgColor={theme.color.white2}
+          padding='0.25rem 0.38rem'
         />
 
         <div>
