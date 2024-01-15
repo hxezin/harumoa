@@ -8,7 +8,7 @@ import { useSetBook } from '../hooks/book/useSetBook'
 import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
 import { calcTotalPrice } from '../utils/accountBook'
 import BookFooter from '../components/book/BookFooter'
-import BookContainer from '../components/book/BookContainer'
+import Template from '../components/common/Template'
 
 const Write = () => {
   const location = useLocation()
@@ -57,8 +57,8 @@ const Write = () => {
 
   return (
     <>
-      <BookContainer
-        date={date}
+      <Template
+        title={`${date.replace(/-/g, '.')}.`}
         guidance='오늘의 하루와 지출 내역을 기록해보세요!'
       >
         <Diary diaryData={diaryData} setDiary={setDiaryData} viewMode={false} />
@@ -67,7 +67,7 @@ const Write = () => {
           setAccountBook={setAccountBookData}
           viewMode={false}
         />
-      </BookContainer>
+      </Template>
 
       <BookFooter
         date={date}

@@ -7,9 +7,9 @@ import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
 import BookFooter from '../components/book/BookFooter'
 import Diary from '../components/book/Diary'
 import AccountBook from '../components/book/AccountBook'
-import BookContainer from '../components/book/BookContainer'
 import Confirm from '../components/common/Confirm'
 import { Button, RedButton } from '../components/common/Button'
+import Template from '../components/common/Template'
 
 const Detail = () => {
   const location = useLocation()
@@ -36,10 +36,10 @@ const Detail = () => {
 
   return (
     <>
-      <BookContainer date={date}>
+      <Template title={`${date.replace(/-/g, '.')}.`}>
         <Diary diaryData={diaryData} viewMode={true} />
         <AccountBook accountBookData={accountBookData} viewMode={true} />
-      </BookContainer>
+      </Template>
 
       {isOpen && (
         <Modal onClose={onClose}>
