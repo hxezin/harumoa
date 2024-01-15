@@ -60,3 +60,9 @@ export interface Custom {
 
   expected_limit: IExpectedLimit
 }
+
+// dropdown options
+export interface Options {
+  label: string
+  value: string
+}

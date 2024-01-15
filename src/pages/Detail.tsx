@@ -1,20 +1,17 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import {
-  BookContainer,
-  BookContentContainer,
-  BookDataContainer,
-} from '../assets/css/Book'
-import DiaryDetail from '../components/book/DiaryDetail'
-import AccountBookDetail from '../components/book/AccountBookDetail'
+import { useLocation } from 'react-router-dom'
 import { useMonthYearContext } from '../components/context/MonthYearContext'
 import useModal from '../hooks/useModal'
 import Modal from '../components/common/Modal'
-import { ConfirmContainer } from '../assets/css/Confirm'
 import { useSetBook } from '../hooks/book/useSetBook'
 import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
+import BookFooter from '../components/book/BookFooter'
+import Diary from '../components/book/Diary'
+import AccountBook from '../components/book/AccountBook'
+import Confirm from '../components/common/Confirm'
+import { Button, RedButton } from '../components/common/Button'
+import Template from '../components/common/Template'
 
 const Detail = () => {
-  const navigate = useNavigate()
   const location = useLocation()
 
   const date = location.search.split('=')[1]
@@ -38,45 +35,35 @@ const Detail = () => {
   )
 
   return (
-    <BookContainer>
-      <BookDataContainer>
-        <h2>{date}</h2>
-        <div>
-          <button
-            onClick={() =>
-              navigate(`/edit?date=${date}`, {
-                state: location.state,
-              })
-            }
-          >
-            수정
-          </button>
-
-          <button onClick={onOpen} style={{ background: '#ff0000' }}>
-            삭제
-          </button>
-        </div>
-      </BookDataContainer>
-
-      <BookContentContainer>
-        <DiaryDetail diaryData={diaryData} />
-        <AccountBookDetail accountBookData={accountBookData} />
-      </BookContentContainer>
+    <>
+      <Template title={`${date.replace(/-/g, '.')}.`}>
+        <Diary diaryData={diaryData} viewMode={true} />
+        <AccountBook accountBookData={accountBookData} viewMode={true} />
+      </Template>
 
       {isOpen && (
         <Modal onClose={onClose}>
-          <ConfirmContainer>
-            <h3>{date} 글을 삭제하시겠습니까?</h3>
-            <h5>삭제 시 일기와 가계부는 삭제됩니다. </h5>
-
-            <div>
-              <button onClick={onClose}>취소</button>
-              <button onClick={() => updateTotalPrice()}>확인</button>
-            </div>
-          </ConfirmContainer>
+          <Confirm
+            title={`정말 삭제하시겠습니까?`}
+            guidance={`삭제하시면 ${date.replace(
+              /-/g,
+              '.'
+            )}. 일기와 가계부를 복구할 수 없습니다.`}
+            buttons={
+              <>
+                <Button onClick={onClose} value='취소하기' />
+                <RedButton
+                  onClick={() => updateTotalPrice()}
+                  value='삭제하기'
+                />
+              </>
+            }
+          />
         </Modal>
       )}
-    </BookContainer>
+
+      <BookFooter date={date} isEditMode={false} onDelete={onOpen} />
+    </>
   )
 }
 

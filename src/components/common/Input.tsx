@@ -8,9 +8,12 @@ import {
 const InputContainer = styled.input<{
   $viewMode: boolean
   $textAlign: TextAlign
+  $padding?: string
 }>`
   ${({ $textAlign }) => formFieldStyles($textAlign)}
   ${({ theme, $viewMode }) => formFieldViewModeStyles(theme, $viewMode)}
+
+  padding: ${({ $padding }) => $padding || '0.75rem'};
 `
 
 interface InputProps {
@@ -21,6 +24,7 @@ interface InputProps {
   disabled?: boolean
   viewMode?: boolean
   textAlign?: TextAlign
+  padding?: string
 }
 
 const Input = ({
@@ -31,6 +35,7 @@ const Input = ({
   disabled,
   viewMode = false,
   textAlign = 'left',
+  padding,
 }: InputProps) => {
   return (
     <InputContainer
@@ -41,6 +46,7 @@ const Input = ({
       disabled={viewMode || disabled}
       $viewMode={viewMode}
       $textAlign={textAlign}
+      $padding={padding}
     />
   )
 }

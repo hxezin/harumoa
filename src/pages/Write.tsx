@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react'
 import { IDiary, IAccountBook } from '../types'
-import AccountBookWrite from '../components/book/AccountBookWrite'
-import DiaryWrite from '../components/book/DiaryWrite'
-import { useLocation, useNavigate } from 'react-router-dom'
-import {
-  BookContainer,
-  BookContentContainer,
-  BookDataContainer,
-} from '../assets/css/Book'
+import AccountBook from '../components/book/AccountBook'
+import Diary from '../components/book/Diary'
+import { useLocation } from 'react-router-dom'
 import { useMonthYearContext } from '../components/context/MonthYearContext'
 import { useSetBook } from '../hooks/book/useSetBook'
 import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
 import { calcTotalPrice } from '../utils/accountBook'
+import BookFooter from '../components/book/BookFooter'
+import Template from '../components/common/Template'
 
 const Write = () => {
   const location = useLocation()
-  const navigate = useNavigate()
 
   const date = location.search.split('=')[1]
 
@@ -60,41 +56,29 @@ const Write = () => {
   }, [])
 
   return (
-    <BookContainer>
-      <BookDataContainer>
-        <h2>{date}</h2>
-
-        <div>
-          <button
-            onClick={() => {
-              navigate(-1)
-            }}
-          >
-            취소
-          </button>
-
-          <button
-            onClick={() => updateTotalPrice()}
-            disabled={
-              diaryData.title === '' ||
-              Object.values(accountBookData).filter((item) => item.price === 0)
-                .length !== 0 ||
-              Object.keys(accountBookData).length === 0
-            }
-          >
-            저장
-          </button>
-        </div>
-      </BookDataContainer>
-
-      <BookContentContainer>
-        <DiaryWrite diaryData={diaryData} setDiary={setDiaryData} />
-        <AccountBookWrite
+    <>
+      <Template
+        title={`${date.replace(/-/g, '.')}.`}
+        guidance='오늘의 하루와 지출 내역을 기록해보세요!'
+      >
+        <Diary diaryData={diaryData} setDiary={setDiaryData} viewMode={false} />
+        <AccountBook
           accountBookData={accountBookData}
           setAccountBook={setAccountBookData}
+          viewMode={false}
         />
-      </BookContentContainer>
-    </BookContainer>
+      </Template>
+
+      <BookFooter
+        date={date}
+        isEditMode={true}
+        onSave={() => updateTotalPrice()}
+        disabled={
+          Object.values(accountBookData).filter((item) => item.price === 0)
+            .length !== 0 || Object.keys(accountBookData).length === 0
+        }
+      />
+    </>
   )
 }
 
