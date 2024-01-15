@@ -7,10 +7,11 @@ interface ButtonContainerProps {
   $borderColor?: string
   $hoverBgColor?: string
   $padding?: string
+  $width?: string
+  $borderRadius?: string
 }
 
 const baseButtonStyles = css`
-  border-radius: 1.43rem;
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   white-space: nowrap;
 
@@ -29,12 +30,16 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     $borderColor,
     $hoverBgColor,
     $padding,
+    $width,
+    $borderRadius,
   }) => css`
     padding: ${$padding || '0.5rem 0.75rem'};
     font-size: ${$fontSize || theme.fontSize.base};
     color: ${$fontColor || theme.color.white};
     background-color: ${$bgColor || theme.color.gray1};
     border: 1px solid ${$borderColor || $bgColor || theme.color.gray1};
+    width: ${$width || 'auto'};
+    border-radius: ${$borderRadius || '1.43rem'};
 
     &:hover {
       background-color: ${$hoverBgColor || theme.color.gray2};

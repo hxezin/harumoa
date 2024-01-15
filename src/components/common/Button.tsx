@@ -1,3 +1,4 @@
+import React from 'react'
 import theme from '../../assets/css/theme'
 import * as S from './Button.styled'
 
@@ -12,6 +13,8 @@ export const Button = ({
   borderColor,
   hoverBgColor,
   padding,
+  width,
+  borderRadius,
 }: StyledButtonProps) => {
   return (
     <S.ButtonContainer
@@ -23,6 +26,8 @@ export const Button = ({
       $borderColor={borderColor}
       $hoverBgColor={hoverBgColor}
       $padding={padding}
+      $width={width}
+      $borderRadius={borderRadius}
     >
       {value}
     </S.ButtonContainer>
@@ -78,6 +83,8 @@ export const GrayBorderButton = ({
   disabled,
   padding,
   fontSize,
+  width,
+  borderRadius,
 }: ButtonProps) => {
   return (
     <Button
@@ -90,6 +97,8 @@ export const GrayBorderButton = ({
       borderColor={theme.color.gray1}
       bgColor={theme.color.white}
       hoverBgColor={theme.color.white2}
+      width={width}
+      borderRadius={borderRadius}
     />
   )
 }
@@ -117,12 +126,15 @@ export const BlueBorderButton = ({
   )
 }
 
+// 버튼 커스텀 시 필요한 props 추가
 interface ButtonProps {
-  value: string
+  value: string | React.ReactNode
   onClick: () => void
   disabled?: boolean
   padding?: string
   fontSize?: string
+  width?: string
+  borderRadius?: string
 }
 
 interface StyledButtonProps extends ButtonProps {
