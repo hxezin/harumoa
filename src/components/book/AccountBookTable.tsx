@@ -37,7 +37,7 @@ const TableContainer = styled.table`
 
 const KRWICon = styled.span<{ $viewMode: boolean }>`
   position: absolute;
-  left: 0.5rem;
+  left: 1rem;
   top: 1.4rem;
 
   color: ${({ theme, $viewMode }) =>
@@ -79,9 +79,9 @@ const AccountBookTable = ({
     <TableContainer>
       <thead>
         <tr>
-          <td width='20%'>카테고리</td>
-          <td width='20%'>금액</td>
-          <td width='60%'>메모</td>
+          <td width='25%'>카테고리</td>
+          <td width='25%'>금액</td>
+          <td width='50%'>메모</td>
           {!viewMode && <td></td>}
         </tr>
       </thead>
@@ -128,7 +128,7 @@ const AccountBookTable = ({
                     placeholder='금액'
                     textAlign='right'
                     viewMode={viewMode}
-                    padding='0.75rem 0.75rem 0.75rem 1.5rem'
+                    padding='0.75rem 0.75rem 0.75rem 2rem'
                   />
                   <KRWICon $viewMode={viewMode}>₩</KRWICon>
                 </td>
