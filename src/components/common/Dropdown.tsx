@@ -49,8 +49,9 @@ const ChevronIcon = styled.div<{ disabled: boolean }>`
 
 const DropdownList = styled.ul`
   position: absolute;
-  top: 100%;
+  top: 90%;
   left: 0;
+  z-index: 1;
 
   box-sizing: border-box;
   padding: 0;
