@@ -77,24 +77,26 @@ const Header = () => {
       <HeaderLogoContainer onClick={() => navigate('/')}>
         <img src={logo} height='35px' />
       </HeaderLogoContainer>
-      <HeaderMenuContainer>
-        <div>
-          <span>{nickName}</span> <span>의 하루 </span>
-        </div>
+      {nickName && (
+        <HeaderMenuContainer>
+          <div>
+            <span>{nickName}</span> <span>의 하루 </span>
+          </div>
 
-        <GrayBorderButton
-          value='로그아웃'
-          onClick={handleLogout}
-          fontSize={theme.fontSize.xs}
-          padding='0.25rem 0.38rem'
-        />
+          <GrayBorderButton
+            value='로그아웃'
+            onClick={handleLogout}
+            fontSize={theme.fontSize.xs}
+            padding='0.25rem 0.38rem'
+          />
 
-        <div>
-          <Link to='/setting'>
-            <img src={settingIcon} />
-          </Link>
-        </div>
-      </HeaderMenuContainer>
+          <div>
+            <Link to='/setting'>
+              <img src={settingIcon} />
+            </Link>
+          </div>
+        </HeaderMenuContainer>
+      )}
     </HeaderContainer>
   )
 }
