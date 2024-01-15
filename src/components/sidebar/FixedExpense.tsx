@@ -8,49 +8,92 @@ import { inputNumberWithComma } from '../../utils/accountBook'
 import { filterFixedExpense } from '../../utils/calendar'
 import { useMonthYearContext } from '../context/MonthYearContext'
 import FixedExpenseModal from './FixedExpenseModal'
-import SidebarTitle from './SidebarTitle'
-
-const ManagementButton = styled.button`
-  height: 20px;
-`
+import { GrayBorderButton } from '../common/Button'
+import * as S from './Sidebar.styled'
 
 const Table = styled.table`
   width: 100%;
-  padding: 0.5rem;
+
+  border-spacing: 0;
+  text-align: center;
+  border-collapse: collapse;
+
+  thead,
+  tbody {
+    display: block;
+  }
 
   thead {
-    padding-bottom: 0.5rem;
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+    color: ${({ theme }) => theme.color.gray3};
   }
 
   tbody {
-    display: block;
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: auto;
+
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    color: ${({ theme }) => theme.color.gray2};
   }
 
-  thead,
-  tbody tr {
-    display: table;
-    width: 100%;
+  tr {
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray1};
+  }
+
+  th {
+    padding: 0.5rem;
   }
 
   td {
-    width: 20%;
     text-align: center;
     ${ellipsisStyles}
+    padding: 0.5rem;
+
+    border-left: 1px solid ${({ theme }) => theme.color.gray1};
   }
 
-  tr > td:first-child {
-    width: 25%;
+  td:first-child {
+    border-left: none;
   }
 
-  tr > td:last-child {
-    width: 5%;
+  th:first-child,
+  td:first-child {
+    width: 40px;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 100px;
+  }
+
+  th:last-child,
+  td:last-child {
+    width: 80px;
   }
 `
 
 const TableRow = styled.tr<{ $isPastDate: boolean }>`
   color: ${({ $isPastDate }) => ($isPastDate ? 'gray' : 'black')};
+`
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px;
+`
+
+const FixedTotalContainer = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.color.black};
+  padding: 0.5rem;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.semiBold};
 `
 
 interface Props {
@@ -74,47 +117,70 @@ const FixedExpense = ({ fixedExpense, category }: Props) => {
     setData(filteredData)
   }, [fixedExpense, monthYear.month, monthYear.year])
 
+  const getTotalFixedPrice = (data: IFixedExpense) => {
+    let totalFixedPrice = 0
+
+    totalFixedPrice = Object.values(data).reduce((acc, cur) => {
+      return acc + cur.price
+    }, 0)
+
+    return totalFixedPrice
+  }
+
   return (
-    <section>
-      <SidebarTitle title='고정 지출'>
-        <ManagementButton onClick={onOpen}>관리</ManagementButton>
-      </SidebarTitle>
-      {Object.keys(data).length !== 0 && (
+    <S.Container>
+      <S.TitleContainer>
+        <span>고정 지출</span>
+        <GrayBorderButton
+          onClick={onOpen}
+          value='관리'
+          padding='0.25rem 0.375rem'
+          fontSize='xs'
+        />
+      </S.TitleContainer>
+
+      <ContentContainer>
         <Table>
           <thead>
             <tr>
-              <th>날짜</th>
-              <th>내용</th>
+              <th>지출일</th>
               <th>금액</th>
-              <th></th>
+              <th>메모</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(data)
-              .sort(
-                (a, b) =>
-                  // 고정 지출 일자 오름차순 정렬
-                  parseInt(a[1].payment_day) - parseInt(b[1].payment_day)
-              )
-              .map(([key, value]) => {
-                const currentDate = dayjs()
-                const targetDate = dayjs(
-                  `${monthYear.year}-${monthYear.month}-${value.payment_day}`
+            {Object.keys(data).length !== 0 &&
+              Object.entries(data)
+                .sort(
+                  (a, b) =>
+                    // 고정 지출 일자 오름차순 정렬
+                    parseInt(a[1].payment_day) - parseInt(b[1].payment_day)
                 )
-                // target 날짜가 지났는지 여부
-                const isPastDate = currentDate.isAfter(targetDate)
-                return (
-                  <TableRow key={key} $isPastDate={isPastDate}>
-                    <td>{targetDate.format('YYYY-MM-DD')}</td>
-                    <td>{value.memo}</td>
-                    <td>{inputNumberWithComma(value.price)}</td>
-                    <td>{value.payment_type === 'card' ? '💳' : '💵'}</td>
-                  </TableRow>
-                )
-              })}
+                .map(([key, value]) => {
+                  const currentDate = dayjs()
+                  const targetDate = dayjs(
+                    `${monthYear.year}-${monthYear.month}-${value.payment_day}`
+                  )
+                  // target 날짜가 지났는지 여부
+                  const isPastDate = currentDate.isAfter(targetDate)
+                  return (
+                    <TableRow key={key} $isPastDate={isPastDate}>
+                      <td>{targetDate.format('DD')}일</td>
+                      <td>{inputNumberWithComma(value.price)}₩</td>
+
+                      <td>{value.memo}</td>
+                    </TableRow>
+                  )
+                })}
           </tbody>
         </Table>
-      )}
+
+        <FixedTotalContainer>
+          <span> TOTAL</span>
+          <span>{inputNumberWithComma(getTotalFixedPrice(data))}₩</span>
+        </FixedTotalContainer>
+      </ContentContainer>
+
       {isOpen && (
         <FixedExpenseModal
           data={data}
@@ -123,7 +189,7 @@ const FixedExpense = ({ fixedExpense, category }: Props) => {
           onClose={onClose}
         />
       )}
-    </section>
+    </S.Container>
   )
 }
 

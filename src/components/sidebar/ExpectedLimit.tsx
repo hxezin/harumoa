@@ -2,27 +2,48 @@ import styled from 'styled-components'
 import { IExpectedLimit } from '../../types'
 import { inputNumberWithComma } from '../../utils/accountBook'
 import { useMonthYearContext } from '../context/MonthYearContext'
-import SidebarTitle from './SidebarTitle'
+import * as S from './Sidebar.styled'
 
-const Indicator = styled.div<{ $isExcess: boolean }>`
-  text-align: right;
-  margin-bottom: 0.5rem;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`
 
-  > span {
-    color: ${({ $isExcess }) => ($isExcess ? 'red' : 'blue')};
+const IndicatorContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    color: ${({ theme }) => theme.color.gray1};
+    font-size: ${({ theme }) => theme.fontSize.xs};
   }
 `
 
+const IndicatorSpan = styled.span<{ $isExcess?: boolean }>`
+  ${({ theme, $isExcess }) =>
+    $isExcess
+      ? `color: ${theme.color.primary.main}; font-size: ${theme.fontSize.base}; font-weight: ${theme.fontWeight.bold};`
+      : `font-weight: ${theme.fontWeight.bold};`};
+`
+
 const Percentage = styled.div`
-  width: 100%;
   height: 1rem;
-  background-color: black;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.color.gray0};
+
+  padding: 4px;
 `
 
 const Fill = styled.div<{ width: string; $isExcess: boolean }>`
   height: 100%;
+  border-radius: 10px;
   width: ${(props) => props.width};
-  background-color: ${({ $isExcess }) => ($isExcess ? 'red' : '#b2e7e8')};
+  background-color: ${({ $isExcess, theme }) =>
+    $isExcess ? theme.color.red.main : theme.color.primary.main};
 `
 
 interface Props {
@@ -32,7 +53,6 @@ interface Props {
 const ExpectedLimit = ({ expectedLimit }: Props) => {
   const { total } = useMonthYearContext()
   const { is_possible: isPossible, price } = expectedLimit
-  const incomePrice = total?.income_price || 0
   const expensePrice = total?.expense_price || 0
 
   const percentage = Math.round((expensePrice / price) * 100)
@@ -40,16 +60,30 @@ const ExpectedLimit = ({ expectedLimit }: Props) => {
   const percentageWidth = isExcess ? 100 : percentage
 
   return isPossible ? (
-    <section>
-      <SidebarTitle title='예상 지출 한도' />
-      <Indicator $isExcess={isExcess}>
-        <span>{inputNumberWithComma(expensePrice)}</span> /{' '}
-        {inputNumberWithComma(price)}
-      </Indicator>
-      <Percentage>
-        <Fill width={`${percentageWidth}%`} $isExcess={isExcess}></Fill>
-      </Percentage>
-    </section>
+    <S.Container>
+      <S.TitleContainer>
+        <span>월별 예상 지출</span>
+      </S.TitleContainer>
+
+      <ContentContainer>
+        <IndicatorContainer>
+          <div>
+            <IndicatorSpan $isExcess>
+              {inputNumberWithComma(expensePrice)}원
+            </IndicatorSpan>
+            실제 사용량
+          </div>
+          <div>
+            <IndicatorSpan>{inputNumberWithComma(price)}원</IndicatorSpan>
+            월별 예상 지출
+          </div>
+        </IndicatorContainer>
+
+        <Percentage>
+          <Fill width={`${percentageWidth}%`} $isExcess={isExcess}></Fill>
+        </Percentage>
+      </ContentContainer>
+    </S.Container>
   ) : null
 }
 
