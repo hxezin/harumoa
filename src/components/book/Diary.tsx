@@ -25,7 +25,7 @@ const Diary = ({ setDiary, diaryData, viewMode }: DiaryProps) => {
         />
       </SectionItem>
 
-      <SectionItem title='상세 내용'>
+      <SectionItem title='상세 내용' justifyContent='flex-start'>
         <Textarea
           onChange={(e) => {
             setDiary && setDiary({ ...diaryData, content: e.target.value })

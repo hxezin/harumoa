@@ -40,7 +40,7 @@ const Input = ({
   return (
     <InputContainer
       type={type}
-      placeholder={viewMode ? '' : placeholder}
+      placeholder={viewMode || disabled ? '' : placeholder}
       value={value}
       onChange={onChange}
       disabled={viewMode || disabled}
