@@ -5,7 +5,7 @@ const Container = styled.div<{
   height?: string
   $fontSize?: string
 }>`
-  width: ${({ width }) => width || '100vw'};
+  width: ${({ width }) => width || '100%'};
   height: ${({ height }) =>
     height || 'calc(100vh - 55.5px)'}; // header height 변경 시 변경 필요
 
