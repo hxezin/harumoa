@@ -12,7 +12,7 @@ const usePatchCustom = ({
   onSuccess,
   onError,
 }: usePatchCustomProps) => {
-  const { mutate: patchCustom } = useMutation({
+  const { mutate: patchCustom, isPending } = useMutation({
     mutationFn: onMutate,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -23,7 +23,7 @@ const usePatchCustom = ({
     onError: onError,
   })
 
-  return { patchCustom }
+  return { patchCustom, isPending }
 }
 
 export default usePatchCustom

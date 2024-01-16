@@ -1,10 +1,6 @@
 import { UserOut, localStorageSetting, setCustom } from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
-import ExpectedLimit from '../components/custom/ExpectedLimit'
-import DailyResult from '../components/custom/DailyResult'
-import CustomCategory from '../components/custom/CustomCategory'
-import styled from 'styled-components'
 import Modal from '../components/common/Modal'
 import useModal from '../hooks/useModal'
 import { useNavigate } from 'react-router-dom'
@@ -17,29 +13,8 @@ import LoadingSpinner from '../components/common/LoadingSpinner'
 import Template from '../components/common/Template'
 import Confirm from '../components/common/Confirm'
 import { Button, RedButton } from '../components/common/Button'
-
-const SettingContainer = styled.div`
-  width: 65%;
-  margin: 3rem auto 8rem;
-`
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 0;
-
-  div > h2 {
-    margin: 0;
-    margin-bottom: 5px;
-  }
-`
-
-const CustomContainer = styled.div`
-  section {
-    margin-bottom: 2rem;
-  }
-`
+import SidebarSetting from '../components/custom/SidebarSetting'
+import DailySetting from '../components/custom/DailySetting'
 
 const Setting = () => {
   const navigate = useNavigate()
@@ -90,33 +65,13 @@ const Setting = () => {
         title='설정'
         guidance='커스텀과 로그인 정보를 변경할 수 있습니다.'
       >
-        <CustomContainer>
-          <DailyResult
-            dailyResult={customData.daily_result}
-            setDailyResult={(data) =>
-              setCustomData({ ...customData, daily_result: data })
-            }
-            isEdit={true}
-          />
-          <ExpectedLimit
-            expectedLimit={customData.expected_limit}
-            setExpectedLimit={(data) => {
-              setCustomData({ ...customData, expected_limit: data })
-            }}
-            isEdit={true}
-          />
-          <CustomCategory
-            category={customData.category}
-            setCategory={(data) => {
-              console.log(data)
-
-              setCustomData({ ...customData, category: data })
-            }}
-            isEdit={true}
-          />
-        </CustomContainer>
-
-        <button onClick={onOpen}>회원 탈퇴하기</button>
+        <SidebarSetting
+          expectedLimit={customData.expected_limit}
+          setExpectedLimit={(data) => {
+            setCustomData({ ...customData, expected_limit: data })
+          }}
+        />
+        <DailySetting customData={customData} setCustomData={setCustomData} />
       </Template>
 
       {isOpen && (
