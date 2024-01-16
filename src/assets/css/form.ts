@@ -17,6 +17,7 @@ export const formFieldStyles = ($textAlign: TextAlign) => css`
 
   &::placeholder {
     color: ${({ theme }) => theme.color.gray1};
+    font-size: ${({ theme }) => theme.fontSize.sm};
   }
 
   &:focus {
