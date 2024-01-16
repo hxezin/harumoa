@@ -1,37 +1,44 @@
-import { useMemo } from 'react'
-import { dailyResultOptions } from '../../constants'
-import Select from '../common/Select'
+import { styled } from 'styled-components'
+import Radio from '../common/Radio'
+import SectionItem from '../common/SectionItem'
+
+const Box = styled.div`
+  display: flex;
+  gap: 2.5rem;
+`
 
 interface DailyResultProps {
   dailyResult: string
   setDailyResult: (data: string) => void
-  isEdit: boolean
 }
 
-const DailyResult = ({
-  dailyResult,
-  setDailyResult,
-  isEdit,
-}: DailyResultProps) => {
-  const defaultValue = useMemo(
-    () => dailyResultOptions.find((option) => option.value === dailyResult),
-    [dailyResult]
-  )
-
+const DailyResult = ({ dailyResult, setDailyResult }: DailyResultProps) => {
   return (
-    <section>
-      <h3>일간 내역</h3>
-      {isEdit ? (
-        <Select
+    <SectionItem title='일간 수입/지출 보여지는 방법'>
+      <Box>
+        <Radio
+          label='수입-지출(기본)'
           name='dailyResult'
-          handleOnChange={setDailyResult}
-          valData={dailyResultOptions}
-          defaultVal={dailyResult}
+          value='revenue'
+          onChange={(e) => setDailyResult(e.target.value)}
+          checked={dailyResult === 'revenue'}
         />
-      ) : (
-        <input type='text' value={defaultValue?.label || ''} disabled />
-      )}
-    </section>
+        <Radio
+          label='수입만'
+          name='dailyResult'
+          value='income'
+          onChange={(e) => setDailyResult(e.target.value)}
+          checked={dailyResult === 'income'}
+        />
+        <Radio
+          label='지출만'
+          name='dailyResult'
+          value='expense'
+          onChange={(e) => setDailyResult(e.target.value)}
+          checked={dailyResult === 'expense'}
+        />
+      </Box>
+    </SectionItem>
   )
 }
 
