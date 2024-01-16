@@ -1,7 +1,6 @@
 import { UserOut, localStorageSetting, setCustom } from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
-
 import ExpectedLimit from '../components/custom/ExpectedLimit'
 import DailyResult from '../components/custom/DailyResult'
 import CustomCategory from '../components/custom/CustomCategory'
@@ -9,14 +8,19 @@ import styled from 'styled-components'
 import Modal from '../components/common/Modal'
 import useModal from '../hooks/useModal'
 import { useNavigate } from 'react-router-dom'
-import { ConfirmContainer } from '../assets/css/Confirm'
 import usePatchCustom from '../hooks/custom/usePatchCustom'
 import useCustom from '../hooks/custom/useCustom'
 import { deepCopy } from '../utils'
 import { initialCustom } from '../constants/config'
+import SettingFooter from '../components/custom/SettingFooter'
+import LoadingSpinner from '../components/common/LoadingSpinner'
+import Template from '../components/common/Template'
+import Confirm from '../components/common/Confirm'
+import { Button, RedButton } from '../components/common/Button'
 
 const SettingContainer = styled.div`
-  padding: 10px;
+  width: 65%;
+  margin: 3rem auto 8rem;
 `
 
 const TitleContainer = styled.div`
@@ -40,7 +44,6 @@ const CustomContainer = styled.div`
 const Setting = () => {
   const navigate = useNavigate()
 
-  const [isEdit, setIsEdit] = useState(false)
   const { isOpen, onClose, onOpen } = useModal()
 
   const [customData, setCustomData] = useState<Custom>(initialCustom)
@@ -49,12 +52,11 @@ const Setting = () => {
 
   const { custom, isLoading } = useCustom()
 
-  const { patchCustom } = usePatchCustom({
+  const { patchCustom, isPending } = usePatchCustom({
     onMutate: () => setCustom(customData),
     onSuccess: () => {
       //로컬스토리지 변경된 카테고리 업데이트
       localStorageSetting(customData.category)
-      setIsEdit(false)
     },
     onError: () => setCustom(originData),
   })
@@ -67,7 +69,6 @@ const Setting = () => {
   }, [custom])
 
   const handleCancle = () => {
-    setIsEdit(false)
     setCustomData(deepCopy(originData))
   }
 
@@ -81,72 +82,69 @@ const Setting = () => {
     }
   }
 
-  // 로딩 스피너 추후 변경
-  if (!custom || isLoading) return <div>Loading...</div>
+  if (!custom || isLoading || isPending) return <LoadingSpinner />
 
   return (
-    <SettingContainer>
-      <TitleContainer
-        style={{ display: 'flex', justifyContent: 'space-between' }}
+    <>
+      <Template
+        title='설정'
+        guidance='커스텀과 로그인 정보를 변경할 수 있습니다.'
       >
-        <div>
-          <h2>설정</h2>
-          <span>회원탈퇴와 커스텀을 할 수 있는 페이지입니다.</span>
-        </div>
-        <div>
-          {isEdit && (
-            <button style={{ marginRight: '10px' }} onClick={handleCancle}>
-              취소하기
-            </button>
-          )}
-          <button onClick={() => (isEdit ? patchCustom() : setIsEdit(true))}>
-            {isEdit ? '저장하기' : '수정하기'}
-          </button>
-        </div>
-      </TitleContainer>
+        <CustomContainer>
+          <DailyResult
+            dailyResult={customData.daily_result}
+            setDailyResult={(data) =>
+              setCustomData({ ...customData, daily_result: data })
+            }
+            isEdit={true}
+          />
+          <ExpectedLimit
+            expectedLimit={customData.expected_limit}
+            setExpectedLimit={(data) => {
+              setCustomData({ ...customData, expected_limit: data })
+            }}
+            isEdit={true}
+          />
+          <CustomCategory
+            category={customData.category}
+            setCategory={(data) => {
+              console.log(data)
 
-      <CustomContainer>
-        <DailyResult
-          dailyResult={customData.daily_result}
-          setDailyResult={(data) =>
-            setCustomData({ ...customData, daily_result: data })
-          }
-          isEdit={isEdit}
-        />
-        <ExpectedLimit
-          expectedLimit={customData.expected_limit}
-          setExpectedLimit={(data) => {
-            setCustomData({ ...customData, expected_limit: data })
-          }}
-          isEdit={isEdit}
-        />
-        <CustomCategory
-          category={customData.category}
-          setCategory={(data) => {
-            console.log(data)
+              setCustomData({ ...customData, category: data })
+            }}
+            isEdit={true}
+          />
+        </CustomContainer>
 
-            setCustomData({ ...customData, category: data })
-          }}
-          isEdit={isEdit}
-        />
-      </CustomContainer>
-
-      <button onClick={onOpen}>회원 탈퇴하기</button>
+        <button onClick={onOpen}>회원 탈퇴하기</button>
+      </Template>
 
       {isOpen && (
         <Modal onClose={onClose}>
-          <ConfirmContainer>
-            <h3>정말 탈퇴하시겠습니까?</h3>
-            <h5>탈퇴 시 저장된 데이터는 삭제됩니다.</h5>
-
-            <div>
-              <button onClick={onClose}>취소</button>
-              <button onClick={handleUserOut}>확인</button>
-            </div>
-          </ConfirmContainer>
+          <Confirm
+            title={`정말 탈퇴하시겠습니까?`}
+            guidance={
+              <>
+                탈퇴하시면 모으신 모든 하루 조각들이 산산이 흩어져요. <br />{' '}
+                흩어진 조각들은 다시 모을 수 없는데 정말로 탈퇴하시겠습니까?
+              </>
+            }
+            buttons={
+              <>
+                <Button onClick={onClose} value='취소하기' />
+                <RedButton onClick={handleUserOut} value='탈퇴하기' />
+              </>
+            }
+          />
         </Modal>
       )}
-    </SettingContainer>
+
+      <SettingFooter
+        onCancle={handleCancle}
+        onSave={patchCustom}
+        onConfirm={onOpen}
+      />
+    </>
   )
 }
 

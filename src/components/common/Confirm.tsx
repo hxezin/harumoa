@@ -28,7 +28,7 @@ export const ConfirmContainer = styled.div`
 
 interface ConfirmProps {
   title: string
-  guidance?: string
+  guidance?: string | React.ReactNode
   buttons: React.ReactNode
 }
 
