@@ -9,7 +9,7 @@ const Container = styled.div`
   }
 
   & > div:last-child {
-    flex: 1.5;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;

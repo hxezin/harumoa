@@ -9,6 +9,9 @@ interface Props {
   isEdit: boolean
 }
 
+const guidance =
+  '기본으로 4개의 카테고리가 제공되며, 최대 10개까지 추가 가능합니다.'
+
 const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
   const [currentInput, setCurrentInput] = useState<ICategory>({
     expense: '',
@@ -64,7 +67,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
             <span>수입</span> 카테고리 설정
           </>
         }
-        guidance='최대 10개까지 추가 가능합니다.'
+        guidance={guidance}
         justifyContent='flex-start'
       >
         <Category
@@ -84,7 +87,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
             <span>지출</span> 카테고리 설정
           </>
         }
-        guidance='최대 10개까지 추가 가능합니다.'
+        guidance={guidance}
         justifyContent='flex-start'
       >
         <Category
