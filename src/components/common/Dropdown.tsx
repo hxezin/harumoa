@@ -49,13 +49,15 @@ const ChevronIcon = styled.div<{ disabled: boolean }>`
 
 const DropdownList = styled.ul`
   position: absolute;
-  top: 90%;
+  top: 85%;
   left: 0;
   z-index: 1;
 
   box-sizing: border-box;
   padding: 0;
   width: 100%;
+  max-height: 8rem;
+  overflow-y: auto;
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.color.white};
   box-shadow: 1px 1px 3px 0px rgba(97, 97, 97, 0.5);
@@ -149,8 +151,8 @@ function Dropdown({
       )}
       {!viewMode && isOpen && (
         <DropdownList>
-          {options.map((item) => (
-            <li key={item.value} onClick={() => selectOption(item.value)}>
+          {options.map((item, index) => (
+            <li key={index} onClick={() => selectOption(item.value)}>
               {item.label}
             </li>
           ))}
