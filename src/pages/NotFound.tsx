@@ -3,6 +3,7 @@ import Header from '../components/layout/Header'
 import RootContainer from '../components/layout/RootContainer'
 import { BlueBorderButton } from '../components/common/Button'
 import { useNavigate } from 'react-router-dom'
+import rightArrow from '../assets/icons/rightArrow.svg'
 
 const NotFoundContainer = styled.div`
   width: 100%;
@@ -60,7 +61,22 @@ const NotFound = () => {
           <p>입력하신 주소가 정확한지 다시 한 번 확인해주세요.</p>
         </div>
 
-        <BlueBorderButton value='홈으로 이동하기' onClick={handleClick} />
+        <BlueBorderButton
+          value={
+            <div
+              style={{
+                width: '120px',
+                display: 'flex',
+                alignItems: 'center',
+                columnGap: '1px',
+              }}
+            >
+              홈으로 이동하기
+              <img src={rightArrow} />
+            </div>
+          }
+          onClick={handleClick}
+        />
       </NotFoundContainer>
     </RootContainer>
   )
