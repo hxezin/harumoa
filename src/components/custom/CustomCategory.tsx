@@ -1,5 +1,6 @@
 import { useState, KeyboardEvent, ChangeEvent } from 'react'
 import { CategoryType, ICategory } from '../../types'
+import SectionItem from '../common/SectionItem'
 import Category from './Category'
 
 interface Props {
@@ -36,7 +37,8 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
           ','
         ),
       })
-      setCurrentInput((prev) => ({ ...prev, [type]: '' }))
+      handleInitInput(type)
+      return true
     }
   }
 
@@ -50,33 +52,52 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
     })
   }
 
-  return (
-    <section>
-      <h3>카테고리</h3>
-      <div>지출 카테고리</div>
-      <Category
-        categories={category.expense}
-        type='expense'
-        isEdit={isEdit}
-        onDelete={handleDelete}
-        currentValue={currentInput.expense}
-        onChange={handleInputChange}
-        onKeyDown={handleInputKeyDown}
-        placeholder='지출 카테고리를 입력하세요.'
-      />
+  const handleInitInput = (type: CategoryType) => {
+    setCurrentInput((prev) => ({ ...prev, [type]: '' }))
+  }
 
-      <div>수입 카테고리</div>
-      <Category
-        categories={category.income}
-        type='income'
-        isEdit={isEdit}
-        onDelete={handleDelete}
-        currentValue={currentInput.income}
-        onChange={handleInputChange}
-        onKeyDown={handleInputKeyDown}
-        placeholder='수입 카테고리를 입력하세요.'
-      />
-    </section>
+  return (
+    <>
+      <SectionItem
+        title={
+          <>
+            <span>수입</span> 카테고리 설정
+          </>
+        }
+        guidance='최대 10개까지 추가 가능합니다.'
+        justifyContent='flex-start'
+      >
+        <Category
+          categories={category.income}
+          type='income'
+          onDelete={handleDelete}
+          currentValue={currentInput.income}
+          onChange={handleInputChange}
+          onKeyDown={handleInputKeyDown}
+          onCancle={handleInitInput}
+        />
+      </SectionItem>
+
+      <SectionItem
+        title={
+          <>
+            <span>지출</span> 카테고리 설정
+          </>
+        }
+        guidance='최대 10개까지 추가 가능합니다.'
+        justifyContent='flex-start'
+      >
+        <Category
+          categories={category.expense}
+          type='expense'
+          onDelete={handleDelete}
+          currentValue={currentInput.expense}
+          onChange={handleInputChange}
+          onKeyDown={handleInputKeyDown}
+          onCancle={handleInitInput}
+        />
+      </SectionItem>
+    </>
   )
 }
 
