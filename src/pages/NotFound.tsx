@@ -7,7 +7,7 @@ import rightArrow from '../assets/icons/rightArrow.svg'
 
 const NotFoundContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: ${({ theme }) => `calc(100vh - ${theme.layout.headerHeight})`};
 
   display: flex;
   flex-direction: column;

@@ -1,3 +1,8 @@
+const layout = {
+  headerHeight: '56.5px',
+  sidebarWidth: '300px',
+}
+
 const fontSize = {
   xs: '0.75rem', //12px
   sm: '0.87rem', //14px
@@ -35,6 +40,7 @@ const theme = {
   fontSize,
   fontWeight,
   color,
+  layout,
 }
 
 export default theme
