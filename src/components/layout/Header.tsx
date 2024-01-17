@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAuthContext } from '../context/AuthContext'
 import logo from '../../assets/images/logo.svg'
@@ -56,10 +56,19 @@ const HeaderMenuContainer = styled.div`
 `
 
 const Header = () => {
+  const location = useLocation()
   const navigate = useNavigate()
 
   const { logout } = useAuthContext()
   const nickName = localStorage.getItem('nickName')
+
+  const handleLogoClick = () => {
+    if (location.pathname.includes('/login') || location.pathname === '/') {
+      return
+    } else {
+      navigate('/')
+    }
+  }
 
   const handleLogout = async () => {
     const res = await logout()
@@ -74,7 +83,7 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <HeaderLogoContainer onClick={() => navigate('/')}>
+      <HeaderLogoContainer onClick={handleLogoClick}>
         <img src={logo} height='35px' />
       </HeaderLogoContainer>
       {nickName && (

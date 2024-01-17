@@ -2,55 +2,55 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../components/context/AuthContext'
+import background from '../assets/images/loginBackground.svg'
+import Header from '../components/layout/Header'
+import logo from '../assets/images/logo.svg'
+import google from '../assets/images/googleLogin.svg'
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  width: 100%;
+  max-width: 1440px;
+
+  height: 100%;
+  margin: auto;
+
+  position: relative;
 `
 
 const LoginContainer = styled.div`
-  border: 1px solid #eeeeee;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
 
-  padding: 20px;
-  border-radius: 10px;
+  border-radius: 1rem;
+  background: ${({ theme }) => theme.color.white};
+  box-shadow: 2px 2px 8px 0px rgba(97, 97, 97, 0.5);
+
+  padding: 3rem;
 
   p {
     text-align: center;
-    font-size: 1.125rem;
-    font-weight: 700;
+    color: ${({ theme }) => theme.color.primary.main};
+    font-size: ${({ theme }) => theme.fontSize.base};
+    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
     margin: 0;
-    margin-bottom: 20px;
+    margin-bottom: 3rem;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
+  h1 {
+    color: ${({ theme }) => theme.color.primary.main};
+    font-size: ${({ theme }) => theme.fontSize.lg};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+    text-align: center;
+  }
 
-    input {
-      width: 320px;
-      padding: 10px;
-      margin-top: 10px;
-    }
-
-    span {
-      font-size: 0.75rem;
-      color: #ff0000;
-      margin-top: 5px;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px;
-    }
+  img:last-child {
+    cursor: pointer;
   }
 `
-
-interface LoginFormType {
-  id: string
-  password: string
-}
 
 const Login = () => {
   const { user, login } = useAuthContext()
@@ -66,10 +66,19 @@ const Login = () => {
 
   return (
     <Container>
+      <Header />
+      <img
+        src={background}
+        style={{
+          filter: 'blur(3px)',
+        }}
+      />
       <LoginContainer>
-        <p>Haru Moa</p>
+        <img src={logo} />
+        <p>당신의 하루를 모아, 하루모아</p>
 
-        <button onClick={login}>login</button>
+        <h1>LOGIN</h1>
+        <img src={google} onClick={login} />
       </LoginContainer>
     </Container>
   )
