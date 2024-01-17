@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import {
   formFieldStyles,
@@ -94,11 +94,6 @@ function Dropdown({
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const defaultOption = useMemo(
-    () => options.find((option) => option.value === defaultValue),
-    [options, defaultValue]
-  )
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
@@ -130,7 +125,7 @@ function Dropdown({
     <DropdownContainer ref={dropdownRef}>
       <DropdownInput
         onClick={toggleDropdown}
-        value={defaultOption ? defaultOption.label : ''}
+        value={defaultValue}
         disabled={viewMode || disabled}
         placeholder={viewMode ? '' : placeholder}
         readOnly
