@@ -68,6 +68,7 @@ const AccountBook = ({
           category:
             type === 'income' ? incomeSelect[0].value : expenseSelect[0].value,
           memo: '',
+          payment_type: 'cash',
         },
       }))
   }
