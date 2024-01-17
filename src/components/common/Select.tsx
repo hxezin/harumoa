@@ -1,3 +1,10 @@
+import styled from 'styled-components'
+import {
+  TextAlign,
+  formFieldStyles,
+  formFieldViewModeStyles,
+} from '../../assets/css/form'
+
 type SelectValData = {
   label: string
   value: string
@@ -9,24 +16,42 @@ interface SelectProps {
 
   name: string
   defaultVal: string
+  $viewMode: boolean
 }
 
-const Select = ({ handleOnChange, valData, name, defaultVal }: SelectProps) => {
+const SelectContainer = styled.select<{
+  $viewMode: boolean
+  $textAlign: TextAlign
+}>`
+  ${({ $textAlign }) => formFieldStyles($textAlign)}
+  ${({ theme, $viewMode }) => formFieldViewModeStyles(theme, $viewMode)};
+  opacity: 1;
+`
+
+const Select = ({
+  handleOnChange,
+  valData,
+  name,
+  defaultVal,
+  $viewMode,
+}: SelectProps) => {
   return (
-    <select
+    <SelectContainer
       onChange={(e) => {
         handleOnChange(e.target.value)
       }}
       name={name}
       defaultValue={defaultVal}
-      style={{ width: '80%' }}
+      $viewMode={$viewMode}
+      disabled={$viewMode}
+      $textAlign='center'
     >
       {valData.map((item) => (
         <option value={item.value} key={item.value}>
           {item.label}
         </option>
       ))}
-    </select>
+    </SelectContainer>
   )
 }
 
