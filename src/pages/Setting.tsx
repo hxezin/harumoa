@@ -15,17 +15,16 @@ import Confirm from '../components/common/Confirm'
 import { Button, RedButton } from '../components/common/Button'
 import SidebarSetting from '../components/custom/SidebarSetting'
 import DailySetting from '../components/custom/DailySetting'
+import isEqual from 'lodash.isequal'
 
 const Setting = () => {
   const navigate = useNavigate()
-
   const { isOpen, onClose, onOpen } = useModal()
+  const { custom, isLoading } = useCustom()
 
   const [customData, setCustomData] = useState<Custom>(initialCustom)
-
   const [originData, setOriginData] = useState<Custom>(initialCustom)
-
-  const { custom, isLoading } = useCustom()
+  const [isSaveBtnDisabled, setSaveBtnDisabled] = useState(true)
 
   const { patchCustom, isPending } = usePatchCustom({
     onMutate: () => setCustom(customData),
@@ -42,6 +41,11 @@ const Setting = () => {
       setOriginData(deepCopy(custom))
     }
   }, [custom])
+
+  // originData와 customData 값이 다르면 저장 버튼 활성화
+  useEffect(() => {
+    setSaveBtnDisabled(isEqual(originData, customData))
+  }, [customData, originData])
 
   const handleCancle = () => {
     setCustomData(deepCopy(originData))
@@ -98,6 +102,7 @@ const Setting = () => {
         onCancle={handleCancle}
         onSave={patchCustom}
         onConfirm={onOpen}
+        disabled={isSaveBtnDisabled}
       />
     </>
   )
