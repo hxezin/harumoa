@@ -12,7 +12,7 @@ export const useSetBook = (
 
   const navigate = useNavigate()
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: () =>
       setBook(
         date.replaceAll('-', '/'),
@@ -36,5 +36,5 @@ export const useSetBook = (
       }
     },
   })
-  return { mutate }
+  return { mutate, isPending }
 }

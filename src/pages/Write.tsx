@@ -9,6 +9,7 @@ import { useSetTotalPrice } from '../hooks/book/useSetTotalPrice'
 import { calcTotalPrice } from '../utils/accountBook'
 import BookFooter from '../components/book/BookFooter'
 import Template from '../components/common/Template'
+import LoadingSpinner from '../components/common/LoadingSpinner'
 
 const Write = () => {
   const location = useLocation()
@@ -34,7 +35,7 @@ const Write = () => {
     }
   )
 
-  const { mutate: saveBook } = useSetBook(date, total, {
+  const { mutate: saveBook, isPending } = useSetBook(date, total, {
     diary: diaryData,
     account_book: accountBookData,
   }) //아래 useSetTotalPrice 처럼 mutate를 다른 이름으로 반환하지 않은 이유는 Detail.tsx에서는 해당 커스텀 훅의 mutate를 삭제용도로 사용하기 때문
@@ -54,6 +55,8 @@ const Write = () => {
       setModifyPrice(calcTotalPrice(accountBookData, total, true)) //isDelete true로 줘서 수입을 빼주고, 지출은 더해준다. 함수 재사용
     }
   }, [])
+
+  if (isPending) return <LoadingSpinner />
 
   return (
     <>

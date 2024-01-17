@@ -10,6 +10,7 @@ import AccountBook from '../components/book/AccountBook'
 import Confirm from '../components/common/Confirm'
 import { Button, RedButton } from '../components/common/Button'
 import Template from '../components/common/Template'
+import LoadingSpinner from '../components/common/LoadingSpinner'
 
 const Detail = () => {
   const location = useLocation()
@@ -24,7 +25,7 @@ const Detail = () => {
 
   const { total } = useMonthYearContext()
 
-  const { mutate: deleteBook } = useSetBook(date, total, null)
+  const { mutate: deleteBook, isPending } = useSetBook(date, total, null)
 
   const { updateTotalPrice } = useSetTotalPrice(
     date,
@@ -33,6 +34,8 @@ const Detail = () => {
     true, //total price 빼기
     deleteBook
   )
+
+  if (isPending) return <LoadingSpinner />
 
   return (
     <>
