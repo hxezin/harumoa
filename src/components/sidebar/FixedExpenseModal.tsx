@@ -1,5 +1,4 @@
 import { uuidv4 } from '@firebase/util'
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { IFixedExpense } from '../../types'
@@ -11,41 +10,98 @@ import { ellipsisStyles } from '../../assets/css/global'
 import Modal from '../common/Modal'
 import { deepCopy, formatSelectOptions } from '../../utils'
 import usePatchCustom from '../../hooks/custom/usePatchCustom'
+import { BlueButton, Button } from '../common/Button'
+import AddButton from '../book/AddButton'
+import DeleteButton from '../book/DeleteButton'
+import Input from '../common/Input'
 
 const HeaderContainer = styled.div`
   position: relative;
 
   h3 {
     margin: 0;
-    margin-bottom: 1rem;
-  }
-`
+    margin-bottom: 2rem;
 
-const AddButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
+    font-size: ${({ theme }) => theme.fontSize.lg};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
+  }
 `
 
 const TableContainer = styled.table<{ $isEdit: boolean }>`
   width: 100%;
-  border: 1px solid #c2c2c2;
-  padding: 0.5rem;
   min-width: 800px;
+  margin-bottom: 10px;
+  border-collapse: collapse;
+
+  thead {
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray1};
+  }
 
   th {
-    padding: 0 0.5rem;
+    color: ${({ theme }) => theme.color.gray3};
+    /* font-size: ${({ theme }) => theme.fontSize.xs};
+    font-weight: ${({ theme }) => theme.fontWeight.bold}; */
+    padding: 0.5rem;
     ${ellipsisStyles}
   }
 
   td {
-    padding: ${({ $isEdit }) => ($isEdit ? '0' : '0 1rem')};
+    padding: 0.5rem 0;
     text-align: center;
     ${ellipsisStyles}
   }
 
-  td:not(:first-child) > input {
-    width: 5rem;
+  tr > th:first-child {
+    width: 33%;
+  }
+
+  tr > th:nth-of-type(2) {
+    width: 9%;
+  }
+
+  tr > th:nth-of-type(3) {
+    width: 13%;
+  }
+
+  tr > th:nth-of-type(4) {
+    width: 17%;
+  }
+
+  tr > th:nth-of-type(6) {
+    width: 15%;
+  }
+
+  button {
+    border: none;
+    background: inherit;
+  }
+
+  input,
+  select {
+    //height: 34px;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    /* background: ${({ theme, $isEdit }) =>
+      $isEdit ? theme.color.white : theme.color.secondary.main};
+    border: 1px solid
+      ${({ theme, $isEdit }) =>
+      $isEdit ? theme.color.gray1 : theme.color.secondary.main}; */
+  }
+
+  input {
+    cursor: text;
+  }
+
+  input[type='date'] {
+    width: 40%;
+  }
+
+  input:not(input[type='date']) {
+    width: 83%;
+  }
+
+  select {
+    width: 95%;
   }
 `
 
@@ -70,9 +126,6 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   const [newData, setNewData] = useState<IFixedExpense>({})
   const [deleteList, setDeleteList] = useState<string[]>([])
 
-  const currentDate = dayjs().format('YYYY-MM-DD')
-  const oneYearLater = dayjs().add(1, 'year').format('YYYY-MM-DD')
-
   useEffect(() => {
     setNewData(deepCopy(data))
     setOriginData(deepCopy(data))
@@ -91,12 +144,13 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
     setNewData((prev) => ({
       ...prev,
       [uuidv4()]: {
-        payment_period: { start_date: currentDate, end_date: oneYearLater },
-        payment_day: '1',
-        category: '공과금',
+        //추가 시 초기값 변경.
+        payment_period: { start_date: '', end_date: '' },
+        payment_day: '',
+        category: category.split(',')[0],
         memo: '',
         price: 0,
-        payment_type: 'cash',
+        payment_type: '',
       },
     }))
   }
@@ -122,163 +176,158 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   return (
     <Modal onClose={onClose}>
       <HeaderContainer>
-        <h3>고정 지출 관리</h3>
-        {isEdit ? <AddButton onClick={handleAdd}>➕</AddButton> : null}
+        <h3>고정 지출</h3>
       </HeaderContainer>
       <TableContainer $isEdit={isEdit}>
         <thead>
           <tr>
             <th>지출 기간</th>
-            <th>지출 일자</th>
+            <th>지출일</th>
             <th>카테고리</th>
-            <th>내용</th>
             <th>금액</th>
             <th>지출 수단</th>
+            <th>메모</th>
             {isEdit && <th></th>}
           </tr>
         </thead>
         <tbody>
-          {Object.entries(newData).map(([key, value]) => {
-            return isEdit ? (
-              <tr key={key}>
-                <td>
-                  <input
-                    type='date'
-                    placeholder='시작 날짜'
-                    onChange={(e) => {
-                      setNewData((prev) => {
-                        prev[key].payment_period.start_date = e.target.value
-                        return { ...prev }
-                      })
-                    }}
-                    value={newData[key].payment_period.start_date}
-                  />
-                  {' - '}
-                  <input
-                    type='date'
-                    placeholder='종료 날짜'
-                    onChange={(e) => {
-                      setNewData((prev) => {
-                        prev[key].payment_period.end_date = e.target.value
-                        return { ...prev }
-                      })
-                    }}
-                    value={newData[key].payment_period.end_date}
-                    min={newData[key].payment_period.start_date}
-                  />
-                </td>
-                <td>
-                  <Select
-                    name='paymentDay'
-                    handleOnChange={(e) => {
-                      setNewData((prev) => {
-                        prev[key].payment_day = e
-                        return { ...prev }
-                      })
-                    }}
-                    valData={formatSelectOptions(
-                      Array.from({ length: 30 }, (_, index) =>
-                        (index + 1).toString()
-                      )
-                    )}
-                    defaultVal={newData[key].payment_day}
-                  />
-                </td>
-                <td>
-                  <Select
-                    name='category'
-                    handleOnChange={(e) => {
-                      setNewData((prev) => {
-                        prev[key].category = e
-                        return { ...prev }
-                      })
-                    }}
-                    valData={formatSelectOptions(category.split(','))}
-                    defaultVal={newData[key].category}
-                  />
-                </td>
-                <td>
-                  <input
-                    type='text'
-                    placeholder='내용'
-                    onChange={(e) => {
-                      setNewData((prev) => {
-                        prev[key].memo = e.target.value
-                        return { ...prev }
-                      })
-                    }}
-                    value={newData[key].memo}
-                  />
-                </td>
-                <td>
-                  <input
-                    type='text'
-                    placeholder='금액'
-                    onChange={(e) => {
-                      setNewData((prev) => {
-                        const numPrice = inputNumberCheck(e.target.value)
-                        prev[key].price = Number(numPrice)
-                        return { ...prev }
-                      })
-                    }}
-                    value={
-                      newData[key].price === 0
-                        ? ''
-                        : inputNumberWithComma(newData[key].price)
-                    }
-                  />
-                </td>
-                <td>
-                  <Select
-                    name='paymentType'
-                    handleOnChange={(e) => {
-                      setNewData((prev) => {
-                        prev[key].payment_type = e
-                        return { ...prev }
-                      })
-                    }}
-                    valData={paymentTypeOptions}
-                    defaultVal={newData[key].payment_type}
-                  />
-                </td>
-                <td>
-                  <button onClick={() => handleDelete(key)}>🗑</button>
-                </td>
-              </tr>
-            ) : (
-              <tr key={key}>
-                <td>
-                  {value.payment_period.start_date} -{' '}
-                  {value.payment_period.end_date}
-                </td>
-                <td>{value.payment_day}일</td>
-                <td>{value.category}</td>
-                <td>{value.memo}</td>
-                <td>{inputNumberWithComma(value.price)}</td>
-                <td>{value.payment_type === 'card' ? '💳' : '💵'}</td>
-              </tr>
-            )
-          })}
+          {Object.entries(newData).map(([key, value]) => (
+            <tr key={key}>
+              <td>
+                <Input
+                  type='date'
+                  placeholder='시작 날짜'
+                  onChange={(e) => {
+                    setNewData((prev) => {
+                      prev[key].payment_period.start_date = e.target.value
+                      return { ...prev }
+                    })
+                  }}
+                  value={newData[key].payment_period.start_date}
+                  viewMode={!isEdit}
+                />
+                {' ~ '}
+                <Input
+                  type='date'
+                  placeholder='종료 날짜'
+                  onChange={(e) => {
+                    setNewData((prev) => {
+                      prev[key].payment_period.end_date = e.target.value
+                      return { ...prev }
+                    })
+                  }}
+                  value={newData[key].payment_period.end_date}
+                  min={newData[key].payment_period.start_date}
+                  viewMode={!isEdit}
+                />
+              </td>
+              <td>
+                <Select
+                  name='paymentDay'
+                  handleOnChange={(e) => {
+                    setNewData((prev) => {
+                      prev[key].payment_day = e
+                      return { ...prev }
+                    })
+                  }}
+                  valData={formatSelectOptions(
+                    Array.from({ length: 30 }, (_, index) =>
+                      (index + 1).toString()
+                    )
+                  )}
+                  defaultVal={newData[key].payment_day}
+                  $viewMode={!isEdit}
+                />
+              </td>
+              <td>
+                <Select
+                  name='category'
+                  handleOnChange={(e) => {
+                    setNewData((prev) => {
+                      prev[key].category = e
+                      return { ...prev }
+                    })
+                  }}
+                  valData={formatSelectOptions(category.split(','))}
+                  defaultVal={newData[key].category}
+                  $viewMode={!isEdit}
+                />
+              </td>
+              <td>
+                <Input
+                  type='text'
+                  placeholder='금액'
+                  onChange={(e) => {
+                    setNewData((prev) => {
+                      const numPrice = inputNumberCheck(e.target.value)
+                      prev[key].price = Number(numPrice)
+                      return { ...prev }
+                    })
+                  }}
+                  value={
+                    newData[key].price === 0
+                      ? ''
+                      : inputNumberWithComma(newData[key].price)
+                  }
+                  viewMode={!isEdit}
+                />
+              </td>
+              <td>
+                <Select
+                  name='paymentType'
+                  handleOnChange={(e) => {
+                    setNewData((prev) => {
+                      prev[key].payment_type = e
+                      return { ...prev }
+                    })
+                  }}
+                  valData={paymentTypeOptions}
+                  defaultVal={newData[key].payment_type}
+                  $viewMode={!isEdit}
+                />
+              </td>
+              <td>
+                <Input
+                  type='text'
+                  placeholder='메모'
+                  onChange={(e) => {
+                    setNewData((prev) => {
+                      prev[key].memo = e.target.value
+                      return { ...prev }
+                    })
+                  }}
+                  value={newData[key].memo}
+                  viewMode={!isEdit}
+                />
+              </td>
+
+              <td>
+                <DeleteButton onClick={() => handleDelete(key)} />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </TableContainer>
+
+      {isEdit && <AddButton onClick={handleAdd} />}
+
       <ButtonContainer>
         {isEdit ? (
           <>
-            <button onClick={handleCancle}>취소</button>
-            <button
+            <Button value='되돌리기' onClick={handleCancle} />
+            <BlueButton
+              value='저장하기'
               onClick={() => patchCustom()}
               disabled={
                 Object.values(newData).filter((item) => item.price === 0)
                   .length !== 0
               }
-            >
-              저장
-            </button>
+            />
           </>
         ) : (
           <>
-            <button onClick={handleEditMode}>수정</button>
-            <button onClick={onClose}>닫기</button>
+            <Button value='닫기' onClick={handleEditMode} />
+            <BlueButton value='수정하기' onClick={handleEditMode} />
           </>
         )}
       </ButtonContainer>

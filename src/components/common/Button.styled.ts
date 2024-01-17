@@ -33,6 +33,9 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     $width,
     $borderRadius,
   }) => css`
+    display: flex;
+    justify-content: center;
+
     padding: ${$padding || '0.5rem 0.75rem'};
     font-size: ${$fontSize || theme.fontSize.base};
     color: ${$fontColor || theme.color.white};

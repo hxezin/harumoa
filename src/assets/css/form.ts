@@ -6,7 +6,7 @@ export const formFieldStyles = ($textAlign: TextAlign) => css`
   box-sizing: border-box;
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid ${({ theme }) => theme.color.gray1};
+  border: 1px solid ${({ theme }) => theme.color.gray1};
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.color.white};
 
@@ -22,13 +22,14 @@ export const formFieldStyles = ($textAlign: TextAlign) => css`
 
   &:focus {
     outline: none;
-    border: 2px solid ${({ theme }) => theme.color.primary.main};
+    border: 1px solid ${({ theme }) => theme.color.primary.main};
   }
 
   &:disabled {
     background-color: ${({ theme }) => theme.color.gray0};
-    border: 2px solid ${({ theme }) => theme.color.gray0};
+    border: 1px solid ${({ theme }) => theme.color.gray0};
     color: ${({ theme }) => theme.color.gray1};
+    cursor: default;
   }
 `
 
@@ -40,7 +41,7 @@ export const formFieldViewModeStyles = (
     background-color: ${$viewMode
       ? theme.color.secondary.main
       : theme.color.gray0};
-    border: 2px solid
+    border: 1px solid
       ${$viewMode ? theme.color.secondary.main : theme.color.gray0};
     color: ${$viewMode ? theme.color.primary.dark : theme.color.gray1};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
