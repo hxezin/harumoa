@@ -3,7 +3,7 @@ import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import Input from '../common/Input'
 import Dropdown from '../common/Dropdown'
 import { IAccountBook, Options } from '../../types'
-import { ReactComponent as Minus } from '../../assets/icons/minusCircle.svg'
+import DeleteButton from './DeleteButton'
 
 const TableContainer = styled.table`
   width: 100%;
@@ -42,20 +42,6 @@ const KRWICon = styled.span<{ $viewMode: boolean }>`
 
   color: ${({ theme, $viewMode }) =>
     $viewMode ? theme.color.primary.dark : theme.color.gray3};
-`
-
-const DeleteButton = styled(Minus)`
-  width: 1.5rem;
-  height: 1.5rem;
-  cursor: pointer;
-
-  circle {
-    fill: ${({ theme }) => theme.color.gray2};
-  }
-
-  path {
-    stroke: ${({ theme }) => theme.color.white};
-  }
 `
 
 interface AccountBookTableProps {
