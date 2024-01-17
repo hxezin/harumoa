@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 65%;
-  margin: 3rem auto 8rem;
+  margin: 3rem auto 10rem;
 `
 
 const Header = styled.header`
