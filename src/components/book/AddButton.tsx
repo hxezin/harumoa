@@ -25,7 +25,7 @@ const AddButton = ({ onClick }: AddButtonProps) => {
       value={<AddIcon />}
       onClick={onClick}
       padding='0.25rem 0'
-      width='95%'
+      width='100%'
       borderRadius='0.5rem'
     />
   )

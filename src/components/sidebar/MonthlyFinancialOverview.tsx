@@ -58,7 +58,7 @@ const MonthlyFinancialOverview = () => {
       <TableContainer>
         <tbody>
           {titleArr.map((item, idx) => (
-            <tr>
+            <tr key={idx}>
               <td>{item}</td>
               <td>{inputNumberWithComma(contentArr[idx])}₩</td>
             </tr>

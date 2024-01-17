@@ -17,7 +17,7 @@ const ModalContainer = styled.div`
 
 const ModalMain = styled.div`
   background-color: ${({ theme }) => theme.color.white};
-  padding: 4rem;
+  padding: 2rem;
   border-radius: 1rem;
   box-shadow: 2px 2px 8px 0px ${({ theme }) => theme.color.gray2};
 `

@@ -25,6 +25,8 @@ interface InputProps {
   viewMode?: boolean
   textAlign?: TextAlign
   padding?: string
+
+  min?: string
 }
 
 const Input = ({
@@ -36,6 +38,7 @@ const Input = ({
   viewMode = false,
   textAlign = 'left',
   padding,
+  min,
 }: InputProps) => {
   return (
     <InputContainer
@@ -47,6 +50,7 @@ const Input = ({
       $viewMode={viewMode}
       $textAlign={textAlign}
       $padding={padding}
+      min={type === 'date' ? min : undefined}
     />
   )
 }
