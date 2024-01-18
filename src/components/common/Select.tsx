@@ -46,8 +46,8 @@ const Select = ({
       disabled={$viewMode}
       $textAlign='center'
     >
-      {valData.map((item) => (
-        <option value={item.value} key={item.value}>
+      {valData.map((item, idx) => (
+        <option value={item.value} key={`${idx}-${item.value}`}>
           {item.label}
         </option>
       ))}
