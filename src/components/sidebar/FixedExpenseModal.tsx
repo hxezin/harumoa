@@ -14,6 +14,8 @@ import { BlueButton, Button } from '../common/Button'
 import AddButton from '../book/AddButton'
 import DeleteButton from '../book/DeleteButton'
 import Input from '../common/Input'
+import isEqual from 'lodash.isequal'
+import dayjs from 'dayjs'
 
 const HeaderContainer = styled.div`
   position: relative;
@@ -39,8 +41,6 @@ const TableContainer = styled.table<{ $isEdit: boolean }>`
 
   th {
     color: ${({ theme }) => theme.color.gray3};
-    /* font-size: ${({ theme }) => theme.fontSize.xs};
-    font-weight: ${({ theme }) => theme.fontWeight.bold}; */
     padding: 0.5rem;
     ${ellipsisStyles}
   }
@@ -78,14 +78,8 @@ const TableContainer = styled.table<{ $isEdit: boolean }>`
 
   input,
   select {
-    //height: 34px;
     padding: 0.5rem;
     border-radius: 0.5rem;
-    /* background: ${({ theme, $isEdit }) =>
-      $isEdit ? theme.color.white : theme.color.secondary.main};
-    border: 1px solid
-      ${({ theme, $isEdit }) =>
-      $isEdit ? theme.color.gray1 : theme.color.secondary.main}; */
   }
 
   input {
@@ -126,6 +120,9 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
   const [newData, setNewData] = useState<IFixedExpense>({})
   const [deleteList, setDeleteList] = useState<string[]>([])
 
+  const currentDate = dayjs().format('YYYY-MM-DD')
+  const oneYearLater = dayjs().add(1, 'year').format('YYYY-MM-DD')
+
   useEffect(() => {
     setNewData(deepCopy(data))
     setOriginData(deepCopy(data))
@@ -145,7 +142,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
       ...prev,
       [uuidv4()]: {
         //추가 시 초기값 변경.
-        payment_period: { start_date: '', end_date: '' },
+        payment_period: { start_date: currentDate, end_date: oneYearLater },
         payment_day: '',
         category: category.split(',')[0],
         memo: '',
@@ -318,10 +315,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
             <BlueButton
               value='저장하기'
               onClick={() => patchCustom()}
-              disabled={
-                Object.values(newData).filter((item) => item.price === 0)
-                  .length !== 0
-              }
+              disabled={isEqual(originData, newData)}
             />
           </>
         ) : (
