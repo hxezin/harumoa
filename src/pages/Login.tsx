@@ -2,53 +2,91 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../components/context/AuthContext'
-import background from '../assets/images/loginBackground.svg'
 import Header from '../components/layout/Header'
 import logo from '../assets/images/logo.svg'
-import google from '../assets/images/googleLogin.svg'
+import { ReactComponent as GoogleIcon } from '../assets/images/google.svg'
+import loginIntro from '../assets/images/loginIntro.svg'
 
 const Container = styled.div`
   width: 100%;
   max-width: 1440px;
 
-  height: 100%;
   margin: auto;
+`
 
-  position: relative;
+const LoginIntroContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  padding-left: 1.5rem;
+  margin-top: 20px;
+
+  & > img {
+    width: 60%;
+    box-shadow: 3px 3px 3px 5px ${({ theme }) => theme.color.gray0};
+
+    border-top-right-radius: 3%;
+    border-bottom-right-radius: 3%;
+  }
 `
 
 const LoginContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 
-  border-radius: 1rem;
-  background: ${({ theme }) => theme.color.white};
-  box-shadow: 2px 2px 8px 0px rgba(97, 97, 97, 0.5);
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 
-  padding: 3rem;
+    border-radius: 1rem;
+    background: ${({ theme }) => theme.color.white};
+    box-shadow: 2px 2px 8px 0px rgba(97, 97, 97, 0.5);
 
-  p {
-    text-align: center;
-    color: ${({ theme }) => theme.color.primary.main};
-    font-size: ${({ theme }) => theme.fontSize.base};
-    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-    margin: 0;
-    margin-bottom: 3rem;
+    padding: 3rem;
+    p {
+      text-align: center;
+      color: ${({ theme }) => theme.color.primary.main};
+      font-size: ${({ theme }) => theme.fontSize.base};
+      font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+      margin: 0;
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      color: ${({ theme }) => theme.color.primary.main};
+      font-size: ${({ theme }) => theme.fontSize.lg};
+      font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+      text-align: center;
+    }
   }
+`
 
-  h1 {
-    color: ${({ theme }) => theme.color.primary.main};
-    font-size: ${({ theme }) => theme.fontSize.lg};
-    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-    text-align: center;
-  }
+const LoginButton = styled.button`
+  background: ${({ theme }) => theme.color.primary.main};
+  border: none;
+  padding: 0px;
+  border-radius: 10px;
 
-  img:last-child {
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: ${({ theme }) => theme.color.white};
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+
+  padding: 0.7rem;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+
+    padding: 0.5rem;
+    border-radius: 50%;
+    background: #fcfcfc;
   }
 `
 
@@ -67,19 +105,23 @@ const Login = () => {
   return (
     <Container>
       <Header />
-      <img
-        src={background}
-        style={{
-          filter: 'blur(3px)',
-        }}
-      />
-      <LoginContainer>
-        <img src={logo} />
-        <p>당신의 하루를 모아, 하루모아</p>
 
-        <h1>LOGIN</h1>
-        <img src={google} onClick={login} />
-      </LoginContainer>
+      <LoginIntroContainer>
+        <img src={loginIntro} />
+        <LoginContainer>
+          <div>
+            <img src={logo} />
+            <p>당신의 하루를 모아, 하루모아</p>
+
+            <h1>LOGIN</h1>
+
+            <LoginButton>
+              <GoogleIcon />
+              <span> Sign in with Google</span>
+            </LoginButton>
+          </div>
+        </LoginContainer>
+      </LoginIntroContainer>
     </Container>
   )
 }
