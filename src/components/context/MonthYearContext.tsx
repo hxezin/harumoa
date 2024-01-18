@@ -19,6 +19,7 @@ interface MonthYearProps {
   total: TotalPrice
   isToday: (date: string) => boolean
   revertToToday: () => void
+  isLoading: boolean
 }
 
 // useMonthYear custom hooks
@@ -33,7 +34,11 @@ function useMonthYear(): MonthYearProps {
   const prevMonth = getMonthDetails(monthYear.startDate.subtract(1, 'month'))
 
   const fallback = {}
-  const { data = fallback, refetch } = useQuery({
+  const {
+    data = fallback,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ['books', monthYear.year, monthYear.month],
     queryFn: () => getBooks(monthYear.year, monthYear.month),
     enabled: isLoggedIn, // isLoggedIn이 true일 때만 쿼리를 활성화
@@ -81,6 +86,7 @@ function useMonthYear(): MonthYearProps {
     total: data.total,
     isToday,
     revertToToday,
+    isLoading,
   }
 }
 
