@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { styled } from 'styled-components'
 
 const ModalContainer = styled.div`
@@ -23,11 +24,22 @@ const ModalMain = styled.div`
 `
 
 export interface ModalProps {
-  onClose?: () => void
+  onClose: () => void
   children: React.ReactNode
 }
 
 export default function Modal({ onClose, children }: ModalProps) {
+  useEffect(() => {
+    const escKeyModalClose = (e: KeyboardEvent) => {
+      // alert(e.code)
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', escKeyModalClose)
+    return () => window.removeEventListener('keydown', escKeyModalClose)
+  }, [])
+
   return (
     <ModalContainer onClick={onClose}>
       <ModalMain onClick={(e) => e.stopPropagation()}>{children}</ModalMain>
