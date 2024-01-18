@@ -51,12 +51,16 @@ function useMonthYear(): MonthYearProps {
     }
   }, [isLoggedIn, refetch])
 
+  const { user } = useAuthContext()
+
   useEffect(() => {
-    const prevMonthYear = getNewMonthYear(monthYear, -1)
-    queryClient.prefetchQuery({
-      queryKey: ['books', prevMonthYear.year, prevMonthYear.month],
-      queryFn: () => getBooks(prevMonthYear.year, prevMonthYear.month),
-    })
+    if (user) {
+      const prevMonthYear = getNewMonthYear(monthYear, -1)
+      queryClient.prefetchQuery({
+        queryKey: ['books', prevMonthYear.year, prevMonthYear.month],
+        queryFn: () => getBooks(prevMonthYear.year, prevMonthYear.month),
+      })
+    }
   }, [queryClient, monthYear])
 
   // 이전 달, 다음 달로 이동
