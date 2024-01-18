@@ -129,7 +129,7 @@ const Category = ({
     <CategoryContainer>
       {categoriesArr.length !== 0
         ? categoriesArr.map((category, index) => (
-            <CategoryItem key={index}>
+            <CategoryItem key={`${category}-${index}`}>
               <span>{category}</span>
               {
                 // 카테고리가 1개이면 삭제 버튼 안보임

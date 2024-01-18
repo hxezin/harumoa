@@ -65,8 +65,10 @@ const AccountBook = ({
         [uuid()]: {
           is_income: type === 'income' ? true : false,
           price: 0,
-          category: '식비',
+          category:
+            type === 'income' ? incomeSelect[0].value : expenseSelect[0].value,
           memo: '',
+          payment_type: 'cash',
         },
       }))
   }

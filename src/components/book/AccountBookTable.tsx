@@ -4,6 +4,7 @@ import Input from '../common/Input'
 import Dropdown from '../common/Dropdown'
 import { IAccountBook, Options } from '../../types'
 import DeleteButton from './DeleteButton'
+import { paymentTypeOptions } from '../../constants'
 
 const TableContainer = styled.table`
   width: 100%;
@@ -18,6 +19,7 @@ const TableContainer = styled.table`
 
     td {
       padding: 0.56rem 0.5rem;
+      padding-left: 0;
     }
   }
 
@@ -38,7 +40,7 @@ const TableContainer = styled.table`
 const KRWICon = styled.span<{ $viewMode: boolean }>`
   position: absolute;
   left: 1rem;
-  top: 1.4rem;
+  top: 1.35rem;
 
   color: ${({ theme, $viewMode }) =>
     $viewMode ? theme.color.primary.dark : theme.color.gray3};
@@ -65,9 +67,10 @@ const AccountBookTable = ({
     <TableContainer>
       <thead>
         <tr>
-          <td width='25%'>카테고리</td>
-          <td width='25%'>금액</td>
-          <td width='50%'>메모</td>
+          <td width='20%'>카테고리</td>
+          <td width='20%'>금액</td>
+          <td width='20%'>지출 수단</td>
+          <td width='40%'>메모</td>
           {!viewMode && <td></td>}
         </tr>
       </thead>
@@ -83,11 +86,6 @@ const AccountBookTable = ({
                   <Dropdown
                     onChange={(e) => {
                       accountBookData[key].category = e
-
-                      //memo, price 초기화
-                      accountBookData[key].memo = ''
-                      accountBookData[key].price = 0
-
                       setAccountBook && setAccountBook({ ...accountBookData })
                     }}
                     options={category}
@@ -117,6 +115,19 @@ const AccountBookTable = ({
                     padding='0.75rem 0.75rem 0.75rem 2rem'
                   />
                   <KRWICon $viewMode={viewMode}>₩</KRWICon>
+                </td>
+                <td>
+                  <Dropdown
+                    onChange={(e) => {
+                      accountBookData[key].payment_type = e
+                      console.log(accountBookData[key])
+                      setAccountBook && setAccountBook({ ...accountBookData })
+                    }}
+                    options={paymentTypeOptions}
+                    defaultValue={accountBookData[key].payment_type}
+                    placeholder='지출 수단'
+                    viewMode={viewMode}
+                  />
                 </td>
                 <td>
                   <Input
@@ -149,20 +160,10 @@ const AccountBookTable = ({
             ).length === 0) && (
             <tr>
               <td>
-                <Dropdown
-                  onChange={() => {}}
-                  options={[{ label: '비어있음', value: '비어있음' }]}
-                  defaultValue='비어있음'
-                  placeholder='카테고리'
-                  viewMode={viewMode}
-                />
-              </td>
-              <td>
                 <Input
                   type='text'
                   value='비어있음'
                   onChange={() => {}}
-                  placeholder='금액'
                   textAlign='center'
                   viewMode={viewMode}
                 />
@@ -170,9 +171,26 @@ const AccountBookTable = ({
               <td>
                 <Input
                   type='text'
-                  onChange={() => {}}
                   value='비어있음'
-                  placeholder='메모'
+                  onChange={() => {}}
+                  textAlign='center'
+                  viewMode={viewMode}
+                />
+              </td>
+              <td>
+                <Input
+                  type='text'
+                  value='비어있음'
+                  onChange={() => {}}
+                  textAlign='center'
+                  viewMode={viewMode}
+                />
+              </td>
+              <td>
+                <Input
+                  type='text'
+                  value='비어있음'
+                  onChange={() => {}}
                   textAlign='center'
                   viewMode={viewMode}
                 />

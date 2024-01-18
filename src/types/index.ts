@@ -15,6 +15,7 @@ export interface IAccountBook {
     price: number
     category: string
     is_income: boolean
+    payment_type: string
   }
 }
 
