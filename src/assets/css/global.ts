@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *{
-    font-family: Suite
+    font-family: Suite-Regular
   }
 
   li {
