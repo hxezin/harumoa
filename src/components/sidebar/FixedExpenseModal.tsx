@@ -326,7 +326,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
           </>
         ) : (
           <>
-            <Button value='닫기' onClick={handleEditMode} />
+            <Button value='닫기' onClick={onClose} />
             <BlueButton value='수정하기' onClick={handleEditMode} />
           </>
         )}
