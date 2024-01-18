@@ -115,7 +115,7 @@ const Login = () => {
 
             <h1>LOGIN</h1>
 
-            <LoginButton>
+            <LoginButton onClick={login}>
               <GoogleIcon />
               <span> Sign in with Google</span>
             </LoginButton>
