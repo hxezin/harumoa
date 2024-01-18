@@ -77,8 +77,11 @@ const Write = () => {
         isEditMode={true}
         onSave={() => updateTotalPrice()}
         disabled={
-          Object.values(accountBookData).filter((item) => item.price === 0)
-            .length !== 0 || Object.keys(accountBookData).length === 0
+          (diaryData.title === '' &&
+            Object.keys(accountBookData).length === 0) ||
+          (Object.keys(accountBookData).length !== 0 &&
+            Object.values(accountBookData).filter((item) => item.price === 0)
+              .length !== 0)
         }
       />
     </>
