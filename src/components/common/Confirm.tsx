@@ -8,7 +8,7 @@ export const ConfirmContainer = styled.div`
   h1 {
     margin: 0;
     color: ${({ theme }) => theme.color.gray3};
-    font-size: ${({ theme }) => theme.fontSize.xl};
+    font-size: ${({ theme }) => theme.fontSize.lg};
     font-weight: ${({ theme }) => theme.fontWeight.extraBold};
   }
 
