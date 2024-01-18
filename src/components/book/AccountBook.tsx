@@ -6,12 +6,6 @@ import Section from '../common/Section'
 import AddButton from './AddButton'
 import AccountBookTable from './AccountBookTable'
 
-const Guidance = styled.p`
-  margin-top: -1rem;
-  color: ${({ theme }) => theme.color.red.main};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-`
-
 const Box = styled.div`
   // 수입, 지출 제목
   & > div:first-of-type {
@@ -85,8 +79,6 @@ const AccountBook = ({
 
   return (
     <Section title='가계부 작성하기'>
-      <Guidance>최소 하나의 항목은 추가해주세요.</Guidance>
-
       <Box>
         <div>수입</div>
         <AccountBookTable
