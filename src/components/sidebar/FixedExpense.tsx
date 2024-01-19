@@ -30,8 +30,11 @@ const Table = styled.table`
   }
 
   tbody {
-    max-height: 350px;
-    overflow-y: auto;
+    height: 100%;
+    max-height: ${({ theme }) =>
+      `calc(100vh - ${theme.layout.headerHeight} - 330px - 190px)`};
+
+    overflow-y: scroll;
 
     font-size: ${({ theme }) => theme.fontSize.xs};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
@@ -82,7 +85,8 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 400px;
+  height: ${({ theme }) =>
+    `calc(100vh - ${theme.layout.headerHeight} - 330px - 150px)`};
 `
 
 const FixedTotalContainer = styled.div`
@@ -128,7 +132,7 @@ const FixedExpense = ({ fixedExpense, category }: Props) => {
   }
 
   return (
-    <S.Container>
+    <S.Container $height>
       <S.TitleContainer>
         <span>고정 지출</span>
         <GrayBorderButton

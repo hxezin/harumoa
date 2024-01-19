@@ -6,7 +6,7 @@ import settingIcon from '../../assets/icons/settingIcon.svg'
 import theme from '../../assets/css/theme'
 import { GrayBorderButton } from '../common/Button'
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;

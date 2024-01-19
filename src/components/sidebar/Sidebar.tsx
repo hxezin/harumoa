@@ -29,10 +29,7 @@ const SubContainer = styled.div`
 `
 
 const Sidebar = () => {
-  const { custom, isLoading } = useCustom()
-
-  // 로딩 스피너 추후 변경
-  if (!custom || isLoading) return <div>Loading...</div>
+  const { custom } = useCustom()
 
   return (
     <Container>
