@@ -38,7 +38,7 @@ const ContentContainer = styled.div`
   gap: 0.25rem;
 `
 
-const Date = styled.div<{ $isToday?: boolean }>`
+const Date = styled.div<{ $isToday?: boolean; $day?: number }>`
   text-align: center;
 
   div {
@@ -46,10 +46,17 @@ const Date = styled.div<{ $isToday?: boolean }>`
     justify-content: center;
     align-items: center;
 
-    ${({ $isToday, theme }) =>
+    background: ${({ $isToday, theme }) =>
+      $isToday ? theme.color.primary.main : 'transparent'};
+
+    color: ${({ $isToday, theme, $day }) =>
       $isToday
-        ? `background: ${theme.color.primary.main}; color: ${theme.color.white}`
-        : `background: transparent; color: inherit`};
+        ? theme.color.white
+        : $day === 0
+        ? theme.color.red.main
+        : $day === 6
+        ? theme.color.primary.main
+        : 'inherit'};
 
     width: 1rem;
     height: 1rem;
@@ -156,6 +163,8 @@ interface Props {
   detail?: MonthDetail | null
   isCurrentMonth?: boolean
   isToday?: boolean
+
+  day?: number
 }
 
 const DateBox = ({
@@ -164,6 +173,7 @@ const DateBox = ({
   detail,
   isCurrentMonth,
   isToday,
+  day,
 }: Props) => {
   const navigate = useNavigate()
   const { custom } = useCustom()
@@ -221,7 +231,7 @@ const DateBox = ({
         $isToday={isToday}
       >
         <ContentContainer>
-          <Date $isToday={isToday}>
+          <Date $isToday={isToday} $day={day}>
             <div>
               <span>{date}</span>
             </div>
@@ -254,7 +264,7 @@ const DateBox = ({
   return (
     <DateBoxContainer $isCurrentMonth={isCurrentMonth} $isToday={isToday}>
       <ContentContainer>
-        <Date $isToday={isToday}>
+        <Date $isToday={isToday} $day={day}>
           <div>{date}</div>
         </Date>
 

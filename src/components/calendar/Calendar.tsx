@@ -168,6 +168,9 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
             const detail = data?.[dateIdx] as MonthDetail | null
             const selectedDate = `${monthYear.year}-${monthYear.month}-${dateIdx}`
 
+            const day = monthYear.startDate.set('date', date).get('d')
+            //요일 알아내기 - 0:일 ~ 6:토
+
             return (
               <DateBox
                 key={date}
@@ -176,6 +179,7 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
                 detail={detail}
                 isCurrentMonth
                 isToday={isToday(dateIdx)}
+                day={day}
               />
             )
           })}
