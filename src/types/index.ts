@@ -58,8 +58,8 @@ export interface ICategory {
 export interface Custom {
   category: ICategory
   daily_result: string
-
   expected_limit: IExpectedLimit
+  fixed_expense: IFixedExpense
 }
 
 // dropdown options

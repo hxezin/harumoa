@@ -141,18 +141,19 @@ export async function getBooks(year: string, month: string) {
 }
 
 // 커스텀 가져오기
-export async function getCustom() {
+export async function getCustom(): Promise<Custom> {
   const uid = localStorage.getItem('user')
 
   try {
     const snapshot = await get(child(ref(db), `${uid}/users/custom`))
     if (snapshot.exists()) {
-      return snapshot.val()
+      return snapshot.val() as Custom
     } else {
       return initialCustom
     }
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 
