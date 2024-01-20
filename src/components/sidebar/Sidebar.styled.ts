@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div<{
   $isBackground?: boolean
   $height?: boolean
+  $enableExpectedLimit?: boolean
 }>`
   padding: 1.5rem;
 
@@ -13,9 +14,12 @@ export const Container = styled.div<{
   background: ${({ theme, $isBackground }) =>
     $isBackground ? theme.color.gray0 : ''};
 
-  ${({ $height, theme }) =>
+  height: ${({ $height }) => ($height ? '100%' : '')};
+  max-height: ${({ $height, theme, $enableExpectedLimit }) =>
     $height
-      ? `height: calc(100vh - ${theme.layout.headerHeight} - 330px)`
+      ? $enableExpectedLimit
+        ? `calc(100vh - ${theme.layout.headerHeight} - 325.5px)` // - (월별 예상 지출 + 합계)
+        : `calc(100vh - ${theme.layout.headerHeight} - 178.85px)` // - 합계
       : ``};
 `
 

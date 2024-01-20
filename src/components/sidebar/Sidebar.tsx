@@ -10,8 +10,6 @@ const Container = styled.section`
 
   width: 300px;
   background-color: ${({ theme }) => theme.color.white2};
-
-  height: calc(100vh - 70px);
 `
 
 const Title = styled.p`
@@ -37,9 +35,10 @@ const Sidebar = () => {
       <FixedExpense
         fixedExpense={custom.fixed_expense}
         category={custom.category.expense}
+        enableExpectedLimit={custom.expected_limit.is_possible}
       />
       <SubContainer>
-        <ExpectedLimit expectedLimit={custom.expected_limit} />
+        <ExpectedLimit expectedLimit={custom!.expected_limit} />
         <MonthlyFinancialOverview />
       </SubContainer>
     </Container>

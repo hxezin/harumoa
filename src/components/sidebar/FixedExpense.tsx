@@ -11,7 +11,7 @@ import FixedExpenseModal from './FixedExpenseModal'
 import { GrayBorderButton } from '../common/Button'
 import * as S from './Sidebar.styled'
 
-const Table = styled.table`
+const Table = styled.table<{ $enableExpectedLimit: boolean }>`
   width: 100%;
 
   border-spacing: 0;
@@ -31,9 +31,12 @@ const Table = styled.table`
 
   tbody {
     height: 100%;
-    max-height: ${({ theme }) =>
-      `calc(100vh - ${theme.layout.headerHeight} - 330px - 190px)`};
-
+    max-height: ${
+      ({ theme, $enableExpectedLimit }) =>
+        $enableExpectedLimit
+          ? `calc(100vh - ${theme.layout.headerHeight} - 215px - 325.5px)` // - (월별 예상 지출 + 합계)
+          : `calc(100vh - ${theme.layout.headerHeight} - 215px - 178.85px)` // - 합계
+    };
     overflow-y: scroll;
 
     font-size: ${({ theme }) => theme.fontSize.xs};
@@ -85,8 +88,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: ${({ theme }) =>
-    `calc(100vh - ${theme.layout.headerHeight} - 330px - 150px)`};
+  height: 100%;
 `
 
 const FixedTotalContainer = styled.div`
@@ -103,9 +105,14 @@ const FixedTotalContainer = styled.div`
 interface Props {
   fixedExpense: IFixedExpense
   category: string
+  enableExpectedLimit: boolean // 월별 예상 지출 설정 활성화 여부
 }
 
-const FixedExpense = ({ fixedExpense, category }: Props) => {
+const FixedExpense = ({
+  fixedExpense,
+  category,
+  enableExpectedLimit,
+}: Props) => {
   const { monthYear } = useMonthYearContext()
   const { onOpen, onClose, isOpen } = useModal()
   const [data, setData] = useState<IFixedExpense>({})
@@ -132,7 +139,7 @@ const FixedExpense = ({ fixedExpense, category }: Props) => {
   }
 
   return (
-    <S.Container $height>
+    <S.Container $height $enableExpectedLimit={enableExpectedLimit}>
       <S.TitleContainer>
         <span>고정 지출</span>
         <GrayBorderButton
@@ -144,7 +151,7 @@ const FixedExpense = ({ fixedExpense, category }: Props) => {
       </S.TitleContainer>
 
       <ContentContainer>
-        <Table>
+        <Table $enableExpectedLimit={enableExpectedLimit}>
           <thead>
             <tr>
               <th>지출일</th>
