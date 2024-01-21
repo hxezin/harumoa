@@ -6,8 +6,9 @@ import { useMonthYearContext } from '../components/context/MonthYearContext'
 import Sidebar from '../components/sidebar/Sidebar'
 import useCustom from '../hooks/custom/useCustom'
 
-const Container = styled.div`
+const Container = styled.main`
   display: flex;
+  height: ${({ theme }) => `calc(100vh - ${theme.layout.headerHeight})`};
 `
 
 const Home = () => {
@@ -22,12 +23,10 @@ const Home = () => {
   if (calendarLoading || customLoading) return <LoadingSpinner />
 
   return (
-    <main>
-      <Container>
-        <Calendar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
-        {isSidebarOpen && <Sidebar />}
-      </Container>
-    </main>
+    <Container>
+      <Calendar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
+      {isSidebarOpen && <Sidebar />}
+    </Container>
   )
 }
 

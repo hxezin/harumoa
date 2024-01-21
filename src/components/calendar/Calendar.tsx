@@ -94,7 +94,7 @@ const DOWCell = styled.div`
 `
 
 const DateGrid = styled.div<{ $weeksInMonth: number }>`
-  height: calc(100vh - 140px);
+  height: calc(100vh - 145px);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: ${({ $weeksInMonth }) => `repeat(${$weeksInMonth}, 1fr)`};
