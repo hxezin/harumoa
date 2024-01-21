@@ -8,4 +8,5 @@ export const initialCustom = {
     income: '월급,용돈,이월,적금',
   },
   daily_result: 'revenue',
+  fixed_expense: {},
 }

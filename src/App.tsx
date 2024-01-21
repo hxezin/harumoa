@@ -3,7 +3,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
-import Join from './pages/Join'
 import Write from './pages/Write'
 import Detail from './pages/Detail'
 import Root from './pages/Root'
@@ -32,7 +31,6 @@ const router = createBrowserRouter([
     ],
   },
   { path: '/login', element: <Login /> },
-  { path: '/join', element: <Join /> },
 ])
 
 const App = () => {
