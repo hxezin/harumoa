@@ -27,7 +27,7 @@ export function AuthContextProvider({
   children: React.ReactNode
 }) {
   const [user, setUser] = useState<UserCredential['user']>()
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('user'))
 
   useEffect(() => {
     onUserStateChange((user: UserCredential['user']) => {

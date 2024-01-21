@@ -5,14 +5,15 @@ import Header from '../components/layout/Header'
 import RootContainer from '../components/layout/RootContainer'
 
 const Root = () => {
-  const { isLoggedIn } = useAuthContext()
+  const { isLoggedIn, logout } = useAuthContext()
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!isLoggedIn) {
+      logout()
       navigate('/login')
     }
-  }, [isLoggedIn, navigate])
+  }, [isLoggedIn, logout, navigate])
 
   return (
     <RootContainer>
