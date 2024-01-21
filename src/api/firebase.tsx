@@ -159,7 +159,18 @@ export async function getCustom(): Promise<Custom> {
 
 //커스텀 수정하기
 export async function setCustom(reqData: Custom) {
-  return set(ref(db, `${userId}/users/custom/`), reqData).then(() => true)
+  const databaseRef = ref(db, `${userId}/users/custom`)
+  try {
+    await set(databaseRef, reqData)
+    return { success: true, message: '설정을 저장하였습니다.' }
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
+    }
+  }
 }
 
 // 고정 지출 저장
@@ -181,12 +192,13 @@ export async function setFixedExpense(
       })
       await update(databaseRef, deletes)
     }
-
-    return { success: true }
+    return { success: true, message: '고정 지출을 저장하였습니다.' }
   } catch (error) {
-    if (error instanceof Error) {
-      console.error('데이터 업데이트 실패:', error.message)
-      return { success: false, error: error.message }
+    const message =
+      error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
     }
   }
 }
