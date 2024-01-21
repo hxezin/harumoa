@@ -6,18 +6,19 @@ import {
 } from '../../api/firebase'
 import { UserCredential } from '@firebase/auth'
 import { queryClient } from '../../api/react-query'
+import { useToast } from './ToastContext'
 
 type Auth = {
   user: UserCredential['user'] | undefined
   login: () => void
-  logout: () => Promise<boolean>
+  logout: () => Promise<{ success: boolean; message: string }>
   isLoggedIn: boolean
 }
 
 const AuthContext = createContext<Auth>({
   user: undefined,
   login: () => {},
-  logout: () => Promise.resolve(false),
+  logout: () => Promise.resolve({ success: false, message: '' }),
   isLoggedIn: false,
 })
 
@@ -28,6 +29,8 @@ export function AuthContextProvider({
 }) {
   const [user, setUser] = useState<UserCredential['user']>()
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('user'))
+
+  const { showToast } = useToast()
 
   useEffect(() => {
     onUserStateChange((user: UserCredential['user']) => {
@@ -50,8 +53,11 @@ export function AuthContextProvider({
 
   const login = async () => {
     const res = await LoginGoogle()
-
-    setUser(res)
+    setUser(res.data)
+    showToast({
+      success: res.success,
+      message: res.message,
+    })
   }
 
   const logout = async () => {

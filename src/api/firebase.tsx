@@ -97,17 +97,30 @@ export async function LoginGoogle() {
         const settingUser = await setUser(res.user)
       }
     }
-    return res.user
-  } catch (e) {
-    // return e
+    return { success: true, message: '로그인 하셨습니다.', data: res.user }
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
+    }
   }
 }
 
 //로그아웃
 export async function LogoutGoogle() {
-  return signOut(auth)
-    .then(() => true)
-    .catch((e) => false)
+  try {
+    signOut(auth)
+    return { success: true, message: '로그아웃 하셨습니다.' }
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
+    }
+  }
 }
 
 //회원탈퇴
