@@ -16,6 +16,7 @@ import { MonthYearProvider } from './components/context/MonthYearContext'
 import Setting from './pages/Setting'
 import { ThemeProvider } from 'styled-components'
 import theme from './assets/css/theme'
+import { ToastProvider } from './components/context/ToastContext'
 
 const router = createBrowserRouter([
   {
@@ -35,17 +36,19 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <AuthContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <MonthYearProvider>
-          <ThemeProvider theme={theme}>
-            <RouterProvider router={router} />
-            <GlobalStyle />
-            <ReactQueryDevtools buttonPosition='bottom-left' />
-          </ThemeProvider>
-        </MonthYearProvider>
-      </QueryClientProvider>
-    </AuthContextProvider>
+    <ThemeProvider theme={theme}>
+      <ToastProvider>
+        <AuthContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <MonthYearProvider>
+              <RouterProvider router={router} />
+              <GlobalStyle />
+              <ReactQueryDevtools buttonPosition='bottom-left' />
+            </MonthYearProvider>
+          </QueryClientProvider>
+        </AuthContextProvider>
+      </ToastProvider>
+    </ThemeProvider>
   )
 }
 export default App
