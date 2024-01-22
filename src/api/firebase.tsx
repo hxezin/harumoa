@@ -69,7 +69,6 @@ async function getUser(user: UserCredential['user']) {
 //유저 세팅 (첫 로그인 시)
 async function setUser(userCredential: UserCredential['user']) {
   const { uid, email } = userCredential
-  console.log(uid, email)
 
   const reqData = {
     //TODO : default 값 정의 필요
@@ -87,7 +86,6 @@ async function setUser(userCredential: UserCredential['user']) {
 export async function LoginGoogle() {
   try {
     const res = await signInWithPopup(auth, provider)
-    console.log(res)
 
     if (res.user) {
       const isUser = await getUser(res.user)
