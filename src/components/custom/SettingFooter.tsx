@@ -2,11 +2,11 @@ import { styled } from 'styled-components'
 import ContentFooter from '../common/ContentFooter'
 import { BlueButton, Button } from '../common/Button'
 import { ReactComponent as Arrow } from '../../assets/icons/arrowRight.svg'
-import theme from '../../assets/css/theme'
 
 const Box = styled.div`
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   position: relative;
 
@@ -47,14 +47,14 @@ const SettingFooter = ({
   return (
     <ContentFooter>
       <Box>
-        <Button
+        {/* <Button
           value='회원 탈퇴하기'
           onClick={onConfirm}
           bgColor='transparent'
           fontColor={theme.color.gray0}
           hoverBgColor='transparent'
         />
-        <ArrowIcon onClick={onConfirm} />
+        <ArrowIcon onClick={onConfirm} /> */}
         <div>
           <Button value='되돌리기' onClick={onCancle} disabled={disabled} />
           <BlueButton value='저장하기' onClick={onSave} disabled={disabled} />
