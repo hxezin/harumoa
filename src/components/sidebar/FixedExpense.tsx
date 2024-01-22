@@ -194,7 +194,7 @@ const FixedExpense = ({
 
       {isOpen && (
         <FixedExpenseModal
-          data={data}
+          data={fixedExpense}
           setData={setData}
           category={category}
           onClose={onClose}

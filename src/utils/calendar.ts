@@ -96,12 +96,12 @@ export function filterFixedExpense(
   const filteredData = Object.entries(data).filter(([key, data]) => {
     const startDate = dayjs(data.payment_period.start_date)
     const endDate = dayjs(data.payment_period.end_date)
-    const paymentDate = dayjs(`${year}-${month}-${data.payment_day}`)
+    const paymentDate = dayjs(`${year}-${month}-01`)
 
     const isPaymentDateIncluded = paymentDate.isBetween(
       startDate,
       endDate,
-      'day',
+      'month',
       '[]'
     )
 
