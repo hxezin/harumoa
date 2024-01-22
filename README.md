@@ -1,27 +1,36 @@
-# 하루모아 harumoa
-<span>당신의 하루를 모두 모아, 하루모아!</span>
-url
+<p align="center"><img src='https://github.com/wjdgml3092/harumoa/assets/59546994/8b9694d6-22d4-414d-8578-87d067e8380c' height='250px'/></p>
 
+<div align="center">
+  <h1>하루모아 harumoa </h1> 
+  <p>당신의 하루를 모두 모아, 하루모아! <a href='https://harumoa.vercel.app/'>deploy</a></p> 
+
+  <div>
+    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>
+    <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+    <img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black"/>
+    <img src="https://img.shields.io/badge/ReactQuery-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
+  </div>
+  <br/>
+</div>
+
+## TOC
+- [팀 소개](#팀-소개) 
+- [서비스 소개](#서비스-소개)
+- [가이드](#가이드)
+- [기능](#기능)
+- [화면 구성](#화면-구성)
+- [이후 계획](#이후-계획)
+
+<br/>
 
 ## 팀 소개
 
 |김정희|이혜진|이정연|
 |:--:|:--:|:--:|
-|<img src='https://avatars.githubusercontent.com/u/59546994?v=4' width='100px'/>|<img src='https://avatars.githubusercontent.com/u/102649010?v=4' width='100px'/>||
-|[wjdgml3092](https://github.com/wjdgml3092)|[hxezin](https://github.com/hxezin)||
+|<img src='https://avatars.githubusercontent.com/u/59546994?v=4' width='100px'/>|<img src='https://avatars.githubusercontent.com/u/102649010?v=4' width='100px'/>|<img src='https://avatars.githubusercontent.com/u/137795499?v=4' width='100px'/>|
+|[wjdgml3092](https://github.com/wjdgml3092)|[hxezin](https://github.com/hxezin)|[jungyeon1ee](https://github.com/jungyeon1ee)|
 |개발자|개발자|디자이너|
-<br/>
-
-## 기술 스택
-
-<div>
-  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/>
-<img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
-<img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
-<img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black"/>
-  <img src="https://img.shields.io/badge/ReactQuery-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
-</div>
-
 <br/>
 
 ## 서비스 소개
@@ -93,7 +102,7 @@ url
 
 <br/>
 
-## 화면
+## 화면 구성
 |<span>로그인</span>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/231cb141-1bc5-4c63-84ec-8c6cc0a5a41a'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/879486fb-48a3-4b8b-b20b-a48341eca931'/>|
 |---|-------|------|
 |메인|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/673a14ee-bdf6-47d9-9311-ae2c1886f7cf'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/3dc95020-557c-4527-bb6f-a95c53ac4dd4'/>|
