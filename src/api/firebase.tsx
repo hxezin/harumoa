@@ -7,9 +7,6 @@ import {
   signOut,
   onAuthStateChanged,
   UserCredential,
-  deleteUser,
-  reauthenticateWithCredential,
-  signInWithCredential,
 } from '@firebase/auth'
 import {
   Custom,
@@ -35,8 +32,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth()
 const provider = new GoogleAuthProvider()
-
-const userId = localStorage.getItem('user')
 
 const db = getDatabase(app)
 
@@ -249,6 +244,7 @@ export async function getCustom(): Promise<Custom> {
   try {
     const snapshot = await get(child(ref(db), `${uid}/users/custom`))
     if (snapshot.exists()) {
+      console.log(snapshot.val())
       return snapshot.val() as Custom
     } else {
       return initialCustom
@@ -261,7 +257,9 @@ export async function getCustom(): Promise<Custom> {
 
 //커스텀 수정하기
 export async function setCustom(reqData: Custom) {
-  const databaseRef = ref(db, `${userId}/users/custom`)
+  const uid = localStorage.getItem('user')
+  const databaseRef = ref(db, `${uid}/users/custom`)
+
   try {
     await set(databaseRef, reqData)
     return { success: true, message: '설정이 저장되었습니다.' }
@@ -282,7 +280,10 @@ export async function setFixedExpense(
   reqData: IFixedExpense,
   deleteList?: string[]
 ) {
-  const databaseRef = ref(db, `${userId}/users/custom/fixed_expense`)
+  const uid = localStorage.getItem('user')
+
+  console.log(uid)
+  const databaseRef = ref(db, `${uid}/users/custom/fixed_expense`)
 
   try {
     // newData를 사용하여 데이터 업데이트
@@ -311,10 +312,10 @@ export async function setFixedExpense(
 
 //가계부 total 값 업데이트
 export async function setTotalPrice(date: string[], reqData: TotalPrice) {
-  return set(
-    ref(db, `${userId}/books/${date[0]}/${date[1]}/total`),
-    reqData
-  ).then(() => true)
+  const uid = localStorage.getItem('user')
+  return set(ref(db, `${uid}/books/${date[0]}/${date[1]}/total`), reqData).then(
+    () => true
+  )
 }
 
 //가계부, 다이어리 저장 메소드
@@ -324,7 +325,9 @@ export async function setBook(
   totalPrice: TotalPrice,
   isDelete?: boolean
 ) {
-  return set(ref(db, `${userId}/books/${date}/`), reqData)
+  const uid = localStorage.getItem('user')
+
+  return set(ref(db, `${uid}/books/${date}/`), reqData)
     .then(() => {
       if (isDelete) {
         //삭제
