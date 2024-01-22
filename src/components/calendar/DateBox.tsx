@@ -236,9 +236,11 @@ const DateBox = ({
               <span>{date}</span>
             </div>
           </Date>
-          <Diary>
-            <span>{diary.title}</span>
-          </Diary>
+          {diary.title !== '' && (
+            <Diary>
+              <span>{diary.title}</span>
+            </Diary>
+          )}
           <ActionButton onClick={handleEditBtnClick}>
             <img src={editIcon} />
           </ActionButton>
