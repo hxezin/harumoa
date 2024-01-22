@@ -1,7 +1,6 @@
 import { localStorageSetting, setCustom } from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
-import Modal from '../components/common/Modal'
 import useModal from '../hooks/useModal'
 import { useNavigate } from 'react-router-dom'
 import usePatchCustom from '../hooks/custom/usePatchCustom'
@@ -12,7 +11,6 @@ import SettingFooter from '../components/custom/SettingFooter'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import Template from '../components/common/Template'
 import Confirm from '../components/common/Confirm'
-import { Button, RedButton } from '../components/common/Button'
 import SidebarSetting from '../components/custom/SidebarSetting'
 import DailySetting from '../components/custom/DailySetting'
 import isEqual from 'lodash.isequal'
@@ -60,22 +58,24 @@ const Setting = () => {
   //   }
   // }
 
-  if (!custom || isLoading || isPending) return <LoadingSpinner />
-
   return (
     <>
-      <Template
-        title='설정'
-        guidance='커스텀과 로그인 정보를 변경할 수 있습니다.'
-      >
-        <SidebarSetting
-          expectedLimit={customData.expected_limit}
-          setExpectedLimit={(data) => {
-            setCustomData({ ...customData, expected_limit: data })
-          }}
-        />
-        <DailySetting customData={customData} setCustomData={setCustomData} />
-      </Template>
+      {!custom || isLoading || isPending ? (
+        <LoadingSpinner />
+      ) : (
+        <Template
+          title='설정'
+          guidance='커스텀과 로그인 정보를 변경할 수 있습니다.'
+        >
+          <SidebarSetting
+            expectedLimit={customData.expected_limit}
+            setExpectedLimit={(data) => {
+              setCustomData({ ...customData, expected_limit: data })
+            }}
+          />
+          <DailySetting customData={customData} setCustomData={setCustomData} />
+        </Template>
+      )}
 
       {/* {isOpen && (
         <Modal onClose={onClose}>
