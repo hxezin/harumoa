@@ -19,11 +19,11 @@ const LoginIntroContainer = styled.div`
   align-items: center;
 
   padding-left: 1.5rem;
-  margin-top: 20px;
+  height: ${({ theme }) => `calc(100vh - ${theme.layout.headerHeight})`};
 
   & > img {
     width: 60%;
-    box-shadow: 3px 3px 3px 5px ${({ theme }) => theme.color.gray0};
+    box-shadow: 3px 3px 5px #edeaea;
 
     border-top-right-radius: 3%;
     border-bottom-right-radius: 3%;
@@ -43,7 +43,7 @@ const LoginContainer = styled.div`
 
     border-radius: 1rem;
     background: ${({ theme }) => theme.color.white};
-    box-shadow: 2px 2px 8px 0px rgba(97, 97, 97, 0.5);
+    box-shadow: 2px 2px 8px 0px #edeaea;
 
     padding: 3rem;
     p {
