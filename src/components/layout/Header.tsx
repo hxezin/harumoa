@@ -5,6 +5,7 @@ import logo from '../../assets/images/logo.svg'
 import settingIcon from '../../assets/icons/settingIcon.svg'
 import theme from '../../assets/css/theme'
 import { GrayBorderButton } from '../common/Button'
+import { useToast } from '../context/ToastContext'
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -62,6 +63,8 @@ const Header = () => {
   const { logout } = useAuthContext()
   const nickName = localStorage.getItem('nickName')
 
+  const { showToast } = useToast()
+
   const handleLogoClick = () => {
     if (location.pathname.includes('/login') || location.pathname === '/') {
       return
@@ -73,11 +76,13 @@ const Header = () => {
   const handleLogout = async () => {
     const res = await logout()
 
-    if (res) {
+    if (res.success) {
       navigate('/login')
       localStorage.clear()
+      showToast(res)
     } else {
       //error 처리
+      showToast(res)
     }
   }
 

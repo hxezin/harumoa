@@ -97,17 +97,34 @@ export async function LoginGoogle() {
         const settingUser = await setUser(res.user)
       }
     }
-    return res.user
-  } catch (e) {
-    // return e
+    return { success: true, message: '로그인 되었습니다.', data: res.user }
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : '로그인에 실패했습니다. 다시 시도해주세요.'
+    return {
+      success: false,
+      message: message,
+    }
   }
 }
 
 //로그아웃
 export async function LogoutGoogle() {
-  return signOut(auth)
-    .then(() => true)
-    .catch((e) => false)
+  try {
+    signOut(auth)
+    return { success: true, message: '로그아웃이 완료되었습니다.' }
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : '로그아웃에 실패했습니다. 다시 시도해주세요.'
+    return {
+      success: false,
+      message: message,
+    }
+  }
 }
 
 //회원탈퇴
@@ -159,7 +176,20 @@ export async function getCustom(): Promise<Custom> {
 
 //커스텀 수정하기
 export async function setCustom(reqData: Custom) {
-  return set(ref(db, `${userId}/users/custom/`), reqData).then(() => true)
+  const databaseRef = ref(db, `${userId}/users/custom`)
+  try {
+    await set(databaseRef, reqData)
+    return { success: true, message: '설정이 저장되었습니다.' }
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : '설정을 저장하는 동안 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
+    }
+  }
 }
 
 // 고정 지출 저장
@@ -181,12 +211,15 @@ export async function setFixedExpense(
       })
       await update(databaseRef, deletes)
     }
-
-    return { success: true }
+    return { success: true, message: '고정 지출이 저장되었습니다.' }
   } catch (error) {
-    if (error instanceof Error) {
-      console.error('데이터 업데이트 실패:', error.message)
-      return { success: false, error: error.message }
+    const message =
+      error instanceof Error
+        ? error.message
+        : '고정 지출을 저장하는 동안 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
     }
   }
 }

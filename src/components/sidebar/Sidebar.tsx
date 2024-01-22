@@ -30,22 +30,22 @@ const SubContainer = styled.div`
 const Sidebar = () => {
   const { custom } = useCustom()
   const expenseCategory =
-    localStorage.getItem('category_expense') || initialCustom.category.expense
+    localStorage.getItem('category_expense') ?? initialCustom.category.expense
 
   return (
     <Container>
       <Title>월간 가계부</Title>
       <FixedExpense
-        fixedExpense={custom?.fixed_expense || initialCustom.fixed_expense}
+        fixedExpense={custom?.fixed_expense ?? initialCustom.fixed_expense}
         category={expenseCategory}
         enableExpectedLimit={
-          custom?.expected_limit.is_possible ||
+          custom?.expected_limit.is_possible ??
           initialCustom.expected_limit.is_possible
         }
       />
       <SubContainer>
         <ExpectedLimit
-          expectedLimit={custom?.expected_limit || initialCustom.expected_limit}
+          expectedLimit={custom?.expected_limit ?? initialCustom.expected_limit}
         />
         <MonthlyFinancialOverview />
       </SubContainer>
