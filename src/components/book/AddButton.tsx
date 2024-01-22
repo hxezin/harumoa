@@ -3,8 +3,8 @@ import { ReactComponent as Add } from '../../assets/icons/addCircle.svg'
 import { styled } from 'styled-components'
 
 const AddIcon = styled(Add)`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.2rem;
+  height: 1.2rem;
 
   circle {
     fill: ${({ theme }) => theme.color.primary.main};
@@ -24,7 +24,7 @@ const AddButton = ({ onClick }: AddButtonProps) => {
     <GrayBorderButton
       value={<AddIcon />}
       onClick={onClick}
-      padding='0.25rem 0'
+      padding='0.5rem'
       width='100%'
       borderRadius='0.5rem'
     />

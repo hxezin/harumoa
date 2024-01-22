@@ -21,6 +21,8 @@ const ModalMain = styled.div`
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 2px 2px 8px 0px ${({ theme }) => theme.color.gray2};
+
+  max-width: 1000px;
 `
 
 export interface ModalProps {

@@ -4,7 +4,6 @@ import { styled } from 'styled-components'
 import { IFixedExpense } from '../../types'
 import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import { paymentTypeOptions } from '../../constants'
-import Select from '../common/Select'
 import { setFixedExpense } from '../../api/firebase'
 import { ellipsisStyles } from '../../assets/css/global'
 import Modal from '../common/Modal'
@@ -16,16 +15,25 @@ import DeleteButton from '../book/DeleteButton'
 import Input from '../common/Input'
 import isEqual from 'lodash.isequal'
 import dayjs from 'dayjs'
+import Dropdown from '../common/Dropdown'
+import { KRWICon } from '../book/AccountBookTable'
+import { ReactComponent as Close } from '../../assets/icons/closeIcon.svg'
 
 const HeaderContainer = styled.div`
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 
   h3 {
     margin: 0;
-    margin-bottom: 2rem;
 
     font-size: ${({ theme }) => theme.fontSize.lg};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
+  }
+
+  svg {
+    cursor: pointer;
   }
 `
 
@@ -39,6 +47,10 @@ const TableContainer = styled.table<{ $isEdit: boolean }>`
     border-bottom: 1px solid ${({ theme }) => theme.color.gray1};
   }
 
+  thead > tr > td {
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  }
+
   th {
     color: ${({ theme }) => theme.color.gray3};
     padding: 0.5rem;
@@ -46,29 +58,10 @@ const TableContainer = styled.table<{ $isEdit: boolean }>`
   }
 
   td {
-    padding: 0.5rem 0;
+    padding: 0.5rem;
     text-align: center;
     ${ellipsisStyles}
-  }
-
-  tr > th:first-child {
-    width: 33%;
-  }
-
-  tr > th:nth-of-type(2) {
-    width: 9%;
-  }
-
-  tr > th:nth-of-type(3) {
-    width: 13%;
-  }
-
-  tr > th:nth-of-type(4) {
-    width: 17%;
-  }
-
-  tr > th:nth-of-type(6) {
-    width: 15%;
+    overflow: visible;
   }
 
   button {
@@ -76,26 +69,22 @@ const TableContainer = styled.table<{ $isEdit: boolean }>`
     background: inherit;
   }
 
-  input,
-  select {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-  }
-
   input {
     cursor: text;
   }
 
   input[type='date'] {
-    width: 40%;
+    width: 45%;
   }
 
-  input:not(input[type='date']) {
-    width: 83%;
+  tr > td:nth-child(4) {
+    position: relative;
   }
 
-  select {
-    width: 95%;
+  input[type='date']::-webkit-inner-spin-button,
+  input[type='date']::-webkit-calendar-picker-indicator {
+    display: ${({ $isEdit }) => ($isEdit ? '' : 'none')};
+    -webkit-appearance: ${({ $isEdit }) => ($isEdit ? '' : 'none')};
   }
 `
 
@@ -174,17 +163,19 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
     <Modal onClose={onClose}>
       <HeaderContainer>
         <h3>고정 지출</h3>
+
+        <Close onClick={onClose} />
       </HeaderContainer>
       <TableContainer $isEdit={isEdit}>
         <thead>
           <tr>
-            <th>지출 기간</th>
-            <th>지출일</th>
-            <th>카테고리</th>
-            <th>금액</th>
-            <th>지출 수단</th>
-            <th>메모</th>
-            {isEdit && <th></th>}
+            <td width='25%'>지출 기간</td>
+            <td width='10%'>지출일</td>
+            <td width='15%'>카테고리</td>
+            <td width='20%'>금액</td>
+            <td width='10%'>지출 수단</td>
+            <td width='20%'>메모</td>
+            {isEdit && <td></td>}
           </tr>
         </thead>
         <tbody>
@@ -194,6 +185,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                 <Input
                   type='date'
                   placeholder='시작 날짜'
+                  textAlign='center'
                   onChange={(e) => {
                     setNewData((prev) => {
                       prev[key].payment_period.start_date = e.target.value
@@ -207,6 +199,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                 <Input
                   type='date'
                   placeholder='종료 날짜'
+                  textAlign='center'
                   onChange={(e) => {
                     setNewData((prev) => {
                       prev[key].payment_period.end_date = e.target.value
@@ -219,41 +212,44 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                 />
               </td>
               <td>
-                <Select
-                  name='paymentDay'
-                  handleOnChange={(e) => {
+                <Dropdown
+                  onChange={(e) => {
                     setNewData((prev) => {
                       prev[key].payment_day = e
                       return { ...prev }
                     })
                   }}
-                  valData={formatSelectOptions(
+                  options={formatSelectOptions(
                     Array.from({ length: 30 }, (_, index) =>
                       (index + 1).toString()
                     )
                   )}
-                  defaultVal={newData[key].payment_day}
-                  $viewMode={!isEdit}
+                  defaultValue={newData[key].payment_day}
+                  viewMode={!isEdit}
+                  placeholder='지출일'
+                  height='18rem'
                 />
               </td>
               <td>
-                <Select
-                  name='category'
-                  handleOnChange={(e) => {
+                <Dropdown
+                  onChange={(e) => {
                     setNewData((prev) => {
                       prev[key].category = e
                       return { ...prev }
                     })
                   }}
-                  valData={formatSelectOptions(category.split(','))}
-                  defaultVal={newData[key].category}
-                  $viewMode={!isEdit}
+                  options={formatSelectOptions(category.split(','))}
+                  defaultValue={newData[key].category}
+                  viewMode={!isEdit}
+                  placeholder='카테고리'
+                  height='10rem'
                 />
               </td>
               <td>
                 <Input
                   type='text'
                   placeholder='금액'
+                  textAlign='right'
                   onChange={(e) => {
                     setNewData((prev) => {
                       const numPrice = inputNumberCheck(e.target.value)
@@ -268,25 +264,27 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                   }
                   viewMode={!isEdit}
                 />
+                <KRWICon $viewMode={!isEdit}>₩</KRWICon>
               </td>
               <td>
-                <Select
-                  name='paymentType'
-                  handleOnChange={(e) => {
+                <Dropdown
+                  onChange={(e) => {
                     setNewData((prev) => {
                       prev[key].payment_type = e
                       return { ...prev }
                     })
                   }}
-                  valData={paymentTypeOptions}
-                  defaultVal={newData[key].payment_type}
-                  $viewMode={!isEdit}
+                  placeholder='지출 수단'
+                  options={paymentTypeOptions}
+                  defaultValue={newData[key].payment_type}
+                  viewMode={!isEdit}
                 />
               </td>
               <td>
                 <Input
                   type='text'
                   placeholder='메모'
+                  textAlign='center'
                   onChange={(e) => {
                     setNewData((prev) => {
                       prev[key].memo = e.target.value
@@ -313,7 +311,11 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
       <ButtonContainer>
         {isEdit ? (
           <>
-            <Button value='되돌리기' onClick={handleCancle} />
+            <Button
+              value='되돌리기'
+              onClick={handleCancle}
+              disabled={isEqual(originData, newData)}
+            />
             <BlueButton
               value='저장하기'
               onClick={() => patchCustom()}

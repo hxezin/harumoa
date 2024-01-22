@@ -60,7 +60,10 @@ const MonthlyFinancialOverview = () => {
           {titleArr.map((item, idx) => (
             <tr key={idx}>
               <td>{item}</td>
-              <td>{inputNumberWithComma(contentArr[idx])}₩</td>
+              <td>
+                {idx === 1 && '-'}
+                {inputNumberWithComma(contentArr[idx])}₩
+              </td>
             </tr>
           ))}
         </tbody>

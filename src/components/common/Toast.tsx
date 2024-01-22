@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Container = styled.div<{ $isSuccess: boolean }>`
-  position: absolute;
+  position: fixed;
   left: 50%;
   bottom: 30px;
   transform: translate(-50%, 0);

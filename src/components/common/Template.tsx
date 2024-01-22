@@ -11,13 +11,13 @@ const Header = styled.header`
   h1 {
     color: ${({ theme }) => theme.color.black};
     font-size: ${({ theme }) => theme.fontSize.xl};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
     margin-bottom: 0.5rem;
   }
 
   p {
     color: ${({ theme }) => theme.color.gray1};
-    font-size: ${({ theme }) => theme.fontSize.base};
+    font-size: ${({ theme }) => theme.fontSize.sm};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     margin: 0;
   }

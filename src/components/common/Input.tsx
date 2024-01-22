@@ -13,7 +13,7 @@ const InputContainer = styled.input<{
   ${({ $textAlign }) => formFieldStyles($textAlign)}
   ${({ theme, $viewMode }) => formFieldViewModeStyles(theme, $viewMode)}
 
-  padding: ${({ $padding }) => $padding || '0.75rem'};
+  padding: ${({ $padding }) => $padding || '0.5rem'};
 `
 
 interface InputProps {

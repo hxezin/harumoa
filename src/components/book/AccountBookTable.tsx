@@ -12,7 +12,7 @@ const TableContainer = styled.table`
 
   thead {
     color: ${({ theme }) => theme.color.gray2};
-    font-size: ${({ theme }) => theme.fontSize.xs};
+    font-size: ${({ theme }) => theme.fontSize.sm};
     font-weight: ${({ theme }) => theme.fontWeight.extraBold};
     border-bottom: 1px solid ${({ theme }) => theme.color.gray0};
     text-align: center;
@@ -36,13 +36,13 @@ const TableContainer = styled.table`
   }
 `
 
-const KRWICon = styled.span<{ $viewMode: boolean }>`
+export const KRWICon = styled.span<{ $viewMode: boolean }>`
   position: absolute;
   left: 1rem;
-  top: 1.4rem;
+  top: 1.1rem;
 
   color: ${({ theme, $viewMode }) =>
-    $viewMode ? theme.color.primary.dark : theme.color.gray3};
+    $viewMode ? theme.color.black : theme.color.gray3};
 `
 
 interface AccountBookTableProps {
@@ -116,7 +116,7 @@ const AccountBookTable = ({
                     placeholder='금액'
                     textAlign='right'
                     viewMode={viewMode}
-                    padding='0.75rem 0.75rem 0.75rem 2rem'
+                    padding='0.5rem'
                   />
                   <KRWICon $viewMode={viewMode}>₩</KRWICon>
                 </td>

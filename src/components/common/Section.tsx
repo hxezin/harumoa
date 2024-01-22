@@ -13,8 +13,8 @@ const SectionContainer = styled.section`
     margin: 0;
     margin-bottom: 0.5rem;
     color: ${({ theme }) => theme.color.black};
-    font-size: ${({ theme }) => theme.fontSize.lg};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+    font-size: ${({ theme }) => theme.fontSize.md};
+    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
   }
 `
 

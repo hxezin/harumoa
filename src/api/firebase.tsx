@@ -244,7 +244,6 @@ export async function getCustom(): Promise<Custom> {
   try {
     const snapshot = await get(child(ref(db), `${uid}/users/custom`))
     if (snapshot.exists()) {
-      console.log(snapshot.val())
       return snapshot.val() as Custom
     } else {
       return initialCustom
@@ -282,7 +281,6 @@ export async function setFixedExpense(
 ) {
   const uid = localStorage.getItem('user')
 
-  console.log(uid)
   const databaseRef = ref(db, `${uid}/users/custom/fixed_expense`)
 
   try {

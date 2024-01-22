@@ -37,7 +37,7 @@ const DropdownInput = styled.input<{
 
 const ChevronIcon = styled.div<{ disabled: boolean }>`
   position: absolute;
-  top: 1rem;
+  top: 0.75rem;
   right: 1rem;
   cursor: pointer;
 
@@ -47,16 +47,17 @@ const ChevronIcon = styled.div<{ disabled: boolean }>`
   }
 `
 
-const DropdownList = styled.ul`
+const DropdownList = styled.ul<{ $height: string }>`
   position: absolute;
-  top: 85%;
+  top: 60%;
   left: 0;
   z-index: 1;
 
+  border: 2px solid ${({ theme }) => theme.color.gray0};
   box-sizing: border-box;
   padding: 0;
   width: 100%;
-  max-height: 8rem;
+  max-height: ${({ $height }) => $height};
   overflow-y: auto;
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.color.white};
@@ -64,6 +65,7 @@ const DropdownList = styled.ul`
 
   li {
     padding: 0.75rem;
+    text-align: center;
   }
 
   li:hover {
@@ -80,6 +82,8 @@ interface DropdownProps {
   disabled?: boolean
   viewMode?: boolean
   textAlign?: TextAlign
+
+  height?: string
 }
 
 function Dropdown({
@@ -90,6 +94,7 @@ function Dropdown({
   disabled = false,
   viewMode = false,
   textAlign = 'center',
+  height = '8rem',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -151,7 +156,7 @@ function Dropdown({
         </ChevronIcon>
       )}
       {!viewMode && isOpen && (
-        <DropdownList>
+        <DropdownList $height={height}>
           {options.map((item, index) => (
             <li key={index} onClick={() => selectOption(item.value)}>
               {item.label}
