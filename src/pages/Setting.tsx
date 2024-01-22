@@ -24,7 +24,7 @@ const Setting = () => {
 
   const [customData, setCustomData] = useState<Custom>(initialCustom)
   const [originData, setOriginData] = useState<Custom>(initialCustom)
-  const [isSaveBtnDisabled, setSaveBtnDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true)
 
   const { patchCustom, isPending } = usePatchCustom({
     onMutate: () => setCustom(customData),
@@ -42,9 +42,9 @@ const Setting = () => {
     }
   }, [custom])
 
-  // originData와 customData 값이 다르면 저장 버튼 활성화
+  // 저장/되돌리기 버튼 조건부 활성화
   useEffect(() => {
-    setSaveBtnDisabled(isEqual(originData, customData))
+    setDisabled(isEqual(originData, customData))
   }, [customData, originData])
 
   const handleCancle = () => {
@@ -102,7 +102,7 @@ const Setting = () => {
         onCancle={handleCancle}
         onSave={patchCustom}
         onConfirm={onOpen}
-        disabled={isSaveBtnDisabled}
+        disabled={disabled}
       />
     </>
   )

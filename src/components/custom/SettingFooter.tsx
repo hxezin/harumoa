@@ -56,7 +56,7 @@ const SettingFooter = ({
         />
         <ArrowIcon onClick={onConfirm} />
         <div>
-          <Button value='되돌리기' onClick={onCancle} />
+          <Button value='되돌리기' onClick={onCancle} disabled={disabled} />
           <BlueButton value='저장하기' onClick={onSave} disabled={disabled} />
         </div>
       </Box>
