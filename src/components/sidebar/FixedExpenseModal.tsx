@@ -143,7 +143,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
       [uuidv4()]: {
         //추가 시 초기값 변경.
         payment_period: { start_date: currentDate, end_date: oneYearLater },
-        payment_day: '',
+        payment_day: '1',
         category: category.split(',')[0],
         memo: '',
         price: 0,
@@ -298,9 +298,11 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                 />
               </td>
 
-              <td>
-                <DeleteButton onClick={() => handleDelete(key)} />
-              </td>
+              {isEdit && (
+                <td>
+                  <DeleteButton onClick={() => handleDelete(key)} />
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
