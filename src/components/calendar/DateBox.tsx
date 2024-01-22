@@ -97,9 +97,12 @@ const AccountBookList = styled.ul`
   color: ${({ theme }) => theme.color.gray1};
 `
 
-const AccountBookItem = styled.li`
+const AccountBookItem = styled.li<{ $isIncome: boolean }>`
   display: flex;
   justify-content: space-between;
+
+  color: ${({ $isIncome, theme }) =>
+    $isIncome ? theme.color.primary.dark : theme.color.red.dark};
 `
 
 const Comment = styled.span`
@@ -125,8 +128,6 @@ const TotalPrice = styled.div<{ $totalPrice: number }>`
   }
 
   span {
-    color: ${({ $totalPrice, theme }) =>
-      $totalPrice > 0 ? theme.color.primary.main : theme.color.gray2};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
@@ -248,7 +249,7 @@ const DateBox = ({
 
         <AccountBookList>
           {Object.entries(account_book).map(([key, account]) => (
-            <AccountBookItem key={key}>
+            <AccountBookItem key={key} $isIncome={account.is_income}>
               <Comment>{account.category}</Comment>
               <Price>{inputNumberWithComma(account.price)}₩</Price>
             </AccountBookItem>
@@ -256,7 +257,7 @@ const DateBox = ({
         </AccountBookList>
 
         <TotalPrice $totalPrice={getTotalPrice(account_book)}>
-          <span> 총 </span>{' '}
+          <span> 총 </span>
           <span> {inputNumberWithComma(getTotalPrice(account_book))}₩ </span>
         </TotalPrice>
       </DateBoxContainer>
