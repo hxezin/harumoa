@@ -8,6 +8,8 @@ import {
   onAuthStateChanged,
   UserCredential,
   deleteUser,
+  reauthenticateWithCredential,
+  signInWithCredential,
 } from '@firebase/auth'
 import {
   Custom,
@@ -90,6 +92,8 @@ async function setUser(userCredential: UserCredential['user']) {
 export async function LoginGoogle() {
   try {
     const res = await signInWithPopup(auth, provider)
+    console.log(res)
+
     if (res.user) {
       const isUser = await getUser(res.user)
 
@@ -110,18 +114,99 @@ export async function LogoutGoogle() {
     .catch((e) => false)
 }
 
-//회원탈퇴
-export async function UserOut() {
-  const user = auth.currentUser
+// async function getIdToken(user: UserCredential['user'] | null) {
+//   //idtoken get
+//   if (user) {
+//     return user
+//       .getIdTokenResult(true) //token param1 -> true : force refresh token
+//       .then((res) => {
+//         return { isSuccess: true, res: res }
+//       })
+//       .catch((error) => {
+//         if (error instanceof Error) {
+//           console.log('getidToken err', error.message)
+//         }
+//         return { isSuccess: false, res: error.message }
+//       })
+//   }
+// }
 
-  if (user) {
-    return deleteUser(user)
-      .then(() => set(ref(db, `${userId}`), null).then(() => true))
-      .catch((error) => {
-        return false
-      })
-  }
-}
+//회원탈퇴
+// export async function revokeAccessUser() {
+//   const user = auth.currentUser
+
+//   const getToken = await getIdToken(user)
+
+//   if (user && getToken?.isSuccess) {
+//     const credential = GoogleAuthProvider.credential(getToken?.res)
+
+//     // const a = await signInWithCredential(auth, credential)
+//     // console.log('a', a)
+
+//     return reauthenticateWithCredential(user, credential) //재인증
+//       .then((res) => {
+//         console.log('res', res)
+
+//         // User re-authenticated.
+//         deleteUser(res.user).then(() =>
+//           set(ref(db, `${userId}`), null).then(() => true)
+//         )
+//       })
+//       .catch((error) => {
+//         if (error instanceof Error) {
+//           console.log('revoke err', error.message)
+//         }
+//         return false
+//       })
+//   }
+
+//   // if (user) {
+//   //   const credential = GoogleAuthProvider.credential()
+
+//   //   return reauthenticateWithCredential(user, credential) //재인증
+//   //     .then((res) => {
+//   //       // User re-authenticated.
+//   //       deleteUser(res.user).then(() =>
+//   //         set(ref(db, `${userId}`), null).then(() => true)
+//   //       )
+//   //     })
+//   //     .catch((error) => {
+//   //       if (error instanceof Error) {
+//   //         console.log(error.message)
+//   //       }
+//   //       return false
+//   //     })
+//   // }
+
+//   // if (user) {
+//   //   return user
+//   //     .getIdToken(true) //token
+//   //     .then(
+//   //       (res) => console.log(res)
+
+//   //       // deleteUser(user).then(() =>
+//   //       //   set(ref(db, `${userId}`), null).then(() => true)
+//   //       // )
+//   //     )
+//   //     .catch((error) => {
+//   //       if (error instanceof Error) {
+//   //         console.log(error.message)
+//   //       }
+//   //       return false
+//   //     })
+//   // }
+
+//   // if (user) {
+//   //   return deleteUser(user)
+//   //     .then(() => set(ref(db, `${userId}`), null).then(() => true))
+//   //     .catch((error) => {
+//   //       if (error instanceof Error) {
+//   //         console.log(error.message)
+//   //       }
+//   //       return false
+//   //     })
+//   // }
+// }
 
 // 캘린더 데이터 가져오기
 export async function getBooks(year: string, month: string) {

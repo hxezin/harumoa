@@ -1,4 +1,4 @@
-import { UserOut, localStorageSetting, setCustom } from '../api/firebase'
+import { localStorageSetting, setCustom } from '../api/firebase'
 import { Custom } from '../types'
 import { useEffect, useState } from 'react'
 import Modal from '../components/common/Modal'
@@ -51,15 +51,14 @@ const Setting = () => {
     setCustomData(deepCopy(originData))
   }
 
-  const handleUserOut = async () => {
-    //회원탈퇴
-    const res = await UserOut()
-    if (res) {
-      //toast 보여주기
-      //이동
-      navigate('/login')
-    }
-  }
+  // const handleUserOut = async () => {
+  //   //회원탈퇴
+  //   const res = await revokeAccessUser()
+  //   if (res) {
+  //     //localStorage.clear() //로컬스토리지 클리어
+  //     navigate('/login')
+  //   }
+  // }
 
   if (!custom || isLoading || isPending) return <LoadingSpinner />
 
@@ -78,7 +77,7 @@ const Setting = () => {
         <DailySetting customData={customData} setCustomData={setCustomData} />
       </Template>
 
-      {isOpen && (
+      {/* {isOpen && (
         <Modal onClose={onClose}>
           <Confirm
             title={`정말 탈퇴하시겠습니까?`}
@@ -96,7 +95,7 @@ const Setting = () => {
             }
           />
         </Modal>
-      )}
+      )} */}
 
       <SettingFooter
         onCancle={handleCancle}
