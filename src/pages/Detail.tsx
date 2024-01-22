@@ -25,7 +25,7 @@ const Detail = () => {
 
   const { total } = useMonthYearContext()
 
-  const { mutate: deleteBook, isPending } = useSetBook(date, total, null)
+  const { mutate: deleteBook, isPending } = useSetBook(date, total, null, true)
 
   const { updateTotalPrice } = useSetTotalPrice(
     date,

@@ -321,9 +321,29 @@ export async function setTotalPrice(date: string[], reqData: TotalPrice) {
 export async function setBook(
   date: string,
   reqData: MonthDetail | null,
-  totalPrice: TotalPrice
+  totalPrice: TotalPrice,
+  isDelete?: boolean
 ) {
   return set(ref(db, `${userId}/books/${date}/`), reqData)
-    .then(() => true)
-    .catch(() => setTotalPrice(date.split('-'), totalPrice))
+    .then(() => {
+      if (isDelete) {
+        //삭제
+        return { success: true, message: '가계부가 삭제되었습니다.' }
+      } else {
+        //수정,작성
+        return { success: true, message: '가계부가 저장되었습니다.' }
+      }
+    })
+    .catch((error) => {
+      const message =
+        error instanceof Error
+          ? error.message
+          : '오류가 발생했습니다. 다시 시도해주세요.'
+      return {
+        success: false,
+        message: message,
+      }
+
+      setTotalPrice(date.split('-'), totalPrice)
+    })
 }
