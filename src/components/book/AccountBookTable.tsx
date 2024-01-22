@@ -4,6 +4,7 @@ import Input from '../common/Input'
 import Dropdown from '../common/Dropdown'
 import { IAccountBook, Options } from '../../types'
 import DeleteButton from './DeleteButton'
+import { paymentTypeOptions } from '../../constants'
 
 const TableContainer = styled.table`
   width: 100%;
@@ -65,9 +66,10 @@ const AccountBookTable = ({
     <TableContainer>
       <thead>
         <tr>
-          <td width='25%'>카테고리</td>
-          <td width='25%'>금액</td>
-          <td width='50%'>메모</td>
+          <td width='20%'>카테고리</td>
+          <td width='20%'>금액</td>
+          <td width='20%'>지출 수단</td>
+          <td width='40%'>메모</td>
           {!viewMode && <td></td>}
         </tr>
       </thead>
@@ -117,6 +119,19 @@ const AccountBookTable = ({
                     padding='0.75rem 0.75rem 0.75rem 2rem'
                   />
                   <KRWICon $viewMode={viewMode}>₩</KRWICon>
+                </td>
+                <td>
+                  <Dropdown
+                    onChange={(e) => {
+                      accountBookData[key].payment_type = e
+                      console.log(accountBookData[key])
+                      setAccountBook && setAccountBook({ ...accountBookData })
+                    }}
+                    options={paymentTypeOptions}
+                    defaultValue={accountBookData[key].payment_type}
+                    placeholder='지출 수단'
+                    viewMode={viewMode}
+                  />
                 </td>
                 <td>
                   <Input
