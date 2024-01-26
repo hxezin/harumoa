@@ -36,6 +36,10 @@ const ContentContainer = styled.div`
   align-items: center;
 
   gap: 0.25rem;
+
+  @media screen and (min-width: 1050px) {
+    padding-right: 10px;
+  }
 `
 
 const Date = styled.div<{ $isToday?: boolean; $day?: number }>`
@@ -82,6 +86,14 @@ const Diary = styled.div`
 
   > span {
     ${ellipsisStyles}
+  }
+
+  @media screen and (min-width: 1050px) {
+    width: 80%;
+  }
+
+  @media screen and (max-width: 1050px) {
+    width: 60%;
   }
 `
 
