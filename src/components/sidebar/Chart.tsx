@@ -4,6 +4,7 @@ import SixMonthChart from '../chart/SixMonthChart'
 import { useMonthYear } from '../context/MonthYearContext'
 import nextArrow from '../../assets/icons/nextArrow.svg'
 import beforeArrow from '../../assets/icons/beforeArrow.svg'
+import CategoryProgressBar from './CategoryProgressBar'
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +50,14 @@ const LocationButton = styled.button`
   justify-content: center;
 `
 
+const ChartContainer = styled.div`
+  display: flex;
+
+  > div {
+    width: 50%;
+  }
+`
+
 const Chart = () => {
   //차트 2개 컴포넌트 분리 후 불러오기
   const { data, monthYear, updateMonthYear } = useMonthYear()
@@ -72,8 +81,11 @@ const Chart = () => {
         </LocationButton>
       </MonthlyContainer>
 
-      <SixMonthChart />
-      <CategoryChart data={data} />
+      <ChartContainer>
+        <SixMonthChart />
+        {/* <CategoryChart data={data} month={monthYear.month} /> */}
+        <CategoryProgressBar data={data} month={monthYear.month} />
+      </ChartContainer>
     </Container>
   )
 }

@@ -67,12 +67,11 @@ const Sidebar = () => {
         />
         <MonthlyFinancialOverview />
       </SubContainer>
-
-      {isOpen && (
-        <Modal onClose={onClose}>
-          <Chart />
-        </Modal>
-      )}
+      {/* {isOpen && */}(
+      <Modal onClose={onClose}>
+        <Chart />
+      </Modal>
+      ){/* } */}
     </Container>
   )
 }
