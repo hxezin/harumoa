@@ -35,7 +35,8 @@ ChartJS.register(
   LineController,
   BarController
 )
-export const options = {
+
+const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -46,6 +47,8 @@ export const options = {
       text: '수입/지출 6개월 차트',
     },
     tooltip: {
+      mode: 'index' as const,
+      intersect: false,
       callbacks: {
         label: (context: TooltipItem<keyof ChartTypeRegistry>) => {
           return `${context.dataset.label}: ₩ ${context.formattedValue}`
