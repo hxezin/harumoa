@@ -259,19 +259,26 @@ const DateBox = ({
           </ActionButton>
         </ContentContainer>
 
-        <AccountBookList>
-          {Object.entries(account_book).map(([key, account]) => (
-            <AccountBookItem key={key} $isIncome={account.is_income}>
-              <Comment>{account.category}</Comment>
-              <Price>{inputNumberWithComma(account.price)}₩</Price>
-            </AccountBookItem>
-          ))}
-        </AccountBookList>
+        {account_book && (
+          <>
+            <AccountBookList>
+              {Object.entries(account_book).map(([key, account]) => (
+                <AccountBookItem key={key} $isIncome={account.is_income}>
+                  <Comment>{account.category}</Comment>
+                  <Price>{inputNumberWithComma(account.price)}₩</Price>
+                </AccountBookItem>
+              ))}
+            </AccountBookList>
 
-        <TotalPrice $totalPrice={getTotalPrice(account_book)}>
-          <span> 총 </span>
-          <span> {inputNumberWithComma(getTotalPrice(account_book))}₩ </span>
-        </TotalPrice>
+            <TotalPrice $totalPrice={getTotalPrice(account_book)}>
+              <span> 총 </span>
+              <span>
+                {' '}
+                {inputNumberWithComma(getTotalPrice(account_book))}₩{' '}
+              </span>
+            </TotalPrice>
+          </>
+        )}
       </DateBoxContainer>
     )
   }
