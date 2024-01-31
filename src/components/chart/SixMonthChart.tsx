@@ -22,6 +22,7 @@ import { Chart } from 'react-chartjs-2'
 import theme from '../../assets/css/theme'
 import dayjs from 'dayjs'
 import { useToast } from '../context/ToastContext'
+import NoDataChart from './NoDataChart'
 
 ChartJS.register(
   LinearScale,
@@ -38,13 +39,10 @@ ChartJS.register(
 
 const options = {
   responsive: true,
+  animation: false as const,
   plugins: {
     legend: {
       position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: '수입/지출 6개월 차트',
     },
     tooltip: {
       mode: 'index' as const,
@@ -112,9 +110,20 @@ const SixMonthChart = ({ monthYear }: SixMonthProps) => {
     ],
   }
 
+  function emptyData() {
+    return (
+      data.every((item) => item.total.expense_price === 0) &&
+      data.every((item) => item.total.income_price === 0)
+    )
+  }
+
   return (
     <div>
-      <Chart type='bar' options={options} data={chartData} />
+      {!emptyData() ? (
+        <Chart type='bar' options={options} data={chartData} />
+      ) : (
+        <NoDataChart />
+      )}
     </div>
   )
 }

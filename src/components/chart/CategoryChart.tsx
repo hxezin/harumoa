@@ -1,26 +1,22 @@
 import { useEffect, useState } from 'react'
-import { Books, IAccountBook } from '../../types'
 import { ArcElement, Chart, ChartData, Legend, Tooltip } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
-
-export type Entries<T> = {
-  [K in keyof T]: [K, T[K]]
-}[keyof T][]
+import { MonthCategoryData } from '../sidebar/Chart'
 
 Chart.register(ArcElement, Tooltip, Legend)
 
-const chartStyleDataset = {
+export const chartStyleDataset = {
   backgroundColor: [
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)',
-    'rgba(92, 86, 255, 0.2)',
-    'rgba(75, 192, 112, 0.2)',
-    'rgba(237, 102, 255, 0.2)',
-    'rgba(255, 64, 156, 0.2)',
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 206, 86, 0.6)',
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+    'rgba(255, 159, 64, 0.6)',
+    'rgba(92, 86, 255, 0.6)',
+    'rgba(75, 192, 112,  0.6)',
+    'rgba(237, 102, 255, 0.6)',
+    'rgba(255, 64, 156,  0.6)',
   ],
   borderColor: [
     'rgba(255, 99, 132, 1)',
@@ -37,7 +33,7 @@ const chartStyleDataset = {
   borderWidth: 1,
 }
 
-const CategoryChart = ({ data, month }: { data: Books; month: string }) => {
+const CategoryChart = ({ data }: { data: MonthCategoryData }) => {
   const [chartData, setChartData] = useState<ChartData<
     'pie',
     number[],
@@ -45,31 +41,9 @@ const CategoryChart = ({ data, month }: { data: Books; month: string }) => {
   > | null>(null)
 
   useEffect(() => {
-    const result: {
-      [category: string]: number
-    } = {}
-
-    Object.entries(data).map(([key, dateValue]) => {
-      Object.entries(dateValue).map(([key, accoutvalue]) => {
-        if (key === 'account_book') {
-          ;(Object.entries(accoutvalue) as Entries<IAccountBook>).map(
-            ([key, value]) => {
-              if (!value.is_income) {
-                console.log(result[value.category])
-
-                result[value.category]
-                  ? (result[value.category] += value.price)
-                  : (result[value.category] = 0 + value.price)
-              }
-            }
-          )
-        }
-      })
-    })
-
-    const categoryLabel = Object.keys(result)
+    const categoryLabel = Object.keys(data)
     if (categoryLabel.length != 0) {
-      const dataSet = Object.values(result)
+      const dataSet = Object.values(data)
 
       setChartData({
         ...chartData,
@@ -83,13 +57,13 @@ const CategoryChart = ({ data, month }: { data: Books; month: string }) => {
 
   return (
     <>
-      {chartData ? (
+      {chartData && (
         <div>
-          <span>{month.replace('0', '')}월 지출 분석</span>
           <Pie
             data={chartData}
             options={{
               responsive: true,
+              animation: false,
               plugins: {
                 legend: {
                   display: true,
@@ -103,12 +77,19 @@ const CategoryChart = ({ data, month }: { data: Books; month: string }) => {
                     },
                   },
                 },
+                tooltip: {
+                  mode: 'index' as const,
+                  intersect: false,
+                  callbacks: {
+                    label: (context) => {
+                      return `₩${context.formattedValue}`
+                    },
+                  },
+                },
               },
             }}
           />
         </div>
-      ) : (
-        <div> 데이터가 없습니다.</div>
       )}
     </>
   )
