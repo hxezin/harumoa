@@ -358,8 +358,7 @@ export async function setBook(
 }
 
 // 차트
-// 현재 year, month 포함 6달 전 날짜 구함
-// { [year]: month[] }
+// 현재 year, month 포함 6달 전 날짜 구함, { [year]: month[] } 형식
 function getPastSixMonths(currentYear: string, currentMonth: string) {
   let year: number = parseInt(currentYear, 10)
   let month: number = parseInt(currentMonth, 10)
@@ -393,7 +392,6 @@ export async function getSixMonthChart(year: string, month: string) {
   try {
     const promises = Object.entries(sixMonths).map(async ([year, value]) => {
       const databaseRef = ref(db, `${uid}/books/${year}`)
-      console.log(Math.min(...value), Math.max(...value))
       const queryRef = query(
         databaseRef,
         orderByKey(),
@@ -444,7 +442,7 @@ export async function getSixMonthChart(year: string, month: string) {
       return a.month.localeCompare(b.month)
     })
 
-    return sortedSnapshots
+    return { success: true, data: sortedSnapshots }
   } catch (error) {
     return {
       success: false,

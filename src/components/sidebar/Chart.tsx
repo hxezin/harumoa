@@ -52,6 +52,7 @@ const LocationButton = styled.button`
 
 const ChartContainer = styled.div`
   display: flex;
+  gap: 2rem;
 
   > div {
     width: 50%;
@@ -61,8 +62,6 @@ const ChartContainer = styled.div`
 const Chart = () => {
   //차트 2개 컴포넌트 분리 후 불러오기
   const { data, monthYear, updateMonthYear } = useMonthYear()
-
-  console.log(data)
 
   return (
     <Container>
@@ -82,7 +81,7 @@ const Chart = () => {
       </MonthlyContainer>
 
       <ChartContainer>
-        <SixMonthChart />
+        <SixMonthChart monthYear={monthYear} />
         {/* <CategoryChart data={data} month={monthYear.month} /> */}
         <CategoryProgressBar data={data} month={monthYear.month} />
       </ChartContainer>
