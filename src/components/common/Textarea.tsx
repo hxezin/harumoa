@@ -9,6 +9,7 @@ const TextareaContainer = styled.textarea<{
   $viewMode: boolean
   $textAlign: TextAlign
 }>`
+  line-height: 1.5rem;
   ${({ $textAlign }) => formFieldStyles($textAlign)}
   ${({ theme, $viewMode }) => formFieldViewModeStyles(theme, $viewMode)}
 

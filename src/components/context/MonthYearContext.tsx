@@ -23,7 +23,7 @@ interface MonthYearProps {
 }
 
 // useMonthYear custom hooks
-function useMonthYear(): MonthYearProps {
+export function useMonthYear(): MonthYearProps {
   const { isLoggedIn } = useAuthContext()
   const queryClient = useQueryClient()
 

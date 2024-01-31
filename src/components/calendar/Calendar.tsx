@@ -47,6 +47,13 @@ const MonthlyContainer = styled.div`
     gap: 0.5rem;
   }
 
+  > div:first-child {
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   span:nth-of-type(1) {
     color: ${({ theme }) => theme.color.gray1};
     font-size: ${({ theme }) => theme.fontSize.sm};
@@ -127,18 +134,20 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
         />
 
         <MonthlyContainer>
-          <LocationButton onClick={() => updateMonthYear(-1)}>
-            <img src={beforeArrow} />
-          </LocationButton>
-
           <div>
-            <span>{monthYear.year}</span>
-            <span>{monthYear.enMonth.toUpperCase()}</span>
-          </div>
+            <LocationButton onClick={() => updateMonthYear(-1)}>
+              <img src={beforeArrow} />
+            </LocationButton>
 
-          <LocationButton onClick={() => updateMonthYear(1)}>
-            <img src={nextArrow} />
-          </LocationButton>
+            <div>
+              <span>{monthYear.year}</span>
+              <span>{monthYear.enMonth.toUpperCase()}</span>
+            </div>
+
+            <LocationButton onClick={() => updateMonthYear(1)}>
+              <img src={nextArrow} />
+            </LocationButton>
+          </div>
         </MonthlyContainer>
 
         <LocationButton onClick={onToggle}>

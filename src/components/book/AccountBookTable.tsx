@@ -164,7 +164,7 @@ const AccountBookTable = ({
             ).length === 0) && (
             <tr>
               <td
-                colSpan={3}
+                colSpan={4}
                 style={{
                   textAlign: 'center',
                   fontSize: '0.75rem',

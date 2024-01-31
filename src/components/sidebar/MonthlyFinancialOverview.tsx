@@ -13,7 +13,7 @@ const TableContainer = styled.table`
   }
 
   td {
-    text-align: center;
+    text-align: left;
     padding: 0.5rem;
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
@@ -34,8 +34,7 @@ const TotalContainer = styled.div`
   padding: 1rem 0.5rem 0;
 
   span {
-    text-align: center;
-    padding: 0.5rem 0.5rem 0;
+    text-align: left;
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
 

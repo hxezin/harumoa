@@ -1,5 +1,16 @@
 import { initializeApp } from 'firebase/app'
-import { child, get, getDatabase, ref, set, update } from 'firebase/database'
+import {
+  child,
+  get,
+  getDatabase,
+  ref,
+  set,
+  update,
+  query,
+  startAt,
+  orderByKey,
+  endAt,
+} from 'firebase/database'
 import {
   GoogleAuthProvider,
   getAuth,
@@ -16,6 +27,7 @@ import {
   TotalPrice,
 } from '../types'
 import { initialCustom } from '../constants/config'
+import { log } from 'console'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -342,7 +354,99 @@ export async function setBook(
         success: false,
         message: message,
       }
-
-      setTotalPrice(date.split('-'), totalPrice)
     })
+}
+
+// 차트
+// 현재 year, month 포함 6달 전 날짜 구함, { [year]: month[] } 형식
+function getPastSixMonths(currentYear: string, currentMonth: string) {
+  let year: number = parseInt(currentYear, 10)
+  let month: number = parseInt(currentMonth, 10)
+
+  const result: {
+    [year: string]: number[]
+  } = {}
+
+  for (let i = 0; i < 6; i++) {
+    if (!result[year.toString()]) {
+      result[year.toString()] = []
+    }
+
+    result[year.toString()].push(month)
+
+    if (month === 1) {
+      month = 12
+      year--
+    } else {
+      month--
+    }
+  }
+
+  return result
+}
+
+export async function getSixMonthChart(year: string, month: string) {
+  const sixMonths = getPastSixMonths(year, month)
+  const uid = localStorage.getItem('user')
+
+  try {
+    const promises = Object.entries(sixMonths).map(async ([year, value]) => {
+      const databaseRef = ref(db, `${uid}/books/${year}`)
+      const queryRef = query(
+        databaseRef,
+        orderByKey(),
+        startAt(
+          Math.min(...value)
+            .toString()
+            .padStart(2, '0')
+        ),
+        endAt(
+          Math.max(...value)
+            .toString()
+            .padStart(2, '0')
+        )
+      )
+
+      const snapshot = await get(queryRef)
+      const snapshotValue: Record<string, { total: TotalPrice }> =
+        snapshot.val() || {}
+
+      const result: { year: string; month: string; total: TotalPrice }[] = []
+
+      // sixMonths에 없는 month 처리
+      sixMonths[year].forEach((month) => {
+        const strMonth = month.toString().padStart(2, '0')
+
+        if (!Object.keys(snapshotValue).includes(strMonth))
+          result.push({
+            year,
+            month: strMonth,
+            total: { expense_price: 0, income_price: 0 },
+          })
+      })
+
+      // db에 있는 데이터
+      Object.entries(snapshotValue).forEach(([month, value]) => {
+        result.push({ year, month, total: value.total as TotalPrice })
+      })
+
+      return result
+    })
+
+    const snapshots = await Promise.all(promises)
+
+    // year 오름차순, month 오름차순 정렬
+    const sortedSnapshots = snapshots.flat().sort((a, b) => {
+      const yearComparison = a.year.localeCompare(b.year)
+      if (yearComparison !== 0) return yearComparison
+      return a.month.localeCompare(b.month)
+    })
+
+    return { success: true, data: sortedSnapshots }
+  } catch (error) {
+    return {
+      success: false,
+      message: '데이터를 불러오는데 오류가 발생했습니다. 다시 시도해주세요.',
+    }
+  }
 }
