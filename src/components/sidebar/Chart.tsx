@@ -5,7 +5,7 @@ import { useMonthYear } from '../context/MonthYearContext'
 import nextArrow from '../../assets/icons/nextArrow.svg'
 import beforeArrow from '../../assets/icons/beforeArrow.svg'
 import { useEffect, useState } from 'react'
-import CategoryProgressBar from './CategoryProgressBar'
+import CategoryProgressBar from '../chart/CategoryProgressBar'
 import { IAccountBook } from '../../types'
 import NoDataChart from '../chart/NoDataChart'
 
@@ -117,15 +117,14 @@ const CategoryChartContainer = styled.div`
 `
 
 const Chart = () => {
-  //차트 2개 컴포넌트 분리 후 불러오기
   const { data, monthYear, updateMonthYear } = useMonthYear()
+
   const [active, setActive] = useState('category')
   const [monthChartData, setMonthChartData] = useState<MonthCategoryData>({})
   const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
     const result: MonthCategoryData = {}
-
     let totalPrice = 0
 
     Object.entries(data).map(([key, dateValue]) => {
@@ -147,7 +146,9 @@ const Chart = () => {
     })
 
     setTotalPrice(totalPrice)
-    setMonthChartData(result)
+
+    //result에 담긴 값이 있다면,
+    Object.keys(result).length !== 0 && setMonthChartData(result)
   }, [data])
 
   return (

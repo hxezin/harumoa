@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { inputNumberWithComma } from '../../utils/accountBook'
-import { chartStyleDataset } from '../chart/CategoryChart'
-import { MonthCategoryData } from './Chart'
+import { chartStyleDataset } from './CategoryChart'
+import { MonthCategoryData } from '../sidebar/Chart'
 
 const ProgressContainer = styled.div`
   width: 100%;
