@@ -147,8 +147,11 @@ const Chart = () => {
 
     setTotalPrice(totalPrice)
 
-    //result에 담긴 값이 있다면,
-    Object.keys(result).length !== 0 && setMonthChartData(result)
+    setMonthChartData((prevData) => {
+      return JSON.stringify(prevData) !== JSON.stringify(result)
+        ? result
+        : prevData
+    })
   }, [data])
 
   return (
