@@ -27,7 +27,6 @@ import {
   TotalPrice,
 } from '../types'
 import { initialCustom } from '../constants/config'
-import { log } from 'console'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
