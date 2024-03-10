@@ -5,7 +5,6 @@ import styled from 'styled-components'
 
 import ChevronUp from '../../assets/icons/chevronUp.svg'
 import ChevronDown from '../../assets/icons/chevronDown.svg'
-import theme from '../../assets/css/theme'
 
 interface SectionProps {
   title?: string
@@ -14,9 +13,11 @@ interface SectionProps {
 
 const Container = styled.section`
   width: 100%;
+  border: none;
 
   @media screen and (max-width: 780px) {
     padding: 1.5rem;
+    border: 1px solid ${({ theme }) => theme.color.gray0};
   }
 
   h5 {
@@ -33,6 +34,10 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (min-width: 780px) {
+    display: none;
+  }
 `
 
 const Button = styled.div`
@@ -40,11 +45,15 @@ const Button = styled.div`
     width: 20px;
     cursor: pointer;
   }
+
+  @media (min-width: 780px) {
+    display: none;
+  }
 `
 
 const MobileSection = ({ title, children }: SectionProps) => {
   const [toggle, setToggle] = useState(
-    Boolean(localStorage.getItem(`${title}_toggle`) ?? 'true')
+    localStorage.getItem(`${title}_toggle`) === 'true'
   )
 
   return (
@@ -54,11 +63,11 @@ const MobileSection = ({ title, children }: SectionProps) => {
           <h5>{title}</h5>
           <Button
             onClick={() => {
-              console.log(typeof toggle)
-
-              setToggle(!toggle)
-              localStorage.setItem(`${title}_toggle`, String(!toggle))
-              console.log(localStorage.getItem(`${title}_toggle`))
+              setToggle((prevToggle) => {
+                const newToggle = !prevToggle
+                localStorage.setItem(`${title}_toggle`, String(newToggle))
+                return newToggle
+              })
             }}
           >
             <img src={toggle ? ChevronUp : ChevronDown} alt='' />
@@ -66,7 +75,7 @@ const MobileSection = ({ title, children }: SectionProps) => {
         </Header>
       )}
 
-      {toggle && children}
+      {(!title || toggle) && children}
     </Container>
   )
 }
