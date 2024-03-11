@@ -31,12 +31,12 @@ const Container = styled.section`
   }
 `
 const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: none;
 
-  @media (min-width: 780px) {
-    display: none;
+  @media (max-width: 780px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 `
 
@@ -45,9 +45,18 @@ const Button = styled.div`
     width: 20px;
     cursor: pointer;
   }
+  display: none;
 
-  @media (min-width: 780px) {
-    display: none;
+  @media (max-width: 780px) {
+    display: block;
+  }
+`
+
+const ChildrenContainer = styled.div<{ $isShow: boolean }>`
+  display: block;
+
+  @media screen and (max-width: 780px) {
+    display: ${({ $isShow }) => ($isShow ? 'block' : 'none')};
   }
 `
 
@@ -75,7 +84,9 @@ const MobileSection = ({ title, children }: SectionProps) => {
         </Header>
       )}
 
-      {(!title || toggle) && children}
+      <ChildrenContainer $isShow={toggle || !title}>
+        {children}
+      </ChildrenContainer>
     </Container>
   )
 }
