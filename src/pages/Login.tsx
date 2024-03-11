@@ -28,6 +28,13 @@ const LoginIntroContainer = styled.div`
     border-top-right-radius: 3%;
     border-bottom-right-radius: 3%;
   }
+
+  @media screen and (max-width: 780px) {
+    & > img {
+      display: none;
+    }
+    padding-left: 0;
+  }
 `
 
 const LoginContainer = styled.div`
@@ -39,16 +46,18 @@ const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-content: center;
+    align-items: center;
 
     border-radius: 1rem;
     background: ${({ theme }) => theme.color.white};
     box-shadow: 2px 2px 8px 0px #edeaea;
 
     padding: 3rem;
+
+    color: ${({ theme }) => theme.color.primary.main};
+    text-align: center;
+
     p {
-      text-align: center;
-      color: ${({ theme }) => theme.color.primary.main};
       font-size: ${({ theme }) => theme.fontSize.base};
       font-weight: ${({ theme }) => theme.fontWeight.semiBold};
       margin: 0;
@@ -56,10 +65,22 @@ const LoginContainer = styled.div`
     }
 
     h1 {
-      color: ${({ theme }) => theme.color.primary.main};
       font-size: ${({ theme }) => theme.fontSize.lg};
       font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-      text-align: center;
+    }
+
+    @media screen and (max-width: 780px) {
+      img {
+        width: 150px;
+      }
+
+      p {
+        font-size: ${({ theme }) => theme.fontSize.sm};
+      }
+
+      h1 {
+        font-size: ${({ theme }) => theme.fontSize.md};
+      }
     }
   }
 `
@@ -87,6 +108,16 @@ const LoginButton = styled.button`
     padding: 0.5rem;
     border-radius: 50%;
     background: #fcfcfc;
+  }
+
+  @media screen and (max-width: 780px) {
+    padding: 0.5rem;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+
+    svg {
+      width: 0.5rem;
+      height: 0.5rem;
+    }
   }
 `
 
