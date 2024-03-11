@@ -18,13 +18,18 @@ const MobileSidebar = () => {
   const expenseCategory =
     localStorage.getItem('category_expense') ?? initialCustom.category.expense
 
+  const expectedLimitProps =
+    custom?.expected_limit ?? initialCustom.expected_limit
+
+  const { is_possible: expectedLimitisPossible } = expectedLimitProps
+
   return (
     <Container>
-      <MobileSection title='월별 예상 지출'>
-        <ExpectedLimit
-          expectedLimit={custom?.expected_limit ?? initialCustom.expected_limit}
-        />
-      </MobileSection>
+      {expectedLimitisPossible && (
+        <MobileSection title='월별 예상 지출'>
+          <ExpectedLimit expectedLimit={expectedLimitProps} />
+        </MobileSection>
+      )}
 
       <MobileSection title='고정 지출'>
         <FixedExpense

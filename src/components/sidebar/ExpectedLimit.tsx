@@ -28,10 +28,15 @@ const IndicatorSpan = styled.span<{ $isExcess?: boolean }>`
     $isExcess
       ? `color: ${theme.color.primary.main}; font-size: ${theme.fontSize.base}; font-weight: ${theme.fontWeight.bold};`
       : `font-weight: ${theme.fontWeight.bold};`};
+
+  @media screen and (max-width: 780px) {
+    font-size: ${({ theme, $isExcess }) =>
+      $isExcess ? theme.fontSize.sm : theme.fontSize.xs};
+  }
 `
 
 const Percentage = styled.div`
-  height: 1rem;
+  height: 0.7rem;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray0};
 
