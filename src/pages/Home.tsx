@@ -6,9 +6,11 @@ import { useMonthYearContext } from '../components/context/MonthYearContext'
 import Sidebar from '../components/sidebar/Sidebar'
 import useCustom from '../hooks/custom/useCustom'
 import MobileSection from '../components/common/MobileSection'
+import MobileSidebar from '../components/sidebar/MobileSidebar'
 
 const Container = styled.main`
   display: flex;
+  flex-direction: column;
   height: ${({ theme }) => `calc(100vh - ${theme.layout.headerHeight})`};
 `
 
@@ -34,6 +36,8 @@ const Home = () => {
           {isSidebarOpen && <Sidebar />}
         </DesktopContainer>
       </MobileSection>
+
+      <MobileSidebar />
     </Container>
   )
 }

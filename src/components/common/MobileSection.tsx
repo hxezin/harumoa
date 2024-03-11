@@ -12,12 +12,11 @@ interface SectionProps {
 }
 
 const Container = styled.section`
-  width: 100%;
   border: none;
 
   @media screen and (max-width: 780px) {
     padding: 1.5rem;
-    border: 1px solid ${({ theme }) => theme.color.gray0};
+    border-bottom: 1px solid ${({ theme }) => theme.color.gray0};
   }
 
   h5 {
@@ -65,20 +64,20 @@ const MobileSection = ({ title, children }: SectionProps) => {
     localStorage.getItem(`${title}_toggle`) === 'true'
   )
 
+  const handleClick = () => {
+    setToggle((prevToggle) => {
+      const newToggle = !prevToggle
+      localStorage.setItem(`${title}_toggle`, String(newToggle))
+      return newToggle
+    })
+  }
+
   return (
     <Container>
       {title && (
-        <Header>
+        <Header onClick={handleClick}>
           <h5>{title}</h5>
-          <Button
-            onClick={() => {
-              setToggle((prevToggle) => {
-                const newToggle = !prevToggle
-                localStorage.setItem(`${title}_toggle`, String(newToggle))
-                return newToggle
-              })
-            }}
-          >
+          <Button onClick={handleClick}>
             <img src={toggle ? ChevronUp : ChevronDown} alt='' />
           </Button>
         </Header>
