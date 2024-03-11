@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 import { inputNumberWithComma } from '../../utils/accountBook'
 import { useMonthYearContext } from '../context/MonthYearContext'
 import { ReactComponent as ChevronUp } from '../../assets/icons/chevronUp.svg'
-import { ReactComponent as ChevronDown } from '../../assets/icons/chevronUp.svg'
+import { ReactComponent as ChevronDown } from '../../assets/icons/chevronDown.svg'
 import { onlyMobile } from '../../assets/css/global'
 
 const Container = styled.div`
