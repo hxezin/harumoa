@@ -3,6 +3,11 @@ import styled from 'styled-components'
 const Container = styled.div`
   width: 65%;
   margin: 3rem auto 10rem;
+
+  @media screen and (max-width: 780px) {
+    width: auto;
+    margin: 2rem 2rem 8rem;
+  }
 `
 
 const Header = styled.header`
@@ -20,6 +25,12 @@ const Header = styled.header`
     font-size: ${({ theme }) => theme.fontSize.sm};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     margin: 0;
+  }
+
+  @media screen and (max-width: 780px) {
+    h1 {
+      font-size: ${({ theme }) => theme.fontSize.lg};
+    }
   }
 `
 

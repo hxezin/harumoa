@@ -69,6 +69,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
         }
         guidance={guidance}
         justifyContent='flex-start'
+        margin='0.5rem 0 0'
       >
         <Category
           categories={category.income}
@@ -89,6 +90,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
         }
         guidance={guidance}
         justifyContent='flex-start'
+        margin='0.5rem 0 0'
       >
         <Category
           categories={category.expense}

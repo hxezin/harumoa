@@ -5,6 +5,11 @@ import SectionItem from '../common/SectionItem'
 const Box = styled.div`
   display: flex;
   gap: 2.5rem;
+
+  @media screen and (max-width: 780px) {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
 `
 
 interface DailyResultProps {
