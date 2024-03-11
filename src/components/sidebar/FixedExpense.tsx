@@ -177,7 +177,7 @@ const FixedExpense = ({
                   return (
                     <TableRow key={key} $isPastDate={isPastDate}>
                       <td>{targetDate.format('DD')}일</td>
-                      <td>{inputNumberWithComma(value.price)}₩</td>
+                      <td>{inputNumberWithComma(value.price)}원</td>
 
                       <td>{value.memo}</td>
                     </TableRow>
@@ -188,7 +188,7 @@ const FixedExpense = ({
 
         <FixedTotalContainer>
           <span> TOTAL</span>
-          <span>{inputNumberWithComma(getTotalFixedPrice(data))}₩</span>
+          <span>{inputNumberWithComma(getTotalFixedPrice(data))}원</span>
         </FixedTotalContainer>
       </ContentContainer>
 

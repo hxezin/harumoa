@@ -61,7 +61,7 @@ const MonthlyFinancialOverview = () => {
               <td>{item}</td>
               <td>
                 {idx === 1 && contentArr[idx] !== 0 && '-'}
-                {inputNumberWithComma(contentArr[idx])}₩
+                {inputNumberWithComma(contentArr[idx])}원
               </td>
             </tr>
           ))}
@@ -70,7 +70,7 @@ const MonthlyFinancialOverview = () => {
 
       <TotalContainer>
         <span>TOTAL</span>
-        <span>{inputNumberWithComma(incomePrice - expensePrice)}₩</span>
+        <span>{inputNumberWithComma(incomePrice - expensePrice)}원</span>
       </TotalContainer>
     </S.Container>
   )

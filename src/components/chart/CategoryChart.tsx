@@ -82,7 +82,7 @@ const CategoryChart = ({ data }: { data: MonthCategoryData }) => {
                   intersect: false,
                   callbacks: {
                     label: (context) => {
-                      return `₩${context.formattedValue}`
+                      return `원${context.formattedValue}`
                     },
                   },
                 },

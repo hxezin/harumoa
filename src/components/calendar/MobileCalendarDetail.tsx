@@ -122,7 +122,7 @@ const MobileCalendarDetail = ({ mobileDetail }: Props) => {
             return (
               <MobileAccountBookItem key={key} $isIncome={account.is_income}>
                 <span>{account.category}</span>
-                <span>{inputNumberWithComma(account.price)}₩ </span>
+                <span>{inputNumberWithComma(account.price)}원 </span>
               </MobileAccountBookItem>
             )
           })}
@@ -131,7 +131,7 @@ const MobileCalendarDetail = ({ mobileDetail }: Props) => {
       {mobileDetail.totalPrice && (
         <MobileTotalPrice>
           <span> 합계 </span>
-          <span>{inputNumberWithComma(mobileDetail.totalPrice)} ₩</span>
+          <span>{inputNumberWithComma(mobileDetail.totalPrice)}원</span>
         </MobileTotalPrice>
       )}
     </MobileDetailContainer>

@@ -312,7 +312,7 @@ const DateBox = ({
                 {Object.entries(account_book).map(([key, account]) => (
                   <AccountBookItem key={key} $isIncome={account.is_income}>
                     <Comment>{account.category}</Comment>
-                    <Price>{inputNumberWithComma(account.price)}₩</Price>
+                    <Price>{inputNumberWithComma(account.price)}원</Price>
                   </AccountBookItem>
                 ))}
               </AccountBookList>
@@ -320,7 +320,7 @@ const DateBox = ({
               <TotalPrice $totalPrice={getTotalPrice(account_book)}>
                 <span>
                   {' '}
-                  {inputNumberWithComma(getTotalPrice(account_book))}₩{' '}
+                  {inputNumberWithComma(getTotalPrice(account_book))}원{' '}
                 </span>
               </TotalPrice>
             </>
