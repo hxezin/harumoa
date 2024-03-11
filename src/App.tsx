@@ -7,6 +7,7 @@ import Write from './pages/Write'
 import Detail from './pages/Detail'
 import Root from './pages/Root'
 import NotFound from './pages/NotFound'
+import Chart from './pages/Chart'
 import { AuthContextProvider } from './components/context/AuthContext'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: '/write', element: <Write /> },
       { path: '/edit', element: <Write /> },
       { path: '/detail', element: <Detail /> },
+      { path: '/chart', element: <Chart /> },
     ],
   },
   { path: '/login', element: <Login /> },

@@ -78,7 +78,12 @@ const MobileSection = ({ title, children }: SectionProps) => {
       {title && (
         <Header onClick={handleClick}>
           <h5>{title}</h5>
-          <Button onClick={handleClick}>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation()
+              handleClick()
+            }}
+          >
             <img src={toggle ? ChevronUp : ChevronDown} alt='' />
           </Button>
         </Header>

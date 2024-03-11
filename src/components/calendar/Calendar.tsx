@@ -10,6 +10,7 @@ import sidebarClose from '../../assets/icons/sidebarClose.svg'
 import { BlueBorderButton } from '../common/Button'
 import { useState } from 'react'
 import MobileCalendarDetail from './MobileCalendarDetail'
+import CalendarHeader from './CalendarHeader'
 
 const dayOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -25,60 +26,6 @@ const Container = styled.section`
   @media screen and (max-width: 780px) {
     width: 100%;
   }
-`
-
-const HeaderContainer = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1.5rem;
-
-  div {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  @media screen and (max-width: 780px) {
-    display: none;
-  }
-`
-
-const MonthlyContainer = styled.div`
-  div {
-    gap: 0.5rem;
-  }
-
-  > div:first-child {
-    width: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  span:nth-of-type(1) {
-    color: ${({ theme }) => theme.color.gray1};
-    font-size: ${({ theme }) => theme.fontSize.sm};
-    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-  }
-
-  span:nth-of-type(2) {
-    color: ${({ theme }) => theme.color.black};
-    font-size: ${({ theme }) => theme.fontSize.lg};
-    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-  }
-`
-
-const LocationButton = styled.button`
-  border-radius: 0.15rem;
-  background: #fcfcfc;
-  box-shadow: 1.2px 1.2px 3.6px 0px rgba(97, 97, 97, 0.5);
-  border: none;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `
 
 const CalendarContainer = styled.section`
@@ -139,49 +86,17 @@ export interface MobileDetail {
 }
 
 const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
-  const {
-    data,
-    monthYear,
-    prevMonthLastDate,
-    updateMonthYear,
-    isToday,
-    revertToToday,
-  } = useMonthYearContext()
+  const { data, monthYear, prevMonthLastDate, isToday } = useMonthYearContext()
 
   const [mobileDetail, setMobileDetail] = useState<MobileDetail | null>()
 
   return (
     <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
-      <HeaderContainer>
-        <BlueBorderButton
-          value='오늘'
-          onClick={revertToToday}
-          padding='0.3rem 0.7rem'
-        />
-
-        <MonthlyContainer>
-          <div>
-            <LocationButton onClick={() => updateMonthYear(-1)}>
-              <img src={beforeArrow} />
-            </LocationButton>
-
-            <div>
-              <span>{monthYear.year}</span>
-              <span>{monthYear.enMonth.toUpperCase()}</span>
-            </div>
-
-            <LocationButton onClick={() => updateMonthYear(1)}>
-              <img src={nextArrow} />
-            </LocationButton>
-          </div>
-        </MonthlyContainer>
-
-        <LocationButton onClick={onToggle}>
-          {isSidebarOpen && <img src={sidebarClose} />}
-          {!isSidebarOpen && <img src={sidebarOpen} />}
-        </LocationButton>
-      </HeaderContainer>
-
+      <CalendarHeader
+        isMobile={false}
+        isSidebarOpen={isSidebarOpen}
+        onToggle={onToggle}
+      />
       <CalendarContainer>
         <DOWHeader>
           {dayOfTheWeek.map((day, i) => (
