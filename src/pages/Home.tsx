@@ -7,6 +7,7 @@ import Sidebar from '../components/sidebar/Sidebar'
 import useCustom from '../hooks/custom/useCustom'
 import MobileSection from '../components/common/MobileSection'
 import MobileSidebar from '../components/sidebar/MobileSidebar'
+import CalendarHeader from '../components/calendar/CalendarHeader'
 
 const Container = styled.main`
   display: flex;
@@ -30,6 +31,10 @@ const Home = () => {
 
   return (
     <Container>
+      <MobileSection>
+        <CalendarHeader isMobile={true} />
+      </MobileSection>
+
       <MobileSection title='캘린더'>
         <DesktopContainer>
           <Calendar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
