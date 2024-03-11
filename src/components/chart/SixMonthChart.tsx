@@ -49,7 +49,7 @@ const options = {
       intersect: false,
       callbacks: {
         label: (context: TooltipItem<keyof ChartTypeRegistry>) => {
-          return `${context.dataset.label}: ₩ ${context.formattedValue}`
+          return `${context.dataset.label}: 원 ${context.formattedValue}`
         },
       },
     },

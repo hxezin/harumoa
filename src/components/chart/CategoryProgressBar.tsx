@@ -122,7 +122,7 @@ const CategoryProgressBar = ({
                 <span>{width}</span>
               </div>
 
-              <span>{inputNumberWithComma(value)}₩</span>
+              <span>{inputNumberWithComma(value)}원</span>
             </DataContainer>
           )
         })}
