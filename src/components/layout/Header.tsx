@@ -176,28 +176,30 @@ const Header = () => {
           </div>
         </HeaderMenuContainer>
       )}
-      <MobileMenuContainer ref={menuRef}>
-        <img
-          src={userIcon}
-          width={24}
-          height={24}
-          onClick={() => {
-            setShow(true)
-          }}
-        />
+      {nickName && (
+        <MobileMenuContainer ref={menuRef}>
+          <img
+            src={userIcon}
+            width={24}
+            height={24}
+            onClick={() => {
+              setShow(true)
+            }}
+          />
 
-        {show && (
-          <div>
+          {show && (
             <div>
-              <span>{nickName}</span> <span>의 하루 </span>
+              <div>
+                <span>{nickName}</span> <span>의 하루 </span>
+              </div>
+              <Link to='/setting' onClick={() => setShow(false)}>
+                설정
+              </Link>
+              <div onClick={handleLogout}>로그아웃</div>
             </div>
-            <Link to='/setting' onClick={() => setShow(false)}>
-              설정
-            </Link>
-            <div onClick={handleLogout}>로그아웃</div>
-          </div>
-        )}
-      </MobileMenuContainer>
+          )}
+        </MobileMenuContainer>
+      )}
     </HeaderContainer>
   )
 }
