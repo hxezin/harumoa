@@ -4,13 +4,11 @@ import { inputNumberWithComma } from '../../utils/accountBook'
 import { useMonthYearContext } from '../context/MonthYearContext'
 import { ReactComponent as ChevronUp } from '../../assets/icons/chevronUp.svg'
 import { ReactComponent as ChevronDown } from '../../assets/icons/chevronUp.svg'
+import { onlyMobile } from '../../assets/css/global'
 
 const Container = styled.div`
+  ${onlyMobile}
   margin: 0.5rem 0;
-
-  @media (min-width: 780px) {
-    display: none;
-  }
 `
 
 const TotalBox = styled.div`

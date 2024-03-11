@@ -25,6 +25,7 @@ const CalendarTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1.5rem;
 
   div {
     display: flex;
@@ -33,62 +34,55 @@ const CalendarTitleContainer = styled.div`
   }
 
   .today-button {
-    display: none;
+    display: block;
   }
 
-  @media (min-width: 780px) {
-    padding: 0 1.5rem;
+  @media (max-width: 780px) {
+    padding: 0;
 
     .today-button {
-      display: block;
+      display: none;
     }
   }
 `
 
 const MonthlyContainer = styled.div`
-  div {
-    gap: 0.3rem;
-  }
-
-  width: 200px;
+  width: 260px;
   gap: 0.3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   .date-info {
+    gap: 0.5rem;
+
     span:nth-of-type(1) {
       color: ${({ theme }) => theme.color.gray1};
-      font-size: ${({ theme }) => theme.fontSize.xs};
-      font-weight: ${({ theme }) => theme.fontWeight.bold};
+      font-size: ${({ theme }) => theme.fontSize.sm};
+      font-weight: ${({ theme }) => theme.fontWeight.extraBold};
     }
 
     span:nth-of-type(2) {
       color: ${({ theme }) => theme.color.black};
-      font-size: ${({ theme }) => theme.fontSize.md};
-      font-weight: ${({ theme }) => theme.fontWeight.bold};
+      font-size: ${({ theme }) => theme.fontSize.lg};
+      font-weight: ${({ theme }) => theme.fontWeight.extraBold};
     }
   }
 
-  @media (min-width: 780px) {
-    width: 260px;
-    margin-bottom: 0;
-
-    div {
-      gap: 0.5rem;
-    }
+  @media (max-width: 780px) {
+    width: 200px;
 
     .date-info {
       gap: 0.5rem;
 
       span:nth-of-type(1) {
-        font-size: ${({ theme }) => theme.fontSize.sm};
-        font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+        font-size: ${({ theme }) => theme.fontSize.xs};
+        font-weight: ${({ theme }) => theme.fontWeight.bold};
       }
 
       span:nth-of-type(2) {
-        font-size: ${({ theme }) => theme.fontSize.lg};
-        font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+        font-size: ${({ theme }) => theme.fontSize.md};
+        font-weight: ${({ theme }) => theme.fontWeight.bold};
       }
     }
   }
@@ -99,41 +93,41 @@ const LocationButton = styled.button`
   background: #fcfcfc;
   box-shadow: 1.2px 1.2px 3.6px 0px rgba(97, 97, 97, 0.5);
   border: none;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
 
   &.sidebar-button {
-    display: none;
+    display: block;
   }
 
-  @media (min-width: 780px) {
-    width: 24px;
-    height: 24px;
+  @media (max-width: 780px) {
+    width: 20px;
+    height: 20px;
 
     &.sidebar-button {
-      display: block;
+      display: none;
     }
   }
 `
 
 const ChartButton = styled.button`
-  display: block;
-  width: 100%;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  border-radius: 0.15rem;
-  background: ${({ theme }) => theme.color.white2};
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
+  display: none;
 
-  @media (min-width: 780px) {
-    display: none;
+  @media (max-width: 780px) {
+    display: block;
+    width: 100%;
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    border-radius: 0.15rem;
+    background: ${({ theme }) => theme.color.white2};
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
   }
 `
 
