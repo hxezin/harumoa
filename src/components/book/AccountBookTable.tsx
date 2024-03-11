@@ -124,7 +124,6 @@ const AccountBookTable = ({
                   <Dropdown
                     onChange={(e) => {
                       accountBookData[key].payment_type = e
-                      console.log(accountBookData[key])
                       setAccountBook && setAccountBook({ ...accountBookData })
                     }}
                     options={paymentTypeOptions}

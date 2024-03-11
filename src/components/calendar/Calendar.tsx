@@ -1,19 +1,18 @@
 import styled from 'styled-components'
-import { MonthDetail } from '../../types'
+import { IAccountBook, IDiary, MonthDetail } from '../../types'
 import { getDateArray } from '../../utils/calendar'
 import DateBox from './DateBox'
 import { useMonthYearContext } from '../context/MonthYearContext'
+import nextArrow from '../../assets/icons/nextArrow.svg'
+import beforeArrow from '../../assets/icons/beforeArrow.svg'
+import sidebarOpen from '../../assets/icons/sidebarOpen.svg'
+import sidebarClose from '../../assets/icons/sidebarClose.svg'
+import { BlueBorderButton } from '../common/Button'
+import { useState } from 'react'
+import MobileCalendarDetail from './MobileCalendarDetail'
 import CalendarHeader from './CalendarHeader'
 
-const dayOfTheWeek = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-]
+const dayOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const Container = styled.section`
   position: relative;
@@ -23,10 +22,18 @@ const Container = styled.section`
     width: 100%;
     transition: width 0.3s ease;
   }
+
+  @media screen and (max-width: 780px) {
+    width: 100%;
+  }
 `
 
 const CalendarContainer = styled.section`
   padding: 1rem 1rem 0 1rem;
+
+  @media screen and (max-width: 780px) {
+    padding: 1rem 0 0;
+  }
 `
 
 const DOWHeader = styled.div`
@@ -53,6 +60,14 @@ const DateGrid = styled.div<{ $weeksInMonth: number }>`
   grid-template-rows: ${({ $weeksInMonth }) => `repeat(${$weeksInMonth}, 1fr)`};
   border-bottom: 0.1px solid #ccc;
   border-left: 0.1px solid #ccc;
+
+  @media screen and (max-width: 780px) {
+    width: 100%;
+    height: auto;
+    grid-template-rows: ${({ $weeksInMonth }) =>
+      `repeat(${$weeksInMonth}, 1fr)`};
+    border: none;
+  }
 `
 
 interface Props {
@@ -60,8 +75,20 @@ interface Props {
   onToggle: () => void
 }
 
+export interface MobileDetail {
+  date: number
+  diary?: IDiary
+  account_book?: IAccountBook
+
+  totalPrice: number | null
+
+  selectedDate: string
+}
+
 const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
   const { data, monthYear, prevMonthLastDate, isToday } = useMonthYearContext()
+
+  const [mobileDetail, setMobileDetail] = useState<MobileDetail | null>()
 
   return (
     <Container className={`${isSidebarOpen ? '' : 'expanded'}`}>
@@ -80,8 +107,8 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
         <DateGrid $weeksInMonth={monthYear.weeksInMonth}>
           {/* 캘린더상 전월 날짜 렌더링 */}
           {getDateArray(monthYear.calendarStartDate, prevMonthLastDate)?.map(
-            (date, i) => (
-              <DateBox key={date} date={date} />
+            (date) => (
+              <DateBox key={date} />
             )
           )}
 
@@ -103,15 +130,33 @@ const Calendar = ({ isSidebarOpen, onToggle }: Props) => {
                 isCurrentMonth
                 isToday={isToday(dateIdx)}
                 day={day}
+                handleDateClick={(totalPrice: number) => {
+                  if (detail) {
+                    setMobileDetail({
+                      date: date,
+                      ...detail,
+                      totalPrice: totalPrice,
+                      selectedDate: selectedDate,
+                    })
+                  } else {
+                    setMobileDetail({
+                      date: date,
+                      totalPrice: null,
+                      selectedDate: selectedDate,
+                    })
+                  }
+                }}
               />
             )
           })}
 
           {/* 캘린더상 익월 날짜 렌더링 */}
-          {getDateArray(1, monthYear.calendarLastDate)?.map((date, i) => (
-            <DateBox key={date} date={date} />
+          {getDateArray(1, monthYear.calendarLastDate)?.map((date) => (
+            <DateBox key={date} />
           ))}
         </DateGrid>
+
+        {mobileDetail && <MobileCalendarDetail mobileDetail={mobileDetail} />}
       </CalendarContainer>
     </Container>
   )
