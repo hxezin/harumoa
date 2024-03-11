@@ -6,6 +6,8 @@ import { inputNumberWithComma } from '../../utils/accountBook'
 import useCustom from '../../hooks/custom/useCustom'
 import editIcon from '../../assets/icons/editIcon.svg'
 import plusIcon from '../../assets/icons/plusIcon.svg'
+import { useEffect, useState } from 'react'
+import useResize from '../../hooks/useResize'
 
 const DateBoxContainer = styled.div<{
   $isCurrentMonth?: boolean
@@ -15,8 +17,6 @@ const DateBoxContainer = styled.div<{
   border-right: 0.1px solid #e4e4e4;
   padding: 0.5rem;
 
-  background: ${({ theme, $isToday }) =>
-    $isToday ? theme.color.secondary.main : 'inherit'};
   color: ${({ $isCurrentMonth, theme }) =>
     $isCurrentMonth ? theme.color.gray2 : theme.color.gray1};
   font-size: 0.8rem;
@@ -27,6 +27,12 @@ const DateBoxContainer = styled.div<{
 
   &:hover button {
     visibility: visible;
+  }
+
+  @media screen and (max-width: 780px) {
+    border: none;
+    align-items: center;
+    row-gap: 0.3rem;
   }
 `
 
@@ -95,6 +101,10 @@ const Diary = styled.div`
   @media screen and (max-width: 1050px) {
     width: 60%;
   }
+
+  @media screen and (max-width: 780px) {
+    display: none;
+  }
 `
 
 const AccountBookList = styled.ul`
@@ -107,6 +117,10 @@ const AccountBookList = styled.ul`
   gap: 0.5rem;
 
   color: ${({ theme }) => theme.color.gray1};
+
+  @media screen and (max-width: 780px) {
+    display: none;
+  }
 `
 
 const AccountBookItem = styled.li<{ $isIncome: boolean }>`
@@ -133,7 +147,7 @@ const TotalPrice = styled.div<{ $totalPrice: number }>`
   margin-top: 0.3rem;
   padding-top: 0.3rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   span:nth-of-type(1) {
     font-weight: ${({ theme }) => theme.fontWeight.medium};
@@ -142,6 +156,10 @@ const TotalPrice = styled.div<{ $totalPrice: number }>`
   span {
     font-weight: ${({ theme }) => theme.fontWeight.bold};
     font-size: ${({ theme }) => theme.fontSize.sm};
+  }
+
+  @media screen and (max-width: 780px) {
+    border-top: none;
   }
 `
 
@@ -161,6 +179,10 @@ const ActionButton = styled.button`
   top: 0;
   padding: 0 0.1rem;
   visibility: hidden;
+
+  @media screen and (max-width: 780px) {
+    display: none;
+  }
 `
 
 const ButtonContainer = styled.div`
@@ -170,14 +192,23 @@ const ButtonContainer = styled.div`
   height: 100%;
 `
 
+const MobileCircle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.color.gray1};
+`
+
 interface Props {
   selectedDate?: string
-  date: number
+  date?: number
   detail?: MonthDetail | null
   isCurrentMonth?: boolean
   isToday?: boolean
 
   day?: number
+
+  handleDateClick?: (totalPrice: number) => void
 }
 
 const DateBox = ({
@@ -187,12 +218,25 @@ const DateBox = ({
   isCurrentMonth,
   isToday,
   day,
+  handleDateClick,
 }: Props) => {
   const navigate = useNavigate()
   const { custom } = useCustom()
 
-  function handleContainerClick() {
-    navigate(`/detail?date=${selectedDate}`, { state: { detail } })
+  const { resize } = useResize()
+
+  function handleContainerClick(account_book?: IAccountBook) {
+    if (resize > 780) {
+      //데스크탑
+      if (detail) {
+        //내용이 있을 때
+        navigate(`/detail?date=${selectedDate}`, { state: { detail } })
+      }
+    } else {
+      //모바일
+      const totalPrice = account_book && getTotalPrice(account_book)
+      handleDateClick && handleDateClick(totalPrice ?? -1)
+    }
   }
 
   function handleEditBtnClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -240,7 +284,7 @@ const DateBox = ({
     return (
       <DateBoxContainer
         $isCurrentMonth={isCurrentMonth}
-        onClick={handleContainerClick}
+        onClick={() => handleContainerClick(account_book)}
         $isToday={isToday}
       >
         <ContentContainer>
@@ -259,32 +303,39 @@ const DateBox = ({
           </ActionButton>
         </ContentContainer>
 
-        {account_book && (
-          <>
-            <AccountBookList>
-              {Object.entries(account_book).map(([key, account]) => (
-                <AccountBookItem key={key} $isIncome={account.is_income}>
-                  <Comment>{account.category}</Comment>
-                  <Price>{inputNumberWithComma(account.price)}₩</Price>
-                </AccountBookItem>
-              ))}
-            </AccountBookList>
+        {resize < 780 ? (
+          <MobileCircle />
+        ) : (
+          account_book && (
+            <>
+              <AccountBookList>
+                {Object.entries(account_book).map(([key, account]) => (
+                  <AccountBookItem key={key} $isIncome={account.is_income}>
+                    <Comment>{account.category}</Comment>
+                    <Price>{inputNumberWithComma(account.price)}₩</Price>
+                  </AccountBookItem>
+                ))}
+              </AccountBookList>
 
-            <TotalPrice $totalPrice={getTotalPrice(account_book)}>
-              <span> 총 </span>
-              <span>
-                {' '}
-                {inputNumberWithComma(getTotalPrice(account_book))}₩{' '}
-              </span>
-            </TotalPrice>
-          </>
+              <TotalPrice $totalPrice={getTotalPrice(account_book)}>
+                <span>
+                  {' '}
+                  {inputNumberWithComma(getTotalPrice(account_book))}₩{' '}
+                </span>
+              </TotalPrice>
+            </>
+          )
         )}
       </DateBoxContainer>
     )
   }
 
   return (
-    <DateBoxContainer $isCurrentMonth={isCurrentMonth} $isToday={isToday}>
+    <DateBoxContainer
+      $isCurrentMonth={isCurrentMonth}
+      $isToday={isToday}
+      onClick={() => handleContainerClick()}
+    >
       <ContentContainer>
         <Date $isToday={isToday} $day={day}>
           <div>{date}</div>

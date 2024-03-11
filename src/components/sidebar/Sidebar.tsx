@@ -15,6 +15,10 @@ const Container = styled.section`
 
   width: 300px;
   background-color: ${({ theme }) => theme.color.white2};
+
+  @media screen and (max-width: 780px) {
+    display: none;
+  }
 `
 
 const Title = styled.div`
