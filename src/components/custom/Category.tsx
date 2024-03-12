@@ -13,6 +13,10 @@ const categoryStyles = css`
 
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   font-size: ${({ theme }) => theme.fontSize.sm};
+
+  @media screen and (max-width: 780px) {
+    padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  }
 `
 
 const CategoryContainer = styled.div`
