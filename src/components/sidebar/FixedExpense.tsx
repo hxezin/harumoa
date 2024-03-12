@@ -10,6 +10,8 @@ import { useMonthYearContext } from '../context/MonthYearContext'
 import FixedExpenseModal from './FixedExpenseModal'
 import { GrayBorderButton } from '../common/Button'
 import * as S from './Sidebar.styled'
+import FixedExpenseItem from './FixedExpenseItem'
+import useBottomSheet from '../../hooks/useBottomSheet'
 
 const Table = styled.table<{ $enableExpectedLimit: boolean }>`
   width: 100%;
@@ -17,11 +19,6 @@ const Table = styled.table<{ $enableExpectedLimit: boolean }>`
   border-spacing: 0;
   text-align: center;
   border-collapse: collapse;
-
-  thead,
-  tbody {
-    display: block;
-  }
 
   thead {
     font-size: ${({ theme }) => theme.fontSize.xs};
@@ -78,6 +75,35 @@ const Table = styled.table<{ $enableExpectedLimit: boolean }>`
   td:last-child {
     width: 80px;
   }
+
+  @media (max-width: 780px) {
+    thead {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
+
+    tbody {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
+
+    td {
+      border: none;
+    }
+
+    th:first-child,
+    td:first-child {
+      width: 20%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 40%;
+    }
+
+    th:last-child,
+    td:last-child {
+      width: 40%;
+    }
+  }
 `
 
 const TableRow = styled.tr<{ $isPastDate: boolean }>`
@@ -100,6 +126,10 @@ const FixedTotalContainer = styled.div`
 
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+
+  @media (max-width: 780px) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+  }
 `
 
 interface Props {
@@ -117,6 +147,11 @@ const FixedExpense = ({
   const { onOpen, onClose, isOpen } = useModal()
   const [data, setData] = useState<IFixedExpense>({})
 
+  const [selectedFixedExpense, setSelectedFixedExpense] = useState<
+    string | null
+  >(null)
+  const { BottomSheet, openBottomSheet, closeBottomSheet } = useBottomSheet()
+
   useEffect(() => {
     // 캘린더가 바뀔 때마다 데이터 필터링
     const filteredData = filterFixedExpense(
@@ -127,6 +162,11 @@ const FixedExpense = ({
 
     setData(filteredData)
   }, [fixedExpense, monthYear.month, monthYear.year])
+
+  const handleClick = (id: string) => {
+    setSelectedFixedExpense(id)
+    openBottomSheet()
+  }
 
   const getTotalFixedPrice = (data: IFixedExpense) => {
     let totalFixedPrice = 0
@@ -175,7 +215,11 @@ const FixedExpense = ({
                   // target 날짜가 지났는지 여부
                   const isPastDate = currentDate.isAfter(targetDate)
                   return (
-                    <TableRow key={key} $isPastDate={isPastDate}>
+                    <TableRow
+                      key={key}
+                      $isPastDate={isPastDate}
+                      onClick={() => handleClick(key)}
+                    >
                       <td>{targetDate.format('DD')}일</td>
                       <td>{inputNumberWithComma(value.price)}원</td>
 
@@ -199,6 +243,18 @@ const FixedExpense = ({
           category={category}
           onClose={onClose}
         />
+      )}
+
+      {selectedFixedExpense !== null && (
+        <BottomSheet>
+          <FixedExpenseItem
+            id={selectedFixedExpense}
+            data={fixedExpense}
+            setData={setData}
+            category={category}
+            onClose={closeBottomSheet}
+          />
+        </BottomSheet>
       )}
     </S.Container>
   )

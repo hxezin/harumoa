@@ -47,6 +47,16 @@ const Title = styled.div<{ $justifyContent?: string }>`
     font-size: ${({ theme }) => theme.fontSize.xs};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
+
+  @media (max-width: 780px) {
+    /* SectionItem 타이틀 */
+    & > h3 {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+      font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+      padding: 0.2rem 0;
+      margin: 0;
+    }
+  }
 `
 
 interface SectionProps {

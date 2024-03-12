@@ -24,6 +24,18 @@ export const ConfirmContainer = styled.div`
     justify-content: center;
     gap: 0.5rem;
   }
+
+  @media (max-width: 780px) {
+    h1 {
+      font-size: ${({ theme }) => theme.fontSize.base};
+      font-weight: ${({ theme }) => theme.fontWeight.semibold};
+    }
+
+    p {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+      font-weight: ${({ theme }) => theme.fontWeight.regular};
+    }
+  }
 `
 
 interface ConfirmProps {
