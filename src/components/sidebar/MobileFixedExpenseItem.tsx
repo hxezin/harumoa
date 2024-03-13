@@ -28,7 +28,7 @@ const Header = styled.header`
 
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: white;c
   z-index: 1;
 `
 
@@ -37,16 +37,15 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-
   flex: 1;
   overflow: scroll;
-`
 
-const PaymentPeriod = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
+  .payment-period {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
 `
 
 const ButtonContainer = styled.div`
@@ -68,10 +67,18 @@ interface Props {
   setData: React.Dispatch<React.SetStateAction<IFixedExpense>>
   category: string
   onClose: () => void
+  viewMode: boolean
 }
 
-const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
-  const [isEdit, setIsEdit] = useState(false)
+const MobileFixedExpenseItem = ({
+  id,
+  data,
+  setData,
+  category,
+  onClose,
+  viewMode,
+}: Props) => {
+  const [isEdit, setIsEdit] = useState(!viewMode)
   const [originData, setOriginData] = useState<IFixedExpense>({})
   const [newData, setNewData] = useState<IFixedExpense>({})
 
@@ -80,7 +87,7 @@ const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
   useEffect(() => {
     setNewData(deepCopy(data))
     setOriginData(deepCopy(data))
-  }, [data])
+  }, [])
 
   const { patchCustom } = usePatchCustom({
     onMutate: () =>
@@ -96,18 +103,13 @@ const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
     setIsEdit(!isEdit)
   }
 
-  function handleCancle() {
-    setNewData(deepCopy(originData))
-    handleEditMode()
-  }
-
   return (
     <>
       <Container>
         <Header> 고정 지출 </Header>
         <Content>
           <SectionItem title='지출 기간'>
-            <PaymentPeriod>
+            <div className='payment-period'>
               <Input
                 type='date'
                 placeholder='시작 날짜'
@@ -136,7 +138,7 @@ const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
                 min={newData[id]?.payment_period?.start_date || ''}
                 viewMode={!isEdit}
               />
-            </PaymentPeriod>
+            </div>
           </SectionItem>
           <SectionItem title='지출일'>
             <Dropdown
@@ -182,7 +184,7 @@ const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
                 })
               }}
               value={
-                newData[id]?.price === 0
+                newData[id]?.price === 0 || newData[id]?.price === undefined
                   ? ''
                   : inputNumberWithComma(newData[id]?.price)
               }
@@ -224,13 +226,15 @@ const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
             <>
               <Button
                 value='되돌리기'
-                onClick={handleCancle}
+                onClick={() => setNewData(deepCopy(originData))}
                 disabled={isEqual(originData, newData)}
               />
               <BlueButton
                 value='저장하기'
                 onClick={patchCustom}
-                disabled={isEqual(originData, newData)}
+                disabled={
+                  isEqual(originData, newData) || newData[id]?.price === 0
+                }
               />
             </>
           ) : (
@@ -271,4 +275,4 @@ const FixedExpenseItem = ({ id, data, setData, category, onClose }: Props) => {
   )
 }
 
-export default FixedExpenseItem
+export default MobileFixedExpenseItem

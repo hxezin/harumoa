@@ -10,7 +10,7 @@ import { useMonthYearContext } from '../context/MonthYearContext'
 import FixedExpenseModal from './FixedExpenseModal'
 import { GrayBorderButton } from '../common/Button'
 import * as S from './Sidebar.styled'
-import FixedExpenseItem from './FixedExpenseItem'
+import MobileFixedExpenseItem from './MobileFixedExpenseItem'
 import useBottomSheet from '../../hooks/useBottomSheet'
 
 const Table = styled.table<{ $enableExpectedLimit: boolean }>`
@@ -247,12 +247,13 @@ const FixedExpense = ({
 
       {selectedFixedExpense !== null && (
         <BottomSheet>
-          <FixedExpenseItem
+          <MobileFixedExpenseItem
             id={selectedFixedExpense}
             data={fixedExpense}
             setData={setData}
             category={category}
             onClose={closeBottomSheet}
+            viewMode={true}
           />
         </BottomSheet>
       )}
