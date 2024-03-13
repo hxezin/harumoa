@@ -28,7 +28,7 @@ const Header = styled.header`
 
   position: sticky;
   top: 0;
-  background-color: white;c
+  background-color: white;
   z-index: 1;
 `
 
@@ -225,7 +225,7 @@ const MobileFixedExpenseItem = ({
           {isEdit ? (
             <>
               <Button
-                value='되돌리기'
+                value={viewMode ? '되돌리기' : '초기화'}
                 onClick={() => setNewData(deepCopy(originData))}
                 disabled={isEqual(originData, newData)}
               />
