@@ -9,6 +9,7 @@ import MobileSection from '../common/MobileSection'
 import ExpectedLimit from './ExpectedLimit'
 import FixedExpense from './FixedExpense'
 import MobileFixedExpenseItem from './MobileFixedExpenseItem'
+import { IFixedExpense } from '../../types'
 
 const Container = styled.div`
   display: none;
@@ -43,8 +44,12 @@ const MobileSidebar = () => {
   const { is_possible: expectedLimitisPossible } = expectedLimitProps
 
   const [newId, setNewId] = useState<string>('')
-  const [newFixedExpense, setNewFixedExpense] = useState({})
-  const { BottomSheet, openBottomSheet, closeBottomSheet } = useBottomSheet()
+  const [newFixedExpense, setNewFixedExpense] = useState<IFixedExpense>({})
+
+  const { BottomSheet, openBottomSheet, closeBottomSheet } = useBottomSheet(
+    () => setNewId('')
+  )
+
   const category =
     localStorage.getItem('category_expense') ?? initialCustom.category.expense
 
@@ -112,11 +117,11 @@ const MobileSidebar = () => {
             data={newFixedExpense}
             setData={setNewFixedExpense}
             category={category}
-            onClose={() => {
-              closeBottomSheet()
-              setNewId('')
-            }}
-            viewMode={false}
+            onClose={closeBottomSheet}
+            viewMode={
+              Object.keys(newFixedExpense).length !== 0 &&
+              newFixedExpense[newId].price !== 0
+            }
           />
         </BottomSheet>
       )}

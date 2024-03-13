@@ -27,7 +27,7 @@ const BottomSheetWrapper = styled.div<{ $isOpen: boolean }>`
   z-index: 2;
 `
 
-const useBottomSheet = () => {
+const useBottomSheet = (onClose?: () => void) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const openBottomSheet = useCallback(() => {
@@ -35,6 +35,7 @@ const useBottomSheet = () => {
   }, [])
 
   const closeBottomSheet = useCallback(() => {
+    onClose && onClose()
     setIsOpen(false)
   }, [])
 
