@@ -7,7 +7,7 @@ import ChevronUp from '../../assets/icons/chevronUp.svg'
 import ChevronDown from '../../assets/icons/chevronDown.svg'
 
 interface SectionProps {
-  title?: string
+  title?: string | React.ReactNode
   children: ReactNode
 }
 
@@ -77,7 +77,7 @@ const MobileSection = ({ title, children }: SectionProps) => {
     <Container>
       {title && (
         <Header onClick={handleClick}>
-          <h5>{title}</h5>
+          {typeof title === 'string' ? <h5>{title}</h5> : title}
           <Button
             onClick={(e) => {
               e.stopPropagation()

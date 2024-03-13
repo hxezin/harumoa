@@ -31,6 +31,14 @@ export const formFieldStyles = ($textAlign: TextAlign) => css`
     color: ${({ theme }) => theme.color.gray1};
     cursor: default;
   }
+
+  @media (max-width: 780px) {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+
+    &::placeholder {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
+  }
 `
 
 export const formFieldViewModeStyles = (

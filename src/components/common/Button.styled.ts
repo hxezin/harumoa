@@ -57,5 +57,12 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
     }
 
     ${baseButtonStyles};
+
+    @media (max-width: 780px) {
+      font-size: ${$fontSize || theme.fontSize.sm};
+      border-radius: ${$borderRadius || '0.5rem'};
+      width: ${$width || '100%'};
+      padding: ${$padding || '0.7rem'};
+    }
   `}
 `
