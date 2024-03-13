@@ -12,6 +12,7 @@ import { GrayBorderButton } from '../common/Button'
 import * as S from './Sidebar.styled'
 import MobileFixedExpenseItem from './MobileFixedExpenseItem'
 import useBottomSheet from '../../hooks/useBottomSheet'
+import useResize from '../../hooks/useResize'
 
 const Table = styled.table<{ $enableExpectedLimit: boolean }>`
   width: 100%;
@@ -108,6 +109,10 @@ const Table = styled.table<{ $enableExpectedLimit: boolean }>`
 
 const TableRow = styled.tr<{ $isPastDate: boolean }>`
   color: ${({ $isPastDate }) => ($isPastDate ? 'gray' : 'black')};
+
+  @media (max-width: 780px) {
+    cursor: pointer;
+  }
 `
 
 const ContentContainer = styled.div`
@@ -163,9 +168,16 @@ const FixedExpense = ({
     setData(filteredData)
   }, [fixedExpense, monthYear.month, monthYear.year])
 
-  const handleClick = (id: string) => {
-    setSelectedFixedExpense(id)
-    openBottomSheet()
+  const { resize } = useResize()
+  function handleTableRowClick(id: string) {
+    if (resize > 780) {
+      //데스크탑
+      return
+    } else {
+      //모바일
+      setSelectedFixedExpense(id)
+      openBottomSheet()
+    }
   }
 
   const getTotalFixedPrice = (data: IFixedExpense) => {
@@ -218,7 +230,7 @@ const FixedExpense = ({
                     <TableRow
                       key={key}
                       $isPastDate={isPastDate}
-                      onClick={() => handleClick(key)}
+                      onClick={() => handleTableRowClick(key)}
                     >
                       <td>{targetDate.format('DD')}일</td>
                       <td>{inputNumberWithComma(value.price)}원</td>
