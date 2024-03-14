@@ -8,6 +8,7 @@ import useBottomSheet from '../../hooks/useBottomSheet'
 import MobileAccountBookItem from './MobileAccountBookItem'
 import DeleteButton from './DeleteButton'
 import AddButton from './AddButton'
+import Empty from '../common/Empty'
 
 const Container = styled.div`
   ${onlyMobile}
@@ -63,14 +64,6 @@ const TabContentItem = styled.div`
   .detail-button {
     width: 5%;
   }
-`
-
-const Empty = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  color: ${({ theme }) => theme.color.gray1};
 `
 
 interface Props {
@@ -145,9 +138,12 @@ const MobileAccountBookTab = ({
 
         {/* 데이터가 없을 때 비어있음 표시 */}
         {viewMode &&
+          (!accountBookData ||
           Object.values(accountBookData).filter(
             (val) => val.is_income === (currentTab === 'income')
-          ).length === 0 && <Empty>비어있음</Empty>}
+          ).length === 0 ? (
+            <Empty />
+          ) : null)}
       </div>
 
       {!viewMode && <AddButton onClick={() => onAdd(currentTab)} />}

@@ -5,6 +5,7 @@ import Dropdown from '../common/Dropdown'
 import { IAccountBook, Options } from '../../types'
 import DeleteButton from './DeleteButton'
 import { paymentTypeOptions } from '../../constants'
+import Empty from '../common/Empty'
 
 const TableContainer = styled.table`
   width: 100%;
@@ -161,15 +162,8 @@ const AccountBookTable = ({
               ([, val]) => val.is_income === isIncome
             ).length === 0) && (
             <tr>
-              <td
-                colSpan={4}
-                style={{
-                  textAlign: 'center',
-                  fontSize: '0.75rem',
-                  color: '#b4b4b4',
-                }}
-              >
-                비어있음
+              <td colSpan={4}>
+                <Empty />
               </td>
             </tr>
           )}
