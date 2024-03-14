@@ -9,6 +9,7 @@ import MobileAccountBookItem from './MobileAccountBookItem'
 import DeleteButton from './DeleteButton'
 import AddButton from './AddButton'
 import Empty from '../common/Empty'
+import uuid from 'react-uuid'
 
 const Container = styled.div`
   ${onlyMobile}
@@ -69,7 +70,6 @@ const TabContentItem = styled.div`
 interface Props {
   accountBookData: IAccountBook
   onDelete: (key: string) => void
-  onAdd: (type: CategoryType) => void
   setAccountBook?: React.Dispatch<React.SetStateAction<IAccountBook>>
   category: { [key: string]: Options[] }
   viewMode: boolean
@@ -78,7 +78,6 @@ interface Props {
 const MobileAccountBookTab = ({
   accountBookData,
   onDelete,
-  onAdd,
   setAccountBook,
   category,
   viewMode,
@@ -86,8 +85,9 @@ const MobileAccountBookTab = ({
   const [currentTab, setCurrentTab] = useState<CategoryType>('income')
   const { BottomSheet, openBottomSheet, closeBottomSheet } = useBottomSheet()
   const [selectedBook, setSelectedBook] = useState<string | null>(null)
+  const isIncome = currentTab === 'income'
 
-  function handleItemClick(id: string) {
+  function handleOpenBackSheet(id: string) {
     setSelectedBook(id)
     openBottomSheet()
   }
@@ -96,13 +96,29 @@ const MobileAccountBookTab = ({
     setCurrentTab(type)
   }
 
+  const addAccountBookItem = (type: CategoryType) => {
+    const newId = uuid()
+
+    //가계부 아이템 하나 추가
+    setAccountBook &&
+      setAccountBook((prev) => ({
+        ...prev,
+        [newId]: {
+          is_income: type === 'income' ? true : false,
+          price: 0,
+          category: category[currentTab][0].value,
+          memo: '',
+          payment_type: 'cash',
+        },
+      }))
+
+    handleOpenBackSheet(newId)
+  }
+
   return (
     <Container>
       <Tab>
-        <TabItem
-          $isActive={currentTab === 'income'}
-          onClick={() => handleTabClick('income')}
-        >
+        <TabItem $isActive={isIncome} onClick={() => handleTabClick('income')}>
           수입
         </TabItem>
         <TabItem
@@ -116,9 +132,12 @@ const MobileAccountBookTab = ({
       <div>
         {accountBookData &&
           Object.entries(accountBookData)
-            .filter(([, val]) => val.is_income === (currentTab === 'income'))
+            .filter(([, val]) => val.is_income === isIncome)
             .map(([key, val], idx) => (
-              <TabContentItem key={key} onClick={() => handleItemClick(key)}>
+              <TabContentItem
+                key={key}
+                onClick={() => handleOpenBackSheet(key)}
+              >
                 <div className='content-index'>
                   {viewMode ? (
                     idx + 1
@@ -140,13 +159,15 @@ const MobileAccountBookTab = ({
         {viewMode &&
           (!accountBookData ||
           Object.values(accountBookData).filter(
-            (val) => val.is_income === (currentTab === 'income')
+            (val) => val.is_income === isIncome
           ).length === 0 ? (
             <Empty />
           ) : null)}
       </div>
 
-      {!viewMode && <AddButton onClick={() => onAdd(currentTab)} />}
+      {!viewMode && (
+        <AddButton onClick={() => addAccountBookItem(currentTab)} />
+      )}
 
       {selectedBook !== null && (
         <BottomSheet>
@@ -154,9 +175,7 @@ const MobileAccountBookTab = ({
             id={selectedBook}
             accountBook={accountBookData}
             setAccountBook={setAccountBook}
-            category={
-              currentTab === 'income' ? category.income : category.expense
-            }
+            category={category[currentTab]}
             viewMode={viewMode}
             onClose={closeBottomSheet}
           />

@@ -116,7 +116,6 @@ const AccountBook = ({
       <MobileAccountBookTab
         accountBookData={accountBookData}
         onDelete={deleteAccountBookItem}
-        onAdd={addAccountBookItem}
         setAccountBook={setAccountBook}
         category={{ income: incomeSelect, expense: expenseSelect }}
         viewMode={viewMode}
