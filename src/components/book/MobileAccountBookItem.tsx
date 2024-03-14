@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import styled from 'styled-components'
 import { paymentTypeOptions } from '../../constants'
 import { IAccountBook, Options } from '../../types'
 import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
@@ -7,45 +6,7 @@ import { BlueButton } from '../common/Button'
 import Dropdown from '../common/Dropdown'
 import Input from '../common/Input'
 import SectionItem from '../common/SectionItem'
-
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`
-
-const Header = styled.header`
-  padding: 1.5rem;
-  font-size: ${({ theme }) => theme.fontSize.base};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1;
-`
-
-const Content = styled.div`
-  padding: 0 1.5rem 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex: 1;
-  overflow: scroll;
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  background: transparent;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-`
+import * as S from '../sidebar/MobileFixedExpenseItem.styled'
 
 interface Props {
   id: string
@@ -56,6 +17,7 @@ interface Props {
   onClose: () => void
 }
 
+// MobileFixedExpenseItem와 스타일드 컴포넌트 공유
 const MobileAccountBookItem = ({
   id,
   accountBook,
@@ -73,9 +35,9 @@ const MobileAccountBookItem = ({
 
   return (
     <>
-      <Container>
-        <Header> {accountBook[id]?.is_income ? '수입' : '지출'} </Header>
-        <Content>
+      <S.Container>
+        <S.Header> {accountBook[id]?.is_income ? '수입' : '지출'} </S.Header>
+        <S.Content>
           <SectionItem title='카테고리'>
             <Dropdown
               onChange={(e) => {
@@ -139,14 +101,14 @@ const MobileAccountBookItem = ({
               viewMode={viewMode}
             />
           </SectionItem>
-        </Content>
-        <ButtonContainer>
+        </S.Content>
+        <S.ButtonContainer>
           <BlueButton
             value={viewMode ? '닫기' : '확인'}
             onClick={handleClose}
           />
-        </ButtonContainer>
-      </Container>
+        </S.ButtonContainer>
+      </S.Container>
     </>
   )
 }

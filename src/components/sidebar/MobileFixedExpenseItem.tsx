@@ -5,7 +5,6 @@ import { inputNumberCheck, inputNumberWithComma } from '../../utils/accountBook'
 import Dropdown from '../common/Dropdown'
 import Input from '../common/Input'
 import { paymentTypeOptions } from '../../constants'
-import { styled } from 'styled-components'
 import SectionItem from '../common/SectionItem'
 import { BlueButton, Button, RedButton } from '../common/Button'
 import isEqual from 'lodash.isequal'
@@ -14,52 +13,7 @@ import { deleteFixedExpense, setFixedExpense } from '../../api/firebase'
 import useModal from '../../hooks/useModal'
 import Modal from '../common/Modal'
 import Confirm from '../common/Confirm'
-
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`
-
-const Header = styled.header`
-  padding: 1.5rem;
-  font-size: ${({ theme }) => theme.fontSize.base};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1;
-`
-
-const Content = styled.div`
-  padding: 0 1.5rem 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex: 1;
-  overflow: scroll;
-
-  .payment-period {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-  }
-`
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  background: transparent;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-`
+import * as S from './MobileFixedExpenseItem.styled'
 
 interface Props {
   id: string
@@ -105,9 +59,9 @@ const MobileFixedExpenseItem = ({
 
   return (
     <>
-      <Container>
-        <Header> 고정 지출 </Header>
-        <Content>
+      <S.Container>
+        <S.Header> 고정 지출 </S.Header>
+        <S.Content>
           <SectionItem title='지출 기간'>
             <div className='payment-period'>
               <Input
@@ -220,8 +174,8 @@ const MobileFixedExpenseItem = ({
               viewMode={!isEdit}
             />
           </SectionItem>
-        </Content>
-        <ButtonContainer>
+        </S.Content>
+        <S.ButtonContainer>
           {isEdit ? (
             <>
               <Button
@@ -243,8 +197,8 @@ const MobileFixedExpenseItem = ({
               <BlueButton value='수정하기' onClick={handleEditMode} />
             </>
           )}
-        </ButtonContainer>
-      </Container>
+        </S.ButtonContainer>
+      </S.Container>
 
       {isOpen && (
         <Modal onClose={onModalClose}>
