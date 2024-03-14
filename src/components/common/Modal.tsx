@@ -23,6 +23,10 @@ const ModalMain = styled.div`
   box-shadow: 2px 2px 8px 0px ${({ theme }) => theme.color.gray2};
 
   max-width: 1000px;
+
+  @media (max-width: 780px) {
+    margin: 1rem;
+  }
 `
 
 export interface ModalProps {
