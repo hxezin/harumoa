@@ -5,8 +5,12 @@ import { formatSelectOptions } from '../../utils'
 import Section from '../common/Section'
 import AddButton from './AddButton'
 import AccountBookTable from './AccountBookTable'
+import MobileAccountBookTab from './MobileAccountBookTab'
+import { onlyDesktop } from '../../assets/css/global'
 
-const Box = styled.div`
+const DesktopContainer = styled.div`
+  ${onlyDesktop}
+
   // 수입, 지출 제목
   & > div:first-of-type {
     color: ${({ theme }) => theme.color.gray2};
@@ -51,7 +55,7 @@ const AccountBook = ({
     ? formatSelectOptions(categoryExpense.split(','))
     : expenseDefault
 
-  const AddAccountBookItem = (type: CategoryType) => {
+  const addAccountBookItem = (type: CategoryType) => {
     //가계부 아이템 하나 추가
     setAccountBook &&
       setAccountBook((prev) => ({
@@ -79,7 +83,7 @@ const AccountBook = ({
 
   return (
     <Section title='가계부 작성하기'>
-      <Box>
+      <DesktopContainer>
         <div>수입</div>
         <AccountBookTable
           accountBookData={accountBookData}
@@ -90,11 +94,11 @@ const AccountBook = ({
           isIncome={true}
         />
         {!viewMode && (
-          <AddButton onClick={() => AddAccountBookItem('income')} />
+          <AddButton onClick={() => addAccountBookItem('income')} />
         )}
-      </Box>
+      </DesktopContainer>
 
-      <Box>
+      <DesktopContainer>
         <div>지출</div>
         <AccountBookTable
           accountBookData={accountBookData}
@@ -105,9 +109,18 @@ const AccountBook = ({
           isIncome={false}
         />
         {!viewMode && (
-          <AddButton onClick={() => AddAccountBookItem('expense')} />
+          <AddButton onClick={() => addAccountBookItem('expense')} />
         )}
-      </Box>
+      </DesktopContainer>
+
+      <MobileAccountBookTab
+        accountBookData={accountBookData}
+        onDelete={deleteAccountBookItem}
+        onAdd={addAccountBookItem}
+        setAccountBook={setAccountBook}
+        category={{ income: incomeSelect, expense: expenseSelect }}
+        viewMode={viewMode}
+      />
     </Section>
   )
 }
