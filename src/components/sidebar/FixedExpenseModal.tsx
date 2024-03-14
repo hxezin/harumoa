@@ -154,7 +154,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
     setDeleteList((prev) => [...prev, key])
   }
 
-  function handleCancle() {
+  function handleCancel() {
     setNewData(deepCopy(originData))
     handleEditMode()
   }
@@ -313,7 +313,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
           <>
             <Button
               value='되돌리기'
-              onClick={handleCancle}
+              onClick={handleCancel}
               disabled={isEqual(originData, newData)}
             />
             <BlueButton

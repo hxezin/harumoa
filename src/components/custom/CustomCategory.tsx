@@ -78,7 +78,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
           currentValue={currentInput.income}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          onCancle={handleInitInput}
+          onCancel={handleInitInput}
         />
       </SectionItem>
 
@@ -99,7 +99,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
           currentValue={currentInput.expense}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          onCancle={handleInitInput}
+          onCancel={handleInitInput}
         />
       </SectionItem>
     </>

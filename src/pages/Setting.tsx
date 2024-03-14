@@ -45,7 +45,7 @@ const Setting = () => {
     setDisabled(isEqual(originData, customData))
   }, [customData, originData])
 
-  const handleCancle = () => {
+  const handleCancel = () => {
     setCustomData(deepCopy(originData))
   }
 
@@ -98,7 +98,7 @@ const Setting = () => {
       )} */}
 
       <SettingFooter
-        onCancle={handleCancle}
+        onCancel={handleCancel}
         onSave={patchCustom}
         onConfirm={onOpen}
         disabled={disabled}
