@@ -63,6 +63,16 @@ const DataContainer = styled.div<{ $bgColor: string }>`
       font-size: ${({ theme }) => theme.fontSize.xs};
     }
   }
+
+  @media (max-width: 780px) {
+    div {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
+
+    & > span {
+      font-size: ${({ theme }) => theme.fontSize.sm};
+    }
+  }
 `
 
 const CategoryProgressBar = ({
