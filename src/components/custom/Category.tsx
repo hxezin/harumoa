@@ -91,7 +91,7 @@ interface CategoryProps {
     e: KeyboardEvent<HTMLInputElement>,
     type: CategoryType
   ) => void | boolean
-  onCancle: (type: CategoryType) => void
+  onCancel: (type: CategoryType) => void
 }
 
 const Category = ({
@@ -101,7 +101,7 @@ const Category = ({
   currentValue,
   onChange,
   onKeyDown,
-  onCancle,
+  onCancel,
 }: CategoryProps) => {
   const categoriesArr = categories.split(',')
   const [isInputVisible, setIsInputVisible] = useState(false)
@@ -163,7 +163,7 @@ const Category = ({
           <DeleteButton
             onClick={() => {
               handleInputVisible(false)
-              onCancle(type)
+              onCancel(type)
             }}
           />
         </CategoryItem>

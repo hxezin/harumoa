@@ -32,14 +32,14 @@ const ArrowIcon = styled(Arrow)`
 `
 
 interface BookFooterProps {
-  onCancle: () => void
+  onCancel: () => void
   onSave: () => void
   onConfirm: () => void
   disabled?: boolean
 }
 
 const SettingFooter = ({
-  onCancle,
+  onCancel,
   onSave,
   onConfirm,
   disabled,
@@ -56,7 +56,7 @@ const SettingFooter = ({
         />
         <ArrowIcon onClick={onConfirm} /> */}
         <div>
-          <Button value='되돌리기' onClick={onCancle} disabled={disabled} />
+          <Button value='되돌리기' onClick={onCancel} disabled={disabled} />
           <BlueButton value='저장하기' onClick={onSave} disabled={disabled} />
         </div>
       </Box>
