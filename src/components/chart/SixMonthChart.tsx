@@ -23,6 +23,7 @@ import theme from '../../assets/css/theme'
 import dayjs from 'dayjs'
 import { useToast } from '../context/ToastContext'
 import NoDataChart from './NoDataChart'
+import { styled } from 'styled-components'
 
 ChartJS.register(
   LinearScale,
@@ -36,6 +37,17 @@ ChartJS.register(
   LineController,
   BarController
 )
+
+const Container = styled.div`
+  @media (max-width: 780px) {
+    display: flex;
+    justify-content: center;
+
+    canvas {
+      max-width: 90%;
+    }
+  }
+`
 
 const options = {
   responsive: true,
@@ -81,8 +93,8 @@ const SixMonthChart = ({ monthYear }: SixMonthProps) => {
   }, [monthYear, showToast])
 
   const chartData = {
-    labels: data.map((data) =>
-      dayjs(`${data.year}-${data.month}-01`).format('MMMM')
+    labels: data.map(
+      (data) => `${dayjs(`${data.year}-${data.month}-01`).format('M')}월`
     ),
     datasets: [
       {
@@ -118,13 +130,13 @@ const SixMonthChart = ({ monthYear }: SixMonthProps) => {
   }
 
   return (
-    <div>
+    <Container>
       {!emptyData() ? (
         <Chart type='bar' options={options} data={chartData} />
       ) : (
         <NoDataChart />
       )}
-    </div>
+    </Container>
   )
 }
 

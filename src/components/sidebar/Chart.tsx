@@ -54,6 +54,10 @@ const MonthlyContainer = styled.div`
     font-size: ${({ theme }) => theme.fontSize.md};
     font-weight: ${({ theme }) => theme.fontWeight.extraBold};
   }
+
+  @media (max-width: 780px) {
+    min-width: 0;
+  }
 `
 
 const LocationButton = styled.button`
@@ -83,6 +87,11 @@ const ChartContainer = styled.div`
   > div {
     width: 100%;
   }
+
+  @media (max-width: 780px) {
+    overflow-y: visible;
+    max-height: none;
+  }
 `
 
 const TabContainer = styled.div`
@@ -93,13 +102,18 @@ const TabContainer = styled.div`
 
 const Tab = styled.div<{ $active: boolean }>`
   width: 15%;
-
+  display: flex;
+  justify-content: center;
   border-top: none;
   padding: 0.5rem;
   cursor: pointer;
 
   border-bottom: ${({ $active, theme }) =>
     $active ? `3px solid ${theme.color.primary.main}` : 'none'};
+
+  @media (max-width: 780px) {
+    width: auto;
+  }
 `
 
 const CategoryChartContainer = styled.div`
@@ -113,6 +127,20 @@ const CategoryChartContainer = styled.div`
 
   > div:last-child {
     width: 40%;
+  }
+
+  @media (max-width: 780px) {
+    flex-direction: column;
+    align-items: center;
+
+    > div:first-child {
+      width: 60%;
+      height: 100%;
+    }
+
+    > div:last-child {
+      width: 80%;
+    }
   }
 `
 

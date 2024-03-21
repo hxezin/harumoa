@@ -1,5 +1,7 @@
-const Chart = () => {
-  return <div>chart page</div>
+import Chart from '../components/sidebar/Chart'
+
+const ChartPage = () => {
+  return <Chart />
 }
 
-export default Chart
+export default ChartPage
