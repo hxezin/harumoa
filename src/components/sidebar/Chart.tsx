@@ -82,7 +82,7 @@ const ChartContainer = styled.div`
   gap: 2rem;
   height: 100%;
   max-height: 500px;
-  margin-top: 10px;
+  margin-top: 2rem;
 
   > div {
     width: 100%;
@@ -98,6 +98,10 @@ const TabContainer = styled.div`
   display: flex;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray0};
   font-size: ${({ theme }) => theme.fontSize.sm};
+
+  @media (max-width: 780px) {
+    padding: 0 24px;
+  }
 `
 
 const Tab = styled.div<{ $active: boolean }>`

@@ -71,7 +71,7 @@ const MonthlyContainer = styled.div`
   }
 
   @media (max-width: 780px) {
-    width: 200px;
+    width: 250px;
 
     .date-info {
       gap: 0.5rem;

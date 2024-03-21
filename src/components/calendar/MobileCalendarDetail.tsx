@@ -5,6 +5,7 @@ import editIcon from '../../assets/icons/editIcon.svg'
 import plusIcon from '../../assets/icons/plusIcon.svg'
 import { inputNumberWithComma } from '../../utils/accountBook'
 import styled from 'styled-components'
+import { ellipsisStyles } from '../../assets/css/global'
 
 interface Props {
   mobileDetail: MobileDetail
@@ -44,6 +45,13 @@ const MobileDetailContainer = styled.div`
         color: ${({ theme }) => theme.color.white};
       }
     }
+
+    .diaryContent {
+      font-size: ${({ theme }) => theme.fontSize.xs};
+      color: ${({ theme }) => theme.color.gray1};
+      padding-top: 0.5rem;
+      ${ellipsisStyles}
+    }
   }
 `
 
@@ -59,6 +67,11 @@ const MobileAccountBookItem = styled.div<{ $isIncome: boolean }>`
     $isIncome ? theme.color.primary.dark : theme.color.red.dark};
   display: flex;
   column-gap: 2rem;
+
+  span:first-child {
+    width: 60px;
+    ${ellipsisStyles}
+  }
 `
 
 const MobileTotalPrice = styled.div`
@@ -114,6 +127,10 @@ const MobileCalendarDetail = ({ mobileDetail }: Props) => {
         <ActionButton onClick={handleBtnClick}>
           <img src={mobileDetail.account_book ? editIcon : plusIcon} />
         </ActionButton>
+      </div>
+
+      <div>
+        <h5 className='diaryContent'>{mobileDetail.diary?.content}</h5>
       </div>
 
       <MobileAccountBookList>
