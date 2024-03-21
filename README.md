@@ -127,11 +127,3 @@
 |차트|<img src="https://github.com/wjdgml3092/harumoa/assets/59546994/c515e13a-79ce-4c5d-9f69-e8c57e5d1623">|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/032c0e42-e49c-497d-804e-92acb01dffaf'/>|
 |작성ㅡ디테일|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/e4a2e92a-aaa1-4ac0-a982-a6383c38a241'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/b64d0a95-9b4b-435f-b18b-37bba2fd16e9'/>|
 |설정|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/4becd8ab-2e4f-455b-842a-f1407526f7fc'/>| <img src='https://github.com/wjdgml3092/harumoa/assets/59546994/eddec7d0-06ef-4958-bac5-d30ba719db85'/>|
-
-<br/>
-
-## 이후 계획
-- chart.js 등 차트 라이브러리를 사용하여 월별 소비 분석 시각화 (24.01.31 버전 업에 포함)
-- 다크모드
-- 일기작성 시 그날의 감정을 표현하는 기능 추가
-- 새로고침/뒤로가기 이벤트 추가(글 작성/수정, 설정 수정 시)
