@@ -21,7 +21,6 @@
 - [가이드](#가이드)
 - [기능](#기능)
 - [화면 구성](#화면-구성)
-- [이후 계획](#이후-계획)
 
 <br/>
 
@@ -116,10 +115,12 @@
 
 ### 기타
 - 토스트 알림을 통해 사용자에게 즉각적인 피드백을 제공
+- 모바일 반응형 적용
 
 <br/>
 
 ## 화면 구성
+### Web
 |<span>로그인</span>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/231cb141-1bc5-4c63-84ec-8c6cc0a5a41a'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/879486fb-48a3-4b8b-b20b-a48341eca931'/>|
 |---|-------|------|
 |메인|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/673a14ee-bdf6-47d9-9311-ae2c1886f7cf'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/3dc95020-557c-4527-bb6f-a95c53ac4dd4'/>|
@@ -127,3 +128,13 @@
 |차트|<img src="https://github.com/wjdgml3092/harumoa/assets/59546994/c515e13a-79ce-4c5d-9f69-e8c57e5d1623">|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/032c0e42-e49c-497d-804e-92acb01dffaf'/>|
 |작성ㅡ디테일|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/e4a2e92a-aaa1-4ac0-a982-a6383c38a241'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/b64d0a95-9b4b-435f-b18b-37bba2fd16e9'/>|
 |설정|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/4becd8ab-2e4f-455b-842a-f1407526f7fc'/>| <img src='https://github.com/wjdgml3092/harumoa/assets/59546994/eddec7d0-06ef-4958-bac5-d30ba719db85'/>|
+
+<br/>
+
+### Mobile
+|<span>로그인</span>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/0befe952-b37b-4013-9ca6-818db30e7725' height='300px'/>|<img src='https://github.com/wjdgml3092/harumoa/assets/59546994/bfc490b9-8e1e-4cbb-9082-4e9c191034cd' height='300px'/>|
+|---|-------|------|
+|메인|<p align='center'><img height='300px' src="https://github.com/wjdgml3092/harumoa/assets/59546994/e3577ed4-0907-4025-b941-30aa05a87005"/></p> | <p align='center'><img height='300px' src="https://github.com/wjdgml3092/harumoa/assets/59546994/768c39de-6c5b-4f85-8fb2-db8d4ef9c4df"/> <img height='300px' src="https://github.com/wjdgml3092/harumoa/assets/59546994/27cd4637-c10f-462c-9fef-e0bfaabe93dd"/></p>|
+|차트|<p align='center'><img height='300px' src="https://github.com/wjdgml3092/harumoa/assets/59546994/8526a253-37b8-435d-83c3-9502d896fabf"></p>|<p align='center'><img height='300px' src='https://github.com/wjdgml3092/harumoa/assets/59546994/57aace43-fc20-4822-af73-8dd4aa346304'/></p>|
+|작성ㅡ디테일|<p align='center'><img height='300px' src="https://github.com/wjdgml3092/harumoa/assets/59546994/7ea1ecfa-3550-4e8c-a079-b6616794b751"/> <img height='300px' src="https://github.com/wjdgml3092/harumoa/assets/59546994/4fd5d84e-fcf1-4835-b300-65fa502f6d44"/> </p>|<p align='center'><img  height='300px' src='https://github.com/wjdgml3092/harumoa/assets/59546994/f9094c53-faec-499b-bda4-a5a18931adf5'/></p>|
+|설정|<p align='center'> <img height='300px' src='https://github.com/wjdgml3092/harumoa/assets/59546994/80118cfd-29aa-4d5c-aebc-960078188574'/></p>|<p align='center'> <img height='300px' src='https://github.com/wjdgml3092/harumoa/assets/59546994/6de7ea9a-17d8-46c0-9ba9-f6eddd6528bd'/></p>|
