@@ -5,6 +5,7 @@ import Dropdown from '../common/Dropdown'
 import { IAccountBook, Options } from '../../types'
 import DeleteButton from './DeleteButton'
 import { paymentTypeOptions } from '../../constants'
+import Empty from '../common/Empty'
 
 const TableContainer = styled.table`
   width: 100%;
@@ -38,7 +39,7 @@ const TableContainer = styled.table`
 
 export const KRWICon = styled.span<{ $viewMode: boolean }>`
   position: absolute;
-  left: 1rem;
+  right: 1rem;
   top: 1.1rem;
 
   color: ${({ theme, $viewMode }) =>
@@ -113,18 +114,16 @@ const AccountBookTable = ({
 
                       setAccountBook && setAccountBook({ ...accountBookData })
                     }}
-                    placeholder='금액'
                     textAlign='right'
                     viewMode={viewMode}
-                    padding='0.5rem'
+                    padding='0.5rem 1.5rem 0.5rem'
                   />
-                  <KRWICon $viewMode={viewMode}>₩</KRWICon>
+                  <KRWICon $viewMode={viewMode}>원</KRWICon>
                 </td>
                 <td>
                   <Dropdown
                     onChange={(e) => {
                       accountBookData[key].payment_type = e
-                      console.log(accountBookData[key])
                       setAccountBook && setAccountBook({ ...accountBookData })
                     }}
                     options={paymentTypeOptions}
@@ -163,15 +162,8 @@ const AccountBookTable = ({
               ([, val]) => val.is_income === isIncome
             ).length === 0) && (
             <tr>
-              <td
-                colSpan={4}
-                style={{
-                  textAlign: 'center',
-                  fontSize: '0.75rem',
-                  color: '#b4b4b4',
-                }}
-              >
-                비어있음
+              <td colSpan={4}>
+                <Empty />
               </td>
             </tr>
           )}

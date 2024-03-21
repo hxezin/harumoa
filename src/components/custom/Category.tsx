@@ -13,6 +13,10 @@ const categoryStyles = css`
 
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   font-size: ${({ theme }) => theme.fontSize.sm};
+
+  @media screen and (max-width: 780px) {
+    padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  }
 `
 
 const CategoryContainer = styled.div`
@@ -87,7 +91,7 @@ interface CategoryProps {
     e: KeyboardEvent<HTMLInputElement>,
     type: CategoryType
   ) => void | boolean
-  onCancle: (type: CategoryType) => void
+  onCancel: (type: CategoryType) => void
 }
 
 const Category = ({
@@ -97,7 +101,7 @@ const Category = ({
   currentValue,
   onChange,
   onKeyDown,
-  onCancle,
+  onCancel,
 }: CategoryProps) => {
   const categoriesArr = categories.split(',')
   const [isInputVisible, setIsInputVisible] = useState(false)
@@ -159,7 +163,7 @@ const Category = ({
           <DeleteButton
             onClick={() => {
               handleInputVisible(false)
-              onCancle(type)
+              onCancel(type)
             }}
           />
         </CategoryItem>

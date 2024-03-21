@@ -154,7 +154,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
     setDeleteList((prev) => [...prev, key])
   }
 
-  function handleCancle() {
+  function handleCancel() {
     setNewData(deepCopy(originData))
     handleEditMode()
   }
@@ -248,7 +248,6 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
               <td>
                 <Input
                   type='text'
-                  placeholder='금액'
                   textAlign='right'
                   onChange={(e) => {
                     setNewData((prev) => {
@@ -263,8 +262,9 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
                       : inputNumberWithComma(newData[key].price)
                   }
                   viewMode={!isEdit}
+                  padding='0.5rem 1.5rem 0.5rem 0.5rem'
                 />
-                <KRWICon $viewMode={!isEdit}>₩</KRWICon>
+                <KRWICon $viewMode={!isEdit}>원</KRWICon>
               </td>
               <td>
                 <Dropdown
@@ -313,7 +313,7 @@ const FixedExpenseModal = ({ data, setData, category, onClose }: Props) => {
           <>
             <Button
               value='되돌리기'
-              onClick={handleCancle}
+              onClick={handleCancel}
               disabled={isEqual(originData, newData)}
             />
             <BlueButton

@@ -20,7 +20,14 @@ interface DeleteButtonProps {
 }
 
 const DeleteButton = ({ onClick }: DeleteButtonProps) => {
-  return <DeleteButtonContainer onClick={onClick} />
+  return (
+    <DeleteButtonContainer
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick()
+      }}
+    />
+  )
 }
 
 export default DeleteButton

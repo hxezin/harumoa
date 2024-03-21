@@ -14,6 +14,7 @@ const Container = styled.div<{ $isSuccess: boolean }>`
     $isSuccess ? theme.color.primary.main : theme.color.red.main};
   color: ${({ theme }) => theme.color.white};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
+  white-space: nowrap;
 
   animation: fadeInUp 0.5s linear;
   @keyframes fadeInUp {

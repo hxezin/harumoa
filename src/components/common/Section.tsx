@@ -16,6 +16,14 @@ const SectionContainer = styled.section`
     font-size: ${({ theme }) => theme.fontSize.md};
     font-weight: ${({ theme }) => theme.fontWeight.semiBold};
   }
+
+  @media (max-width: 780px) {
+    h2 {
+      font-size: ${({ theme }) => theme.fontSize.base};
+      font-weight: ${({ theme }) => theme.fontWeight.bold};
+      margin: 0;
+    }
+  }
 `
 
 interface SectionProps {

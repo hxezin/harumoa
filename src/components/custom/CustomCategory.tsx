@@ -69,6 +69,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
         }
         guidance={guidance}
         justifyContent='flex-start'
+        margin='0.5rem 0 0'
       >
         <Category
           categories={category.income}
@@ -77,7 +78,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
           currentValue={currentInput.income}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          onCancle={handleInitInput}
+          onCancel={handleInitInput}
         />
       </SectionItem>
 
@@ -89,6 +90,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
         }
         guidance={guidance}
         justifyContent='flex-start'
+        margin='0.5rem 0 0'
       >
         <Category
           categories={category.expense}
@@ -97,7 +99,7 @@ const CustomCategory = ({ category, setCategory, isEdit }: Props) => {
           currentValue={currentInput.expense}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          onCancle={handleInitInput}
+          onCancel={handleInitInput}
         />
       </SectionItem>
     </>

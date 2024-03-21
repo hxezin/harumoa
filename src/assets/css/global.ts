@@ -38,3 +38,19 @@ export const ellipsisStyles = css`
   white-space: nowrap;
   overflow: hidden;
 `
+
+export const onlyMobile = css`
+  display: block;
+
+  @media (min-width: 780px) {
+    display: none;
+  }
+`
+
+export const onlyDesktop = css`
+  display: none;
+
+  @media (min-width: 780px) {
+    display: block;
+  }
+`

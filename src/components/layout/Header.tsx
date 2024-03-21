@@ -6,6 +6,8 @@ import settingIcon from '../../assets/icons/settingIcon.svg'
 import theme from '../../assets/css/theme'
 import { GrayBorderButton } from '../common/Button'
 import { useToast } from '../context/ToastContext'
+import userIcon from '../../assets/icons/userIcon.svg'
+import { useEffect, useRef, useState } from 'react'
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -54,6 +56,50 @@ const HeaderMenuContainer = styled.div`
   a {
     display: flex;
   }
+
+  @media screen and (max-width: 780px) {
+    display: none;
+  }
+`
+
+const MobileMenuContainer = styled.div`
+  display: none;
+
+  @media screen and (max-width: 780px) {
+    display: block;
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    color: ${({ theme }) => theme.color.gray1};
+
+    a {
+      color: ${({ theme }) => theme.color.gray1};
+    }
+
+    span {
+      margin: 0;
+      font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+    }
+
+    span:nth-of-type(1) {
+      color: ${({ theme }) => theme.color.primary.main};
+    }
+
+    > div {
+      position: absolute;
+      top: 50px;
+      right: 23px;
+      z-index: 33;
+      background: ${({ theme }) => theme.color.white};
+      padding: 0.5rem;
+      border: 1px solid ${({ theme }) => theme.color.gray1};
+      border-radius: 10px;
+      line-height: 1.5rem;
+
+      > div:first-child {
+        border-bottom: 1px solid ${({ theme }) => theme.color.gray0};
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
 `
 
 const Header = () => {
@@ -86,6 +132,24 @@ const Header = () => {
     }
   }
 
+  const [show, setShow] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // 외부 클릭에 대한 이벤트를 처리
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShow(false)
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
   return (
     <HeaderContainer>
       <HeaderLogoContainer onClick={handleLogoClick}>
@@ -110,6 +174,30 @@ const Header = () => {
             </Link>
           </div>
         </HeaderMenuContainer>
+      )}
+      {nickName && (
+        <MobileMenuContainer ref={menuRef}>
+          <img
+            src={userIcon}
+            width={24}
+            height={24}
+            onClick={() => {
+              setShow(true)
+            }}
+          />
+
+          {show && (
+            <div>
+              <div>
+                <span>{nickName}</span> <span>의 하루 </span>
+              </div>
+              <Link to='/setting' onClick={() => setShow(false)}>
+                설정
+              </Link>
+              <div onClick={handleLogout}>로그아웃</div>
+            </div>
+          )}
+        </MobileMenuContainer>
       )}
     </HeaderContainer>
   )

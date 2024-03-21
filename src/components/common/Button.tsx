@@ -4,6 +4,7 @@ import * as S from './Button.styled'
 
 // 기본 회색 버튼
 export const Button = ({
+  className,
   value,
   onClick,
   disabled,
@@ -18,6 +19,7 @@ export const Button = ({
 }: StyledButtonProps) => {
   return (
     <S.ButtonContainer
+      className={className}
       onClick={onClick}
       disabled={disabled}
       $fontSize={fontSize}
@@ -105,6 +107,7 @@ export const GrayBorderButton = ({
 
 // 파란색 테두리 버튼 (e.g. 오늘 버튼)
 export const BlueBorderButton = ({
+  className,
   value,
   onClick,
   disabled,
@@ -113,6 +116,7 @@ export const BlueBorderButton = ({
 }: ButtonProps) => {
   return (
     <Button
+      className={className}
       value={value}
       onClick={onClick}
       disabled={disabled}
@@ -128,6 +132,7 @@ export const BlueBorderButton = ({
 
 // 버튼 커스텀 시 필요한 props 추가
 interface ButtonProps {
+  className?: string
   value: string | React.ReactNode
   onClick: () => void
   disabled?: boolean

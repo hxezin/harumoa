@@ -317,6 +317,27 @@ export async function setFixedExpense(
   }
 }
 
+// 고정 지출 삭제
+export async function deleteFixedExpense(id: string) {
+  const uid = localStorage.getItem('user')
+  const databaseRef = ref(db, `${uid}/users/custom/fixed_expense`)
+
+  try {
+    await update(databaseRef, { [id]: null })
+
+    return { success: true, message: '고정 지출이 삭제되었습니다.' }
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : '고정 지출을 저장하는 동안 오류가 발생했습니다.'
+    return {
+      success: false,
+      message: message,
+    }
+  }
+}
+
 //가계부 total 값 업데이트
 export async function setTotalPrice(date: string[], reqData: TotalPrice) {
   const uid = localStorage.getItem('user')
