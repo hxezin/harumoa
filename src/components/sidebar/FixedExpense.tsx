@@ -134,6 +134,8 @@ const FixedTotalContainer = styled.div`
 
   @media (max-width: 780px) {
     font-size: ${({ theme }) => theme.fontSize.sm};
+
+    padding-bottom: 1rem;
   }
 `
 

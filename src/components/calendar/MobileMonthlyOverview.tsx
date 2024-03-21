@@ -8,7 +8,7 @@ import { onlyMobile } from '../../assets/css/global'
 
 const Container = styled.div`
   ${onlyMobile}
-  margin: 0.5rem 0;
+  margin: 1rem 0%;
 `
 
 const TotalBox = styled.div`

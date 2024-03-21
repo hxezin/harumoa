@@ -75,7 +75,6 @@ const MobileMenuContainer = styled.div`
     }
 
     span {
-      font-size: ${({ theme }) => theme.fontSize.sm};
       margin: 0;
       font-weight: ${({ theme }) => theme.fontWeight.semiBold};
     }
@@ -90,14 +89,14 @@ const MobileMenuContainer = styled.div`
       right: 23px;
       z-index: 33;
       background: ${({ theme }) => theme.color.white};
-      padding: 1rem;
+      padding: 0.5rem;
       border: 1px solid ${({ theme }) => theme.color.gray1};
       border-radius: 10px;
       line-height: 1.5rem;
 
       > div:first-child {
         border-bottom: 1px solid ${({ theme }) => theme.color.gray0};
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
       }
     }
   }

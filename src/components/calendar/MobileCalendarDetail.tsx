@@ -130,7 +130,7 @@ const MobileCalendarDetail = ({ mobileDetail }: Props) => {
 
       {mobileDetail.totalPrice && (
         <MobileTotalPrice>
-          <span> 합계 </span>
+          <span> TOTAL </span>
           <span>{inputNumberWithComma(mobileDetail.totalPrice)}원</span>
         </MobileTotalPrice>
       )}

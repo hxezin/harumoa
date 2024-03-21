@@ -4,8 +4,8 @@ import { BlueBorderButton } from '../common/Button'
 import { useMonthYearContext } from '../context/MonthYearContext'
 import MobileMonthlyOverview from './MobileMonthlyOverview'
 
-import { ReactComponent as BeforeArrow } from '../../assets/icons/beforeArrow.svg'
-import { ReactComponent as NextArrow } from '../../assets/icons/nextArrow.svg'
+import beforeArrow from '../../assets/icons/beforeArrow.svg'
+import nextArrow from '../../assets/icons/nextArrow.svg'
 import { ReactComponent as SidebarOpen } from '../../assets/icons/sidebarOpen.svg'
 import { ReactComponent as SidebarClose } from '../../assets/icons/sidebarClose.svg'
 import { onlyDesktop, onlyMobile } from '../../assets/css/global'
@@ -39,6 +39,7 @@ const CalendarTitleContainer = styled.div`
 
   @media (max-width: 780px) {
     padding: 0;
+    justify-content: center;
 
     .today-button {
       display: none;
@@ -93,6 +94,7 @@ const LocationButton = styled.button`
   background: #fcfcfc;
   box-shadow: 1.2px 1.2px 3.6px 0px rgba(97, 97, 97, 0.5);
   border: none;
+
   width: 24px;
   height: 24px;
   display: flex;
@@ -107,7 +109,6 @@ const LocationButton = styled.button`
   @media (max-width: 780px) {
     width: 20px;
     height: 20px;
-
     &.sidebar-button {
       display: none;
     }
@@ -157,7 +158,7 @@ const CalendarHeader = ({
 
         <MonthlyContainer>
           <LocationButton onClick={() => updateMonthYear(-1)}>
-            <BeforeArrow />
+            <img src={beforeArrow} />
           </LocationButton>
 
           <div className='date-info'>
@@ -166,7 +167,7 @@ const CalendarHeader = ({
           </div>
 
           <LocationButton onClick={() => updateMonthYear(1)}>
-            <NextArrow />
+            <img src={nextArrow} />
           </LocationButton>
         </MonthlyContainer>
 

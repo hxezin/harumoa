@@ -15,7 +15,7 @@ const Container = styled.section`
   border: none;
 
   @media screen and (max-width: 780px) {
-    padding: 1.5rem;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid ${({ theme }) => theme.color.gray0};
   }
 
