@@ -19,20 +19,6 @@ const Container = styled.div`
   }
 `
 
-const TitleContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-
-  button {
-    border: none;
-    background: transparent;
-    margin-right: 0.5rem;
-
-    color: ${({ theme }) => theme.color.gray1};
-  }
-`
-
 const MobileSidebar = () => {
   const { custom } = useCustom()
   const expenseCategory =
@@ -92,12 +78,8 @@ const MobileSidebar = () => {
       )}
 
       <MobileSection
-        title={
-          <TitleContainer>
-            <h5>고정 지출</h5>
-            <button onClick={handleAddClick}>추가하기</button>
-          </TitleContainer>
-        }
+        title='고정 지출'
+        button={<button onClick={handleAddClick}>추가하기</button>}
       >
         <FixedExpense
           fixedExpense={custom?.fixed_expense ?? initialCustom.fixed_expense}

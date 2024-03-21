@@ -1,13 +1,11 @@
 import { ReactNode, useState } from 'react'
 import styled from 'styled-components'
-// import { ReactComponent as ChevronUp } from '../../assets/icons/chevronUp.svg'
-// import { ReactComponent as ChevronDown } from '../../assets/icons/chevronDown.svg'
-
 import ChevronUp from '../../assets/icons/chevronUp.svg'
 import ChevronDown from '../../assets/icons/chevronDown.svg'
 
 interface SectionProps {
-  title?: string | React.ReactNode
+  title?: string
+  button?: ReactNode
   children: ReactNode
 }
 
@@ -37,6 +35,20 @@ const Header = styled.div`
     justify-content: space-between;
     align-items: center;
     color: ${({ theme }) => theme.color.gray3};
+
+    div:first-child {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        border: none;
+        background: transparent;
+        margin-right: 0.5rem;
+
+        color: ${({ theme }) => theme.color.gray1};
+      }
+    }
   }
 `
 
@@ -60,7 +72,7 @@ const ChildrenContainer = styled.div<{ $isShow: boolean }>`
   }
 `
 
-const MobileSection = ({ title, children }: SectionProps) => {
+const MobileSection = ({ title, children, button }: SectionProps) => {
   const [toggle, setToggle] = useState(
     localStorage.getItem(`${title}_toggle`) === 'true'
   )
@@ -77,7 +89,10 @@ const MobileSection = ({ title, children }: SectionProps) => {
     <Container>
       {title && (
         <Header onClick={handleClick}>
-          {typeof title === 'string' ? <h5>{title}</h5> : title}
+          <div>
+            <h5>{title}</h5>
+            {button && button}
+          </div>
           <Button
             onClick={(e) => {
               e.stopPropagation()
